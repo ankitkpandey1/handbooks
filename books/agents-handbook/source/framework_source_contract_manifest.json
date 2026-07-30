@@ -1,0 +1,576 @@
+{
+  "schema_version": "production-agent-engineering/source-contract-manifest/v4",
+  "edition": "1.7.0",
+  "generated_on": "2026-07-29T22:12:14+05:30",
+  "build_runtime": {
+    "python": "3.13.5",
+    "platform": "Linux x86_64"
+  },
+  "examples": [
+    {
+      "example_id": "claude_deferred_approval",
+      "language": "python",
+      "package": "claude-agent-sdk",
+      "version": "0.2.128",
+      "repository": "anthropics/claude-agent-sdk-python",
+      "commit": "f8b9ec923982082a02c485924e0f60367949c3a1",
+      "symbols": [
+        "claude_agent_sdk.ClaudeAgentOptions",
+        "claude_agent_sdk.ClaudeSDKClient",
+        "claude_agent_sdk.HookMatcher",
+        "claude_agent_sdk.ResultMessage",
+        "claude_agent_sdk.DeferredToolUse"
+      ],
+      "source_files": [
+        {
+          "path": "src/claude_agent_sdk/types.py",
+          "url": "https://github.com/anthropics/claude-agent-sdk-python/blob/f8b9ec923982082a02c485924e0f60367949c3a1/src/claude_agent_sdk/types.py",
+          "git": {
+            "blob_sha1": "c5fb86893232385f1ddf4ee0a5a24854176aa364"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "CHANGELOG.md",
+          "url": "https://github.com/anthropics/claude-agent-sdk-python/blob/f8b9ec923982082a02c485924e0f60367949c3a1/CHANGELOG.md",
+          "git": {
+            "blob_sha1": "ad076c63a3b77a55d74b138c7130415c5afd774b"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "src/claude_agent_sdk/__init__.py",
+          "url": "https://github.com/anthropics/claude-agent-sdk-python/blob/f8b9ec923982082a02c485924e0f60367949c3a1/src/claude_agent_sdk/__init__.py",
+          "git": {
+            "blob_sha1": "50d5b9fe6be8edb06fce77f43da12a94c507197d"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "src/claude_agent_sdk/client.py",
+          "url": "https://github.com/anthropics/claude-agent-sdk-python/blob/f8b9ec923982082a02c485924e0f60367949c3a1/src/claude_agent_sdk/client.py",
+          "git": {
+            "blob_sha1": "03705f0853b48d500fc40a6db8c2f888afe071d5"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "src/claude_agent_sdk/_internal/client.py",
+          "url": "https://github.com/anthropics/claude-agent-sdk-python/blob/f8b9ec923982082a02c485924e0f60367949c3a1/src/claude_agent_sdk/_internal/client.py",
+          "git": {
+            "blob_sha1": "7b0a593874f3af50ba369f72bef814cedf6d7d29"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "src/claude_agent_sdk/_internal/message_parser.py",
+          "url": "https://github.com/anthropics/claude-agent-sdk-python/blob/f8b9ec923982082a02c485924e0f60367949c3a1/src/claude_agent_sdk/_internal/message_parser.py",
+          "git": {
+            "blob_sha1": "e42e479c6eb19e5f11e4ba8eaca44a5805cde2b3"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        }
+      ],
+      "verification": {
+        "manuscript_python_syntax_checked": true,
+        "manifest_schema_checked": true,
+        "source_contract_checked": true,
+        "package_import_tested": false,
+        "runtime_tested": false,
+        "live_credentials_used": false,
+        "reason_not_runtime_tested": "The publication environment has no network package resolution or Claude credentials. The block remains source-contract checked and must not be relabelled Tested example.",
+        "source_content_fetched_and_blob_verified": true,
+        "content_sha256_verified_for_all_files": false
+      }
+    },
+    {
+      "example_id": "google_adk_graph_workflow",
+      "language": "python",
+      "package": "google-adk",
+      "version": "2.5.0",
+      "repository": "google/adk-python",
+      "commit": "6bab08fc803d26853417c4d6e71704b1a72e035e",
+      "symbols": [
+        "google.adk.workflow.Workflow",
+        "google.adk.workflow.START",
+        "google.adk.workflow.DEFAULT_ROUTE",
+        "google.adk.agents.LlmAgent"
+      ],
+      "source_files": [
+        {
+          "path": "src/google/adk/version.py",
+          "url": "https://github.com/google/adk-python/blob/6bab08fc803d26853417c4d6e71704b1a72e035e/src/google/adk/version.py",
+          "git": {
+            "blob_sha1": "41f3d65ff06acdc29bf1ed6b24f97f4ba72d8a35"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "src/google/adk/workflow/__init__.py",
+          "url": "https://github.com/google/adk-python/blob/6bab08fc803d26853417c4d6e71704b1a72e035e/src/google/adk/workflow/__init__.py",
+          "git": {
+            "blob_sha1": "c1062dc043091a5c019cfe2db001840cffde84b4"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "src/google/adk/workflow/_graph.py",
+          "url": "https://github.com/google/adk-python/blob/6bab08fc803d26853417c4d6e71704b1a72e035e/src/google/adk/workflow/_graph.py",
+          "git": {
+            "blob_sha1": "56c5459012baefe75110e2b9ef66134a564320c7"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "src/google/adk/workflow/_workflow.py",
+          "url": "https://github.com/google/adk-python/blob/6bab08fc803d26853417c4d6e71704b1a72e035e/src/google/adk/workflow/_workflow.py",
+          "git": {
+            "blob_sha1": "d0fc585f77a8f98b95018002c0e9026475b22cee"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "src/google/adk/agents/llm_agent.py",
+          "url": "https://github.com/google/adk-python/blob/6bab08fc803d26853417c4d6e71704b1a72e035e/src/google/adk/agents/llm_agent.py",
+          "git": {
+            "blob_sha1": "bb1af0a1d402b511b0fd4fd368416495a4fce587"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        }
+      ],
+      "verification": {
+        "manuscript_python_syntax_checked": true,
+        "manifest_schema_checked": true,
+        "source_contract_checked": true,
+        "package_import_tested": false,
+        "runtime_tested": false,
+        "live_credentials_used": false,
+        "reason_not_runtime_tested": "The publication environment has no network package resolution or Google model credentials. The block remains source-contract checked and must not be relabelled Tested example.",
+        "source_content_fetched_and_blob_verified": true,
+        "content_sha256_verified_for_all_files": false
+      }
+    },
+    {
+      "example_id": "openai_agents_durable_mapping",
+      "language": "python",
+      "package": "openai-agents",
+      "version": "0.19.1",
+      "status": "versioned_documentation_mapping",
+      "verification": {
+        "manuscript_python_syntax_checked": true,
+        "manifest_schema_checked": true,
+        "source_contract_checked": false,
+        "package_import_tested": false,
+        "runtime_tested": false,
+        "live_credentials_used": false,
+        "reason_not_runtime_tested": "The block intentionally omits application services and is checked only against the 0.19.1 release documentation; no source-contract or runtime claim is made.",
+        "documentation_version_checked": true
+      },
+      "repository": "openai/openai-agents-python",
+      "commit": "ddc39d0e54c92dfda4700cc9c43d6e00b5041e17"
+    }
+  ],
+  "source_audits": [
+    {
+      "audit_id": "claude_code_snapshot_2_1_88",
+      "repository": "ChinaSiro/claude-code-sourcemap",
+      "commit": "a8a678cb6244e6770e1e421767ff0987a1d95549",
+      "package_snapshot": "2.1.88",
+      "authority": "unofficial source-map reconstruction; source-observed engineering evidence only",
+      "provenance_warning": "Not an official Anthropic source distribution and not evidence of current internal repository structure or audited fleet metrics.",
+      "source_files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/ChinaSiro/claude-code-sourcemap/blob/a8a678cb6244e6770e1e421767ff0987a1d95549/README.md",
+          "git": {
+            "blob_sha1": "04e97ab6edc394cdff31b369abd725e92bffb6e5"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "restored-src/src/services/compact/compact.ts",
+          "url": "https://github.com/ChinaSiro/claude-code-sourcemap/blob/a8a678cb6244e6770e1e421767ff0987a1d95549/restored-src/src/services/compact/compact.ts",
+          "git": {
+            "blob_sha1": "f8f86eafb26b70db955c58a34f402b425c285a9c"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "restored-src/src/tools/AgentTool/runAgent.ts",
+          "url": "https://github.com/ChinaSiro/claude-code-sourcemap/blob/a8a678cb6244e6770e1e421767ff0987a1d95549/restored-src/src/tools/AgentTool/runAgent.ts",
+          "git": {
+            "blob_sha1": "e2cb942e72c58a9059f54080311ee61744433e0c"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "restored-src/src/utils/forkedAgent.ts",
+          "url": "https://github.com/ChinaSiro/claude-code-sourcemap/blob/a8a678cb6244e6770e1e421767ff0987a1d95549/restored-src/src/utils/forkedAgent.ts",
+          "git": {
+            "blob_sha1": "eff959539611d7eda35c2f95b0c82246dfa12d6a"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "restored-src/src/query.ts",
+          "url": "https://github.com/ChinaSiro/claude-code-sourcemap/blob/a8a678cb6244e6770e1e421767ff0987a1d95549/restored-src/src/query.ts",
+          "git": {
+            "blob_sha1": "07e8b6fae53877a912424c0cdbbf321186eeca5f"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        }
+      ],
+      "verification": {
+        "source_content_fetched_and_blob_verified": true,
+        "content_sha256_verified_for_all_files": false
+      }
+    },
+    {
+      "audit_id": "openai_codex_harness",
+      "repository": "openai/codex",
+      "commit": "fe01054a28fa4bd04716d9ceadb410f2443a50ce",
+      "authority": "official repository source and protocol documentation",
+      "source_files": [
+        {
+          "path": "codex-rs/app-server/README.md",
+          "url": "https://github.com/openai/codex/blob/fe01054a28fa4bd04716d9ceadb410f2443a50ce/codex-rs/app-server/README.md",
+          "git": {
+            "blob_sha1": "bc69103e2aeb7afd956cba3bbd3bccc3dac770b5"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "codex-rs/core/src/compact.rs",
+          "url": "https://github.com/openai/codex/blob/fe01054a28fa4bd04716d9ceadb410f2443a50ce/codex-rs/core/src/compact.rs",
+          "git": {
+            "blob_sha1": "71abe5acc369b3299c8a507979e4de00177e5828"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "codex-rs/core/src/tasks/compact.rs",
+          "url": "https://github.com/openai/codex/blob/fe01054a28fa4bd04716d9ceadb410f2443a50ce/codex-rs/core/src/tasks/compact.rs",
+          "git": {
+            "blob_sha1": "def729b2ace83a84debe230d25cb3483a00b9074"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        }
+      ],
+      "verification": {
+        "source_content_fetched_and_blob_verified": true,
+        "content_sha256_verified_for_all_files": false
+      }
+    },
+    {
+      "audit_id": "openai_codex_tool_runtime",
+      "repository": "openai/codex",
+      "commit": "cef3910ea4d09617e50a94e40bf25a6cb2e4e765",
+      "authority": "official source",
+      "source_files": [
+        {
+          "path": "codex-rs/core/src/tools/router.rs",
+          "url": "https://github.com/openai/codex/blob/cef3910ea4d09617e50a94e40bf25a6cb2e4e765/codex-rs/core/src/tools/router.rs",
+          "git": {
+            "blob_sha1": "73c98dec1125aed7671050a509b7b2ed8ad95b7d"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "codex-rs/core/src/tools/parallel.rs",
+          "url": "https://github.com/openai/codex/blob/cef3910ea4d09617e50a94e40bf25a6cb2e4e765/codex-rs/core/src/tools/parallel.rs",
+          "git": {
+            "blob_sha1": "deb0ab85acc565ff576dc176e01e588378499e6f"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "codex-rs/core/src/tools/context.rs",
+          "url": "https://github.com/openai/codex/blob/cef3910ea4d09617e50a94e40bf25a6cb2e4e765/codex-rs/core/src/tools/context.rs",
+          "git": {
+            "blob_sha1": "fb6c05cc76406dcb5ec8d63d8cedcbe364b24e1f"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        },
+        {
+          "path": "codex-rs/core/src/tools/lifecycle.rs",
+          "url": "https://github.com/openai/codex/blob/cef3910ea4d09617e50a94e40bf25a6cb2e4e765/codex-rs/core/src/tools/lifecycle.rs",
+          "git": {
+            "blob_sha1": "974ef88bd76181634efd70b63c19fd47f544ee43"
+          },
+          "content": {
+            "sha256": null
+          },
+          "verification": {
+            "fetched": true,
+            "blob_verified": true,
+            "content_sha256_verified": false,
+            "note": "Pinned bytes were fetched and Git blob SHA-1 verified in the recorded source audit. Raw-content SHA-256 was not captured; this release does not claim it."
+          }
+        }
+      ],
+      "verification": {
+        "source_content_fetched_and_blob_verified": true,
+        "content_sha256_verified_for_all_files": false
+      }
+    },
+    {
+      "audit_id": "triangulation_harnesses",
+      "authority": "official source",
+      "records": [
+        {
+          "repository": "Aider-AI/aider",
+          "commit": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+          "source_files": [
+            {
+              "path": "aider/repomap.py",
+              "url": "https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/repomap.py",
+              "git": {
+                "blob_sha1": "541bba6ef4a5385b8cf032201ec6e3f3e32a6ea6"
+              },
+              "content": {
+                "sha256": null
+              },
+              "verification": {
+                "fetched": false,
+                "blob_verified": false,
+                "content_sha256_verified": false,
+                "note": "Git blob identity pinned; raw SHA-256 requires online fetch."
+              }
+            }
+          ]
+        },
+        {
+          "repository": "SWE-agent/mini-swe-agent",
+          "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+          "source_files": [
+            {
+              "path": "src/minisweagent/agents/default.py",
+              "url": "https://github.com/SWE-agent/mini-swe-agent/blob/a83fcae82d2a08f0ee0c688f9d137b3566c097f8/src/minisweagent/agents/default.py",
+              "git": {
+                "blob_sha1": "ca310e37d7c61888c576f73f5e1790ac769407b1"
+              },
+              "content": {
+                "sha256": null
+              },
+              "verification": {
+                "fetched": false,
+                "blob_verified": false,
+                "content_sha256_verified": false,
+                "note": "Git blob identity pinned; raw SHA-256 requires online fetch."
+              }
+            }
+          ]
+        },
+        {
+          "repository": "OpenHands/OpenHands",
+          "commit": "5086cbbed756d0995bfc99a9ff663b2719b4d69a",
+          "source_files": [
+            {
+              "path": "docs/architecture.md",
+              "url": "https://github.com/OpenHands/OpenHands/blob/5086cbbed756d0995bfc99a9ff663b2719b4d69a/docs/architecture.md",
+              "git": {
+                "blob_sha1": "14bbf01fcd05a7d1518b541cae8d15778167d866"
+              },
+              "content": {
+                "sha256": null
+              },
+              "verification": {
+                "fetched": false,
+                "blob_verified": false,
+                "content_sha256_verified": false,
+                "note": "Git blob identity pinned; raw SHA-256 requires online fetch."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Expected raw-content SHA-256 values were not captured for the pinned upstream files; strict SHA-256 verification therefore remains incomplete.",
+    "Credentialed provider runtime tests were not executed."
+  ],
+  "verification_policy": {
+    "git_blob_sha1": "mandatory and checked against fetched bytes during the recorded source audit",
+    "raw_content_sha256": "schema field is mandatory; expected values are unavailable in this release and are never reported as verified",
+    "receipt": "source_contract_verification_receipt.json is generated from the same records and must agree with all file-level flags",
+    "strict_mode": "--require-content-sha256 fails when any expected SHA-256 is absent"
+  },
+  "source_audit_cutoff": "2026-07-29T19:30:00+05:30"
+}

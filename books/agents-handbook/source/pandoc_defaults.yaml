@@ -1,0 +1,4 @@
+from: markdown+raw_tex
+standalone: true
+pdf-engine: xelatex
+listings: true

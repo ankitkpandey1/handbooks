@@ -1,0 +1,11 @@
+Edition: 1.7.0
+Build date: 2026-07-29
+Platform: Linux x86_64
+Python: 3.13.5
+Pandoc: 3.1.11.1
+PDF engine: XeLaTeX / XeTeX 0.999996 (TeX Live 2025/dev/Debian)
+PDF post-processing: pypdf 5.9.0 and PyMuPDF 1.26.7
+Text extraction: Poppler pdftotext 25.06.0 and PyMuPDF 1.26.7
+Analysis: NumPy 2.3.5, pandas 2.2.3, SciPy 1.17.0
+Accessibility: searchable Unicode text and navigation validated; not tagged or PDF/UA certified
+Environment attestation: environment_attestation.json records exact package versions, installed-tree SHA-256 values, and build-binary SHA-256 values
