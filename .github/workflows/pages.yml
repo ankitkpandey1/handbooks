@@ -47,7 +47,11 @@ jobs:
             echo "Run 'python3 scripts/build-index.py' and commit to silence this."
           fi
 
+      # enablement: true turns Pages on if it is not already, so a fresh clone of this
+      # repository does not need a manual Settings visit before the first deploy.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs

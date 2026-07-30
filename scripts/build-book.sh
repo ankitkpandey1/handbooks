@@ -83,9 +83,12 @@ for fmt in "${FORMATS[@]}"; do
     html)
       need pandoc
       echo "--> html (single file, self-contained)"
+      # --number-sections is deliberately absent: it is a boolean flag that takes no argument,
+      # and section numbering is off by default, which is what the manuscripts want (they
+      # number their own sections in the heading text).
       ( cd "$SRC_DIR" && pandoc --from markdown+raw_tex --to html5 \
           --standalone --embed-resources --toc --toc-depth=3 \
-          --number-sections=false --highlight-style=tango \
+          --highlight-style=tango \
           --metadata "title=$TITLE" \
           "$SRC" -o "$OUT/$SLUG.html" )
       ;;
@@ -95,8 +98,9 @@ for fmt in "${FORMATS[@]}"; do
       # handed, and the one a human can paste into a chat.
       need pandoc
       echo "--> md (single-file agent export)"
+      # No --standalone: a bare document body is exactly what an agent should receive.
       ( cd "$SRC_DIR" && pandoc --from markdown+raw_tex --to gfm \
-          --standalone=false --wrap=none \
+          --wrap=none \
           "$SRC" -o "$OUT/$SLUG.md" )
       ;;
     *)
