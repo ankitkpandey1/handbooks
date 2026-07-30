@@ -84,7 +84,8 @@ if [[ "$WITH_LATEX" -eq 1 ]]; then
     lmodern \
     fonts-noto-core \
     fonts-dejavu-core \
-    poppler-utils
+    poppler-utils \
+    ghostscript
 else
   echo "==> skipping LaTeX (--no-latex); pdf builds will not work"
 fi
@@ -97,8 +98,42 @@ if [[ -n "$PY_REQS" ]]; then
     || python3 -m pip install --quiet -r "$PY_REQS"
 fi
 
+# --- assert the toolchain contract -----------------------------------------------------
+# The books' own generate_environment_lock.py records exactly these five binaries, so they are
+# the contract a PDF build depends on. Checking here means a missing dependency fails at install
+# time with a clear name, rather than 40 seconds into a XeLaTeX run with a cryptic message —
+# which is how the Ghostscript requirement was originally found.
+echo
+echo "==> toolchain"
+MISSING=()
+check() {
+  local bin="$1" label="$2" required="$3"
+  if command -v "$bin" >/dev/null 2>&1; then
+    printf '    %-9s %s\n' "$label:" "$("$bin" --version 2>&1 | head -1)"
+  elif [[ "$required" == "required" ]]; then
+    printf '    %-9s MISSING\n' "$label:"
+    MISSING+=("$bin")
+  else
+    printf '    %-9s absent (not needed without --no-latex)\n' "$label:"
+  fi
+}
+
+check python3 python required
+check pandoc pandoc required
+if [[ "$WITH_LATEX" -eq 1 ]]; then
+  check xelatex xelatex required
+  check pdftotext pdftotext required
+  check gs ghostscript required
+else
+  check xelatex xelatex optional
+  check pdftotext pdftotext optional
+  check gs ghostscript optional
+fi
+
+if [[ ${#MISSING[@]} -gt 0 ]]; then
+  echo
+  echo "error: missing required tools: ${MISSING[*]}" >&2
+  exit 1
+fi
 echo
 echo "==> toolchain ready"
-printf '    pandoc  : %s\n' "$(pandoc --version 2>/dev/null | head -1 || echo MISSING)"
-printf '    xelatex : %s\n' "$(xelatex --version 2>/dev/null | head -1 || echo 'MISSING (pdf disabled)')"
-printf '    python  : %s\n' "$(python3 --version)"
