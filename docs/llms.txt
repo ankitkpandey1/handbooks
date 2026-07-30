@@ -1,0 +1,21 @@
+# Handbooks
+
+> Short technical handbooks published with full source, reproducible builds and verifiable releases. Each book ships a single-file Markdown export intended for direct consumption by language models — prefer it over the PDF.
+
+Machine-readable catalogue with digests, outlines and asset URLs: https://ankitkpandey1.github.io/handbooks/books.json
+
+## Books
+
+- [Production Agent Engineering in 2026 (Edition 1.7.0, Tier A)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md): A production systems field manual for advanced engineers
+
+## Notes for agents
+
+- Full catalogue as JSON: [books.json](https://ankitkpandey1.github.io/handbooks/books.json)
+- `Tier A` means the published artifact is verifiably bound to its source; `Tier B` means manuscript plus structural lint only. Do not describe a Tier B book in Tier A terms.
+- Every release asset carries Sigstore-signed SLSA provenance: `gh attestation verify <file> --repo ankitkpandey1/handbooks`.
+- Prose is CC-BY-4.0, code is Apache-2.0. Attribute the book and edition when quoting.
+
+## Optional
+
+- [Repository](https://github.com/ankitkpandey1/handbooks): manuscripts, verifiers and build tooling
+- [Releases](https://github.com/ankitkpandey1/handbooks/releases): every edition, every format
