@@ -1,14 +1,14 @@
-# Production Agent Engineering in 2026 - Edition 1.7.0 companion package
+# Production Agent Engineering - Edition 1.8.0 companion package
 
-This archive is embedded in Edition 1.7.0 and distributed separately. It contains the canonical Markdown, deterministic code-block extraction, synthetic evaluation, deferred-approval application contract, source-contract manifest and receipt, environment attestation, exact PDF build/post-processing scripts, PDF text/navigation/binding verifiers, and member checksums.
+This archive is embedded in Edition 1.8.0 and distributed separately. It contains the canonical Markdown, deterministic code-block extraction, synthetic evaluation, deferred-approval application contract, source-contract manifest and receipt, environment attestation, exact PDF build/post-processing scripts, PDF text/navigation/binding verifiers, and member checksums.
 
 Run the complete check with Bash; direct execution is also supported because executable mode is preserved in the release ZIP:
 
 ```bash
 bash run_publication_checks.sh \
-  /path/to/Production_Agent_Engineering_2026_Edition_1.7.pdf \
-  /path/to/Production_Agent_Engineering_2026_Edition_1.7_Reproducibility_Package.zip \
-  /path/to/Publication_Build_Receipt_Edition_1.7.json \
+  /path/to/Production_Agent_Engineering_Edition_1.8.pdf \
+  /path/to/Production_Agent_Engineering_Edition_1.8_Reproducibility_Package.zip \
+  /path/to/Publication_Build_Receipt_Edition_1.8.json \
   manifest-only
 ```
 

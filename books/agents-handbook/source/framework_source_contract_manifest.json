@@ -1,6 +1,6 @@
 {
   "schema_version": "production-agent-engineering/source-contract-manifest/v4",
-  "edition": "1.7.0",
+  "edition": "1.8.0",
   "generated_on": "2026-07-29T22:12:14+05:30",
   "build_runtime": {
     "python": "3.13.5",

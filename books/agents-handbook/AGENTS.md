@@ -1,9 +1,9 @@
 # AGENTS.md — agents-handbook
 
-**Tier A.** Edition 1.7.0. See [`book.json`](book.json) for the machine-readable contract and
+**Tier A.** Edition 1.8.0. See [`book.json`](book.json) for the machine-readable contract and
 the repo root [`AGENTS.md`](../../AGENTS.md) for repo-wide rules.
 
-Canonical source: `source/production_agent_engineering_2026_edition_1_7.md` (~8,600 lines).
+Canonical source: `source/production_agent_engineering_edition_1_8.md` (~8,650 lines).
 
 ## Commands
 
@@ -59,9 +59,3 @@ Edition 1.8.0:
    `extract_manuscript_code_blocks.py`, `generate_build_receipt.py`, then both
    `SHA256SUMS.txt` files.
 5. Run `bash verify_release.sh`, then tag `agents-handbook/v1.8.0`.
-
-## Outstanding erratum for Edition 1.8.0
-
-The front matter `rights:` field still reads "All rights reserved", which contradicts the
-repository's CC-BY-4.0 licence. Fix it in the next edition. See
-[LICENSING.md](../../LICENSING.md).

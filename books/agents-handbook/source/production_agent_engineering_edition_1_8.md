@@ -1,10 +1,10 @@
 ---
-title: "Production Agent Engineering in 2026"
+title: "Production Agent Engineering"
 subtitle: "A production systems field manual for advanced engineers"
 author: "Technical editor: Ankit Kumar Pandey"
-rights: "Copyright © 2026 Ankit Kumar Pandey. All rights reserved."
-version: "Edition 1.7.0 - release-integrity revision"
-date: "29 July 2026"
+rights: "Copyright © 2026 Ankit Kumar Pandey. Licensed under CC-BY-4.0; code listings under Apache-2.0."
+version: "Edition 1.8.0"
+date: "30 July 2026"
 lang: en-GB
 subject: "Production architecture, agent harnesses, durable execution, security, evaluation, and source-audited coding-agent runtimes"
 keywords:
@@ -61,8 +61,8 @@ header-includes:
     \definecolor{MutedBlue}{RGB}{70,100,130}
     \pagestyle{fancy}
     \fancyhf{}
-    \fancyhead[L]{\small\sffamily Production Agent Engineering in 2026}
-    \fancyhead[R]{\small\sffamily Edition 1.7.0}
+    \fancyhead[L]{\small\sffamily Production Agent Engineering}
+    \fancyhead[R]{\small\sffamily Edition 1.8.0}
     \fancyfoot[C]{\sffamily\thepage}
     \setlength{\headheight}{15pt}
     \setlist{nosep,leftmargin=*,topsep=3pt}
@@ -134,7 +134,7 @@ Every major named architecture pattern is specified with: use when, avoid when, 
 
 This edition is distributed with and embeds the following companion archive:
 
-- **Filename:** \path{Production_Agent_Engineering_2026_Edition_1.7_Reproducibility_Package.zip}
+- **Filename:** \path{Production_Agent_Engineering_Edition_1.8_Reproducibility_Package.zip}
 - **Integrity:** member hashes are recorded inside the archive; the release-level archive hash and final PDF hash are recorded in the separately distributed build receipt. The receipt is intentionally external because embedding the final PDF hash inside the PDF would create a circular dependency.
 - **PDF access:** open the document's attachment pane or select the visible paperclip annotation placed beside this heading on the rendered companion-package page.
 
@@ -3349,7 +3349,7 @@ These figures are not directly comparable across years or harnesses. Use them as
 \Needspace{5\baselineskip}
 ## 15.15 Worked evaluation: a fully reproducible synthetic QA-agent release study
 
-This section is a **synthetic worked example**, not evidence about a deployed agent. Every numerical result is computed from companion files shipped with this edition. The archive `Production_Agent_Engineering_2026_Edition_1.7_Reproducibility_Package.zip` is embedded in the PDF; its SHA-256 is listed in the publication information:
+This section is a **synthetic worked example**, not evidence about a deployed agent. Every numerical result is computed from companion files shipped with this edition. The archive `Production_Agent_Engineering_Edition_1.8_Reproducibility_Package.zip` is embedded in the PDF; its SHA-256 is listed in the publication information:
 
 - `qa_eval_synthetic_trials.csv` - 120 tasks, three paired trials per system, 360 rows;
 - `qa_eval_synthetic_grader_audit.csv` - complete 100-item grader audit;
@@ -8358,6 +8358,15 @@ The guide now contains twenty-one substantive parts, six production case studies
 
 \Needspace{5\baselineskip}
 ## Changelog
+
+### Edition 1.8.0 - 30 July 2026
+
+- retitled the handbook to "Production Agent Engineering", removing the year from the title, running head and every release asset filename so the durable name no longer carries a date; recency is carried by the edition number and the date field;
+- corrected the rights statement to the CC-BY-4.0 grant the repository actually makes, replacing the "All rights reserved" notice that contradicted it;
+- regenerated every derived artefact under the new asset prefix: code-block manifest, environment attestation, canonical source manifest, member checksums, companion archive, PDF, external build receipt, bundle manifest and full-source archive;
+- added scripted edition cutting and regeneration so the edition strings pinned across manifests, verifiers and generators are updated together rather than by hand.
+
+\Needspace{5\baselineskip}
 
 ### Edition 1.7.0 - 29 July 2026
 

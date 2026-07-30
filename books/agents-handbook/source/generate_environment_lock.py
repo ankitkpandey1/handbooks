@@ -37,7 +37,7 @@ for cmd in ['python','pandoc','xelatex','pdftotext','gs']:
         version=subprocess.run([path,'--version'],capture_output=True,text=True).stdout.splitlines()[:2]
         if cmd=='pdftotext': version=subprocess.run([path,'-v'],capture_output=True,text=True).stderr.splitlines()[:2]
         binaries[cmd]={'path':path,'sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'version_lines':version}
-out={'schema_version':'production-agent-engineering/environment-lock/v1','edition':'1.7.0','platform':platform.platform(),'python':sys.version,'packages':sorted(seen.values(),key=lambda x:x['name'].lower()),'binaries':binaries}
+out={'schema_version':'production-agent-engineering/environment-lock/v1','edition':'1.8.0','platform':platform.platform(),'python':sys.version,'packages':sorted(seen.values(),key=lambda x:x['name'].lower()),'binaries':binaries}
 Path(__file__).with_name('environment_attestation.json').write_text(json.dumps(out,indent=2)+'\n')
 Path(__file__).with_name('requirements.txt').write_text('\n'.join(f"{x['name']}=={x['version']}" for x in out['packages'])+'\n')
 print(f"wrote {len(out['packages'])} package records and {len(binaries)} binary hashes")

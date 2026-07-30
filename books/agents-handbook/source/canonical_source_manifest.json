@@ -1,7 +1,7 @@
 {
   "schema_version": "production-agent-engineering/canonical-source/v2",
-  "edition": "1.7.0",
-  "source_filename": "production_agent_engineering_2026_edition_1_7.md",
+  "edition": "1.8.0",
+  "source_filename": "production_agent_engineering_edition_1_8.md",
   "source_sha256": "021532c7f69d95ae19564bff1636931817f3a79738ad736ea378faf417b3fe79",
   "extractor_filename": "extract_manuscript_code_blocks.py",
   "extractor_sha256": "8c112f9b793a79d2c5828d21f0c16ada2d072f49e3018385e9dd13454fb83407",
@@ -11,7 +11,7 @@
   "pdf_postprocessor": "attach_and_linearize_pdf.py",
   "pdf_binding_verifier": "verify_pdf_binding.py",
   "navigation_verifier": "verify_pdf_navigation.py",
-  "external_build_receipt": "Publication_Build_Receipt_Edition_1.7.json",
+  "external_build_receipt": "Publication_Build_Receipt_Edition_1.8.json",
   "build_chain": [
     "canonical Markdown",
     "deterministic code-block extraction",

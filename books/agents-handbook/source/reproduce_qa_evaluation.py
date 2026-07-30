@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reproduce the synthetic QA-agent evaluation in Edition 1.7.
+"""Reproduce the synthetic QA-agent evaluation in Edition 1.8.
 
 The CSV is synthetic and public. It demonstrates an analysis method and is not
 release evidence for a deployed system.

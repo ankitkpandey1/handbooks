@@ -1,5 +1,5 @@
-Edition: 1.7.0
-Build date: 2026-07-29
+Edition: 1.8.0
+Build date: 2026-07-30
 Platform: Linux x86_64
 Python: 3.13.5
 Pandoc: 3.1.11.1
