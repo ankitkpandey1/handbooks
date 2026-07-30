@@ -1,0 +1,55 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Claim challenge
+description: Dispute a claim on the evidence
+labels: ["claim-challenge"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Challenges are welcome and are the point of publishing the source. Evidence is required —
+        a challenge without a reason attached cannot be acted on.
+  - type: input
+    id: book
+    attributes:
+      label: Book and edition
+      placeholder: "agents-handbook 1.7.0"
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: The claim, quoted
+    validations:
+      required: true
+  - type: dropdown
+    id: label
+    attributes:
+      label: Its current evidence label
+      options:
+        - Established
+        - Strong production evidence
+        - Emerging evidence
+        - Engineering hypothesis
+        - Open question
+        - Unlabelled (that is the problem)
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: challenge
+    attributes:
+      label: Your evidence
+      description: What you observed or what source contradicts it. Include versions and setup.
+    validations:
+      required: true
+  - type: dropdown
+    id: remedy
+    attributes:
+      label: Proposed remedy
+      options:
+        - Correct the claim
+        - Downgrade the evidence label
+        - Add a caveat or scope limit
+        - Remove the claim
+    validations:
+      required: true

@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: Apache-2.0
+name: New book proposal
+description: Propose a new handbook before writing it
+labels: ["new-book"]
+body:
+  - type: input
+    id: slug
+    attributes:
+      label: Proposed slug
+      description: Lowercase with hyphens. Becomes the directory, the release tag prefix and every download filename — it cannot change later without breaking published links.
+      placeholder: "multiagent-handbook"
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: Title
+    validations:
+      required: true
+  - type: textarea
+    id: reader
+    attributes:
+      label: Who is it for, and what can they do after reading it?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: What it deliberately does not cover
+      description: A book without stated non-goals sprawls.
+    validations:
+      required: true
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Target tier
+      options:
+        - "B — manuscript plus metadata (recommended start for every book)"
+        - "A — full verification pipeline (only if claims need mechanical checking)"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Where does the evidence come from?
+      description: Measured yourself, vendor documentation, published research, production experience?
+    validations:
+      required: true

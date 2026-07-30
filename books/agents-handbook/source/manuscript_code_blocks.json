@@ -1,0 +1,998 @@
+{
+  "schema_version": "production-agent-engineering/manuscript-code-blocks/v2",
+  "edition": "1.7.0",
+  "source_filename": "production_agent_engineering_2026_edition_1_7.md",
+  "source_sha256": "021532c7f69d95ae19564bff1636931817f3a79738ad736ea378faf417b3fe79",
+  "blocks": [
+    {
+      "index": 1,
+      "start_line": 159,
+      "language": "text",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "a927c47ed1651a5eba481582b07cff41a242ecc7c113e6e31e0744518953bd71",
+      "content": "receive task\n  -> validate task contract\n  -> construct trusted context\n  -> ask model for a typed proposal\n  -> validate proposal and authority\n  -> execute one bounded action\n  -> record state and evidence\n  -> verify the external result\n  -> continue, escalate, or stop\n"
+    },
+    {
+      "index": 2,
+      "start_line": 226,
+      "language": "text",
+      "nonblank_lines": 15,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "18d329e5e75232d0120ae87447b477edd4facc0a5bf01b0e642bb61b182ca1ea",
+      "content": "+-------------------------------------------------------------+\n| Control plane: task lifecycle, routing, budgets, scheduling |\n+-------------------------------------------------------------+\n| Context plane: prompt assembly, retrieval, trust labels     |\n+-------------------------------------------------------------+\n| Decision plane: model calls, planning, semantic judgement   |\n+-------------------------------------------------------------+\n| Execution plane: tools, sandboxes, external systems         |\n+-------------------------------------------------------------+\n| State plane: event history, checkpoints, memory, artifacts  |\n+-------------------------------------------------------------+\n| Policy plane: identity, authorization, guardrails, approval |\n+-------------------------------------------------------------+\n| Verification/observability plane: graders, traces, evidence |\n+-------------------------------------------------------------+\n"
+    },
+    {
+      "index": 3,
+      "start_line": 266,
+      "language": "python",
+      "nonblank_lines": 14,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "fd160473426d294fa6f061cfd79fb33ed828831055b6ee309fd858c6243fced4",
+      "content": "proposal = model.propose_action(context)\nvalidated = ActionProposal.model_validate(proposal)\ndecision = policy.evaluate(\n    actor=task.actor,\n    action=validated.action,\n    resource=validated.resource,\n    provenance=context.provenance,\n    task_state=state.snapshot(),\n)\nif decision.effect == \"deny\":\n    return record_denial(decision)\nif decision.effect == \"require_approval\":\n    return suspend_for_approval(decision)\nreturn broker.execute(validated, decision.scoped_credential)\n"
+    },
+    {
+      "index": 4,
+      "start_line": 382,
+      "language": "python",
+      "nonblank_lines": 12,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "f1c12a75080cf61a80f846132a7b436c48f3f353718466685a6117c7baed94e3",
+      "content": "def choose_architecture(task):\n    if task.has_known_algorithm and not task.requires_semantic_judgement:\n        return \"deterministic\"\n    if task.semantic_decisions == 1 and task.output_is_validatable:\n        return \"single_structured_call\"\n    if task.process_is_known:\n        return \"workflow_with_model_nodes\"\n    if task.environment_is_interactive and task.can_be_bounded:\n        return \"bounded_agent_loop\"\n    if task.decomposes_into_independent_specialists and task.benefit_is_measured:\n        return \"multi_agent\"\n    return \"human_led_workflow\"\n"
+    },
+    {
+      "index": 5,
+      "start_line": 505,
+      "language": "text",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "29b3386cfa0dd03d3658df42dd3cd550664481ac9fe0bdc2a12e769309938643",
+      "content": "VALIDATE_REQUEST\n  -> INTERPRET_INTENT (model)\n  -> VALIDATE_INTERPRETATION\n  -> FETCH_AUTHORITATIVE_STATE\n  -> PROPOSE_OPERATION (model)\n  -> CHECK_POLICY_AND_PRECONDITIONS\n  -> EXECUTE_TRANSACTION\n  -> VERIFY_POSTCONDITIONS\n  -> COMPLETE\n"
+    },
+    {
+      "index": 6,
+      "start_line": 521,
+      "language": "python",
+      "nonblank_lines": 8,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "88e51ca99357a9bf4e3b55ef8bfcdf2d0c9f501c4db8fb4f568336b63b4fb3c6",
+      "content": "intent = IntentSchema.model_validate(interpret_model(request_text))\naccount = account_store.read(intent.account_id)\noperation = OperationSchema.model_validate(\n    proposal_model(intent=intent, account=account.redacted_view())\n)\npolicy.require_allowed(actor, operation, account)\nresult = transaction_service.execute(operation, idempotency_key=task.id)\nverification.require_matches(result, account_store.read(intent.account_id))\n"
+    },
+    {
+      "index": 7,
+      "start_line": 557,
+      "language": "json",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "153af2ec88281f904836c5b309a3864e117ad06cb797835cf51e08108e24bcf3",
+      "content": "{\n  \"goal\": \"publish_release_notes\",\n  \"steps\": [\n    {\"id\": \"s1\", \"op\": \"read_git_range\", \"args\": {\"from\": \"v2.4\", \"to\": \"HEAD\"}},\n    {\"id\": \"s2\", \"op\": \"draft_notes\", \"depends_on\": [\"s1\"]},\n    {\"id\": \"s3\", \"op\": \"request_approval\", \"depends_on\": [\"s2\"]},\n    {\"id\": \"s4\", \"op\": \"publish\", \"depends_on\": [\"s3\"]}\n  ]\n}\n"
+    },
+    {
+      "index": 8,
+      "start_line": 573,
+      "language": "python",
+      "nonblank_lines": 6,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "70c6bc0f54e93437b1cd032d9a7f2ce7ef829b2e5641a0ddda7e3663d85d2d54",
+      "content": "plan = PlanSchema.model_validate(model.generate_plan(task))\ngraph = compiler.compile(plan, policy=task.policy)\nassert graph.is_acyclic()\nassert graph.has_required_gate(\"publish\", \"approval\")\nassert graph.has_verifier_after_every_write()\nworkflow.start(graph)\n"
+    },
+    {
+      "index": 9,
+      "start_line": 607,
+      "language": "python",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "59fb475e2acff0c372b623b7623d46e59d79c9dc637fdab644d241b68f008ec2",
+      "content": "proposal = PatchSchema.model_validate(model.propose_patch(snapshot))\ncurrent = store.read(proposal.resource_id)\nif current.version != proposal.expected_version:\n    raise Conflict(\"state changed; re-plan\")\npolicy.require_allowed(actor, proposal)\nnew_state = apply_patch(current, proposal.patch)\ninvariants.check(new_state)\nstore.compare_and_set(current.version, new_state)\nverification.read_back_and_compare(proposal.resource_id, new_state)\n"
+    },
+    {
+      "index": 10,
+      "start_line": 719,
+      "language": "python",
+      "nonblank_lines": 16,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "7063b287a4fabeac0888dd2f119a890dde19c78391038e1a2b624c15a1be6e9f",
+      "content": "while state.status == \"RUNNING\":\n    budgets.require_remaining(state.usage)\n    context = context_builder.build(task, state)\n    proposal = model_router.call(context, contract=ActionProposal)\n    action = validators.validate(proposal, state)\n    decision = policy.evaluate(task, state, action, context.provenance)\n\n    if decision.requires_approval:\n        state = suspend(state, decision)\n        break\n    if decision.denied:\n        state = record_denial_and_replan_or_stop(state, decision)\n        continue\n\n    outcome = tool_broker.execute(action, decision.credential)\n    state = event_store.append_and_reduce(state, outcome)\n    verification = verifier.check(task, state, outcome)\n    state = completion_policy.advance(state, verification)\n"
+    },
+    {
+      "index": 11,
+      "start_line": 763,
+      "language": "json",
+      "nonblank_lines": 16,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "2ae76a146ce272cd6d22605bef635a67ba84dce2cce234c2564dcc74991690c7",
+      "content": "{\n  \"task_id\": \"tsk_...\",\n  \"status\": \"RUNNING\",\n  \"objective\": {...},\n  \"current_stage\": \"VERIFY_PATCH\",\n  \"workflow_version\": \"2026-07-28.3\",\n  \"model_policy_version\": \"router-17\",\n  \"prompt_bundle_version\": \"repo-agent-42\",\n  \"tool_catalog_version\": \"tools-31\",\n  \"attempts\": {\"model\": 7, \"tool\": 11, \"retry\": 1},\n  \"budgets\": {\"cost_remaining\": 2.80, \"tool_calls_remaining\": 9},\n  \"resources\": {\"workspace_id\": \"ws_...\", \"repo_revision\": \"abc123\"},\n  \"approvals\": [],\n  \"evidence\": [],\n  \"last_error\": null\n}\n"
+    },
+    {
+      "index": 12,
+      "start_line": 889,
+      "language": "yaml",
+      "nonblank_lines": 22,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "5a3c0dce56e13ab77b13d4adcab562b77a21c0131da3ec63e441b4d3e7850619",
+      "content": "objective: \"Verify Jira ticket QA-1842 against staging\"\nactor:\n  user_id: \"u-17\"\n  authority: \"qa-verification\"\nresources:\n  allowed_hosts: [\"staging.example.internal\"]\n  allowed_ticket: \"QA-1842\"\nnon_goals:\n  - \"Do not change application data except test fixtures\"\n  - \"Do not comment on unrelated tickets\"\nevidence_required:\n  - \"screenshots for visible defects\"\n  - \"request/response IDs for API failures\"\ncompletion:\n  - \"every acceptance criterion classified pass/fail/blocked\"\n  - \"all findings linked to evidence\"\nescalation:\n  - \"credentials fail twice\"\n  - \"test requires production access\"\nbudgets:\n  max_minutes: 30\n  max_tool_calls: 80\n"
+    },
+    {
+      "index": 13,
+      "start_line": 937,
+      "language": "text",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "9c64ef4376e8e71149b1aff90cc1e0ae849319d2aa4d640beb7ef3ae5d155ea7",
+      "content": "1. platform policy and immutable safety rules\n2. application role and authority summary\n3. task contract\n4. current workflow stage\n5. authoritative state snapshot\n6. retrieved evidence with provenance labels\n7. disclosed tool schemas\n8. output schema\n9. concise examples for ambiguous behaviour\n"
+    },
+    {
+      "index": 14,
+      "start_line": 951,
+      "language": "python",
+      "nonblank_lines": 12,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "032f0c1907f0fa089b83e8726b68103a2549aa76ed7664c9173b2939fc110fbb",
+      "content": "def build_prompt(bundle, task, state, evidence, tools):\n    return render([\n        bundle.platform_policy,\n        bundle.role_policy(task.actor),\n        render_task_contract(task),\n        render_stage(state.current_stage),\n        render_state_snapshot(state),\n        render_evidence(evidence, include_provenance=True),\n        render_tools(tools),\n        bundle.output_contract,\n        bundle.examples.for_stage(state.current_stage),\n    ])\n"
+    },
+    {
+      "index": 15,
+      "start_line": 977,
+      "language": "text",
+      "nonblank_lines": 5,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "62e93ad90ad3ef6c6d63951d1da1ad8dee03cb44bb79a5ffeb9f12118a558216",
+      "content": "TRUSTED_POLICY: application-controlled and immutable for the run\nTRUSTED_TASK: authenticated user request within delegated authority\nAUTHORITATIVE_STATE: current data from the system of record\nUNTRUSTED_CONTENT: web pages, email bodies, tickets, documents, code comments\nMODEL_GENERATED: prior plans, summaries, and hypotheses\n"
+    },
+    {
+      "index": 16,
+      "start_line": 1047,
+      "language": "json",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "6e3db77de611d9d6eda962dbb678c1bdb1804dfa17c4eb9bf79552ee51489829",
+      "content": "{\n  \"status\": \"SUCCEEDED | PARTIAL | BLOCKED | FAILED\",\n  \"summary\": \"...\",\n  \"verified_outcomes\": [\n    {\"claim\": \"...\", \"evidence_ids\": [\"ev-12\"], \"verifier\": \"...\"}\n  ],\n  \"unresolved\": [\"...\"],\n  \"risks\": [\"...\"],\n  \"next_required_actor\": \"none | user | operator | security\"\n}\n"
+    },
+    {
+      "index": 17,
+      "start_line": 1125,
+      "language": "text",
+      "nonblank_lines": 6,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "f5bea4bbb35872b3480fad08e2d4b49003a6c3cfecfe6a164cc15f758230226b",
+      "content": "stage: TRIAGE\nvisible tools: search_ticket, read_ticket, classify_task\n\nstage: INVESTIGATE_UI\nvisible tools: open_browser, screenshot, inspect_network\n\nstage: REPORT\nvisible tools: attach_evidence, write_report, request_review\n"
+    },
+    {
+      "index": 18,
+      "start_line": 1186,
+      "language": "python",
+      "nonblank_lines": 8,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "aa3ea671930e39c679e70858f2339cc5da72eac53891ba8d9e9505b8b03b4991",
+      "content": "def select_context(task, state, candidates, token_budget):\n    allowed = [c for c in candidates if policy.may_disclose(task.actor, c)]\n    fresh = [c for c in allowed if not c.is_expired(state.now)]\n    required = [c for c in fresh if c.is_required_for(state.current_stage)]\n    optional = [c for c in fresh if c not in required]\n    ranked = semantic_rank(optional, task.objective, state.current_stage)\n    selected = pack(required, ranked, token_budget)\n    return deduplicate_and_label(selected)\n"
+    },
+    {
+      "index": 19,
+      "start_line": 1300,
+      "language": "text",
+      "nonblank_lines": 12,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "8fa66a96412f37e1610eff2aad3188bed85ec993a593571eb3a78a17305fa76d",
+      "content": "TaskCreated\nContractValidated\nWorkspaceProvisioned\nModelProposalRecorded\nToolCallAuthorised\nToolCallStarted\nToolCallSucceeded\nEvidenceAttached\nApprovalRequested\nApprovalGranted\nVerificationPassed\nTaskSucceeded\n"
+    },
+    {
+      "index": 20,
+      "start_line": 1332,
+      "language": "text",
+      "nonblank_lines": 11,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "6a292a0e736be84445da45f24248e2251901184faabec527d840d4f3ebce0ab7",
+      "content": "QUEUED\n  -> RUNNING\n  -> WAITING_FOR_INPUT\n  -> WAITING_FOR_APPROVAL\n  -> RETRY_SCHEDULED\n  -> PARTIALLY_COMPLETED\n  -> VERIFYING\n  -> SUCCEEDED\n  -> FAILED\n  -> CANCELLED\n  -> EXPIRED\n"
+    },
+    {
+      "index": 21,
+      "start_line": 1350,
+      "language": "python",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "f4b36c39c32ccc7cace101bccb86d4fc99f35d74f3dba30415cdddde01fc6394",
+      "content": "ALLOWED = {\n    \"QUEUED\": {\"RUNNING\", \"CANCELLED\", \"EXPIRED\"},\n    \"RUNNING\": {\"WAITING_FOR_INPUT\", \"WAITING_FOR_APPROVAL\",\n                \"RETRY_SCHEDULED\", \"PARTIALLY_COMPLETED\", \"VERIFYING\",\n                \"FAILED\", \"CANCELLED\", \"EXPIRED\"},\n    \"VERIFYING\": {\"SUCCEEDED\", \"PARTIALLY_COMPLETED\", \"RETRY_SCHEDULED\",\n                  \"FAILED\", \"CANCELLED\"},\n    \"WAITING_FOR_APPROVAL\": {\"RUNNING\", \"FAILED\", \"CANCELLED\", \"EXPIRED\"},\n}\n"
+    },
+    {
+      "index": 22,
+      "start_line": 1395,
+      "language": "json",
+      "nonblank_lines": 13,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "41ae117a5c17c96ccbac7af77cc85982b8bee877b25f65f0abd188f1c1f68f9b",
+      "content": "{\n  \"artifact_id\": \"art-204\",\n  \"type\": \"test_report\",\n  \"uri\": \"workspace://reports/integration.json\",\n  \"sha256\": \"...\",\n  \"created_by_run\": \"run-88\",\n  \"source_revision\": \"abc123\",\n  \"schema_version\": \"2\",\n  \"verification\": {\n    \"status\": \"PASSED\",\n    \"verifier\": \"pytest-parser-v4\"\n  }\n}\n"
+    },
+    {
+      "index": 23,
+      "start_line": 1489,
+      "language": "text",
+      "nonblank_lines": 1,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "a03193b9ea6698e171c95ee5e58bcae935e92ed0d9f4652b183d36d3868bb33a",
+      "content": "create_refund(order_id, amount, reason, idempotency_key)\n"
+    },
+    {
+      "index": 24,
+      "start_line": 1497,
+      "language": "text",
+      "nonblank_lines": 2,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "f554f4e39c6e92c2b18e5cf7f6bf6e3329a98d20a2f23a075ddb782ead592a33",
+      "content": "click(x, y)\ntype(text)\n"
+    },
+    {
+      "index": 25,
+      "start_line": 1523,
+      "language": "yaml",
+      "nonblank_lines": 22,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "8c0625cb6df37a8919574f0c3f6805a19d81fc934cf0b10f269f72c52976692b",
+      "content": "name: update_ticket_status\npurpose: \"Change one Jira ticket status\"\nside_effect: write\nrisk_class: medium\ninput_schema:\n  ticket_id: {type: string, pattern: \"^[A-Z]+-[0-9]+$\"}\n  expected_status: {type: string}\n  new_status: {enum: [\"In Progress\", \"Blocked\", \"Done\"]}\n  reason: {type: string, maxLength: 500}\n  idempotency_key: {type: string}\nauthority:\n  required_scope: jira.ticket.transition\n  resource_rule: \"ticket_id must equal task.ticket_id\"\npreconditions:\n  - \"current status equals expected_status\"\npostconditions:\n  - \"read-back status equals new_status\"\nerrors:\n  - CONFLICT\n  - FORBIDDEN\n  - NOT_FOUND\n  - TRANSIENT\n"
+    },
+    {
+      "index": 26,
+      "start_line": 1567,
+      "language": "text",
+      "nonblank_lines": 8,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "f95966f0930fa92be671791fa564ba59327b944cd52bf29acf41e6afdc5d3c01",
+      "content": "model proposal\n  -> schema validator\n  -> policy decision point\n  -> approval gate\n  -> credential broker\n  -> tool adapter\n  -> postcondition verifier\n  -> audit log\n"
+    },
+    {
+      "index": 27,
+      "start_line": 1594,
+      "language": "json",
+      "nonblank_lines": 7,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "b70dc19457c8205f3b905f450a727f578d89b9410eff104c70543e81168222b8",
+      "content": "{\n  \"code\": \"CONFLICT\",\n  \"retryable\": false,\n  \"message\": \"Ticket status changed\",\n  \"current_state\": {\"status\": \"Done\", \"version\": \"991\"},\n  \"suggested_recovery\": \"refresh_and_replan\"\n}\n"
+    },
+    {
+      "index": 28,
+      "start_line": 1726,
+      "language": "text",
+      "nonblank_lines": 6,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "bde3e5dc5ec158fa5bd518a5b63806e8750c879b357a5d544879afd1b510e22a",
+      "content": "local agent\n  -> organisation policy gateway\n       -> MCP server A\n       -> MCP server B\n       -> A2A remote agent C\n       -> legacy API adapter D\n"
+    },
+    {
+      "index": 29,
+      "start_line": 1820,
+      "language": "python",
+      "nonblank_lines": 23,
+      "authenticity_label": "Illustrative API mapping - not executable as a complete service. Versioned documentation mapping for OpenAI Agents SDK 0.19.1 at release commit `ddc39d0e54c9`; this block is not source-contract checked.",
+      "sha256": "72468b28960a528be768d13ec16e317b9a99cb1b4ba77d1a2b2e4d12a02b64b4",
+      "content": "from agents import Agent, Runner\n\nqa_agent = Agent(\n    name=\"qa_worker\",\n    instructions=prompt_bundle,\n    tools=[read_ticket, inspect_ui, propose_finding],\n    input_guardrails=[task_contract_guard],\n    output_guardrails=[finding_schema_guard],\n)\n\n# The SDK owns model/tool turns. The durable workflow owns business state.\nrun = Runner.run_streamed(qa_agent, compiled_task_input)\nasync for event in run.stream_events():\n    audit.append_sdk_event(task_id, event)\n\nif run.interruptions:\n    serialised_sdk_state = run.to_state().to_json()\n    request = canonicalise_interruptions(run.interruptions)\n    approval = approval_store.create(\n        task_id=task_id,\n        action_hash=sha256(request.canonical_bytes),\n        policy_version=policy.version,\n        expires_at=clock.now() + APPROVAL_TTL,\n        sdk_state=serialised_sdk_state,\n    )\n    durable_workflow.suspend(task_id, approval.id)\n"
+    },
+    {
+      "index": 30,
+      "start_line": 1856,
+      "language": "python",
+      "nonblank_lines": 23,
+      "authenticity_label": "Listing 9.3 - Source-contract checked against Claude Agent SDK Python 0.2.128 at commit `f8b9ec923982`; Python-syntax checked; not package-imported or runtime-executed. The complete listing is `listing_9_3_claude_deferred_approval.py` in the companion archive.",
+      "sha256": "1a96fb7a36fcf4cb3d1e4d4547f4baa5ca2350e6da01a54fdd440589618115b8",
+      "content": "from claude_agent_sdk import ClaudeAgentOptions, HookMatcher, ResultMessage\n\nasync def pre_tool_gate(hook_input, tool_use_id, _context):\n    request = canonicalise(hook_input[\"tool_name\"], hook_input[\"tool_input\"])\n    decision = policy.evaluate(request, effective_authority())\n    approval = approvals.find_fresh(action_hash=request.action_hash)\n\n    if decision.effect == \"deny\":\n        return hook_decision(\"deny\", reason=decision.reason)\n    if decision.effect == \"approval_required\" and approval is None:\n        # Preserves a typed pending call in ResultMessage.deferred_tool_use.\n        return hook_decision(\"defer\", updated_input=request.arguments)\n\n    revalidate_policy_authority_and_toctou(request, approval)\n    return hook_decision(\"allow\", updated_input=request.arguments)\n\noptions = ClaudeAgentOptions(\n    tools=[\"ReadTicket\", \"InspectUI\", \"ProposeFinding\"],\n    hooks={\n        \"PreToolUse\": [HookMatcher(matcher=None, hooks=[pre_tool_gate])],\n        \"PostToolUse\": [HookMatcher(matcher=None, hooks=[capture_evidence])],\n    },\n    permission_mode=\"default\",\n    setting_sources=[],\n)\n\n# On terminal ResultMessage, persist deferred_tool_use plus session_id,\n# canonical action hash, policy/authority versions and approval expiry.\n"
+    },
+    {
+      "index": 31,
+      "start_line": 1900,
+      "language": "python",
+      "nonblank_lines": 26,
+      "authenticity_label": "Source-contract checked against Google ADK 2.5.0 at commit `6bab08fc803d`; not runtime-executed because application nodes and model credentials are placeholders.",
+      "sha256": "8065b65b25c31b85a1e623c2129dbe69df2984b8c9820e2752bef605c0dc1201",
+      "content": "from google.adk.agents import LlmAgent\nfrom google.adk.workflow import DEFAULT_ROUTE, START, Workflow\n\nproposal_agent = LlmAgent(\n    name=\"proposal_agent\",\n    model=\"gemini-2.5-pro\",\n    instruction=prompt_bundle,\n    tools=[read_ticket, inspect_ui, propose_finding],\n    before_tool_callback=policy_and_authority_callback,\n    after_tool_callback=evidence_callback,\n)\n\nqa_workflow = Workflow(\n    name=\"qa_verification\",\n    edges=[\n        (START, load_task_node, proposal_agent, deterministic_policy_node),\n        (\n            deterministic_policy_node,\n            {\n                \"allowed\": scoped_execution_node,\n                \"requires_approval\": approval_wait_node,\n                DEFAULT_ROUTE: reject_node,\n            },\n        ),\n        (approval_wait_node, approval_revalidation_node, scoped_execution_node),\n        (scoped_execution_node, authoritative_readback_node),\n    ],\n)\n"
+    },
+    {
+      "index": 32,
+      "start_line": 1995,
+      "language": "python",
+      "nonblank_lines": 4,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "e77735898c16831a4989543e4b355d5c592df64849017351e03eff4168e3817e",
+      "content": "lease = coordinator.acquire(task_id)\nwhile working:\n    coordinator.heartbeat(lease)\n    external.write(data, fencing_token=lease.generation)\n"
+    },
+    {
+      "index": 33,
+      "start_line": 2009,
+      "language": "text",
+      "nonblank_lines": 8,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "8560af3f0eea47af4ba84f64b26ecc2b710a6332af3c58f26f2dbeee16fad93a",
+      "content": "RUNNING\n  -> WAITING_FOR_TOOL\n  -> WAITING_FOR_TIMER\n  -> WAITING_FOR_INPUT\n  -> WAITING_FOR_APPROVAL\n  -> RETRY_SCHEDULED\n  -> VERIFYING\n  -> terminal state\n"
+    },
+    {
+      "index": 34,
+      "start_line": 2061,
+      "language": "text",
+      "nonblank_lines": 6,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "39a7ea8055a6ad4fb7511a73b736cbd38b5f05fd20b6223441c9083da2d32bea",
+      "content": "reserve inventory\n  -> charge payment\n  -> create shipment\n\nif create shipment fails:\n  -> refund payment\n  -> release inventory\n"
+    },
+    {
+      "index": 35,
+      "start_line": 2125,
+      "language": "python",
+      "nonblank_lines": 25,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "e475d2d573085b847502376e1b29529489224f607b983d35077253fc6a687070",
+      "content": "@workflow\ndef agent_task(task_id):\n    state = load_or_create_state(task_id)\n    while not state.terminal:\n        event = await next_event_or_activity(state)\n        state = reducer.apply(state, event)\n\n        if state.needs_model_proposal:\n            proposal = await activity.call_model(state.model_input(), retry=transport_only)\n            state = reducer.apply(state, ProposalRecorded(proposal))\n\n        if state.needs_tool_execution:\n            decision = policy.evaluate(state)\n            if decision.requires_approval:\n                state = reducer.apply(state, ApprovalRequested(decision))\n                continue\n            result = await activity.execute_tool(\n                state.action,\n                idempotency_key=state.action_id,\n                retry=classified_retry,\n            )\n            state = reducer.apply(state, ToolResultRecorded(result))\n\n        if state.needs_verification:\n            check = await activity.verify(state)\n            state = reducer.apply(state, VerificationRecorded(check))\n\n        persist_checkpoint(state)\n    return state.final_report()\n"
+    },
+    {
+      "index": 36,
+      "start_line": 2207,
+      "language": "yaml",
+      "nonblank_lines": 7,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "58fca3ddfc760d6dfd4506cbe61b811e945af87166f2d213e6015159faa112af",
+      "content": "completion:\n  - patch applies to revision abc123\n  - targeted regression test passes\n  - full affected test suite passes\n  - linter and type checker pass\n  - no unexpected public API change\n  - diff is linked to issue acceptance criteria\n"
+    },
+    {
+      "index": 37,
+      "start_line": 2224,
+      "language": "python",
+      "nonblank_lines": 4,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "2423cbcfe307ff50f9276ccfc0049afcf191287ff2886003a36c2dabdad3b530",
+      "content": "write = crm.update(record_id, patch, idempotency_key)\nread = crm.get(record_id)\nassert read.version >= write.version\nassert project(read) == expected_projection\n"
+    },
+    {
+      "index": 38,
+      "start_line": 2256,
+      "language": "python",
+      "nonblank_lines": 7,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "eace7a9a7451386a011ec090eafd4d08cf5bdacd320a5a6578a5c9f606fb87b3",
+      "content": "actor_result = actor.run(task)\nverifier_input = {\n    \"contract\": task.completion_contract,\n    \"artifacts\": actor_result.artifact_ids,\n    \"authoritative_state\": fetch_state(task),\n}\nverification = verifier.run(verifier_input)\n"
+    },
+    {
+      "index": 39,
+      "start_line": 2289,
+      "language": "json",
+      "nonblank_lines": 11,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "a08bf34e0db025cff8cdd49fb46d9629eea712ec4555e367c196ceeade15ac09",
+      "content": "{\n  \"claim_id\": \"c-17\",\n  \"claim\": \"Acceptance criterion 3 passes\",\n  \"evidence\": [\n    {\"id\": \"ev-2\", \"type\": \"screenshot\", \"hash\": \"...\"},\n    {\"id\": \"ev-3\", \"type\": \"http_trace\", \"request_id\": \"...\"}\n  ],\n  \"verified_by\": \"qa-verifier-v8\",\n  \"verified_at\": \"2026-07-28T10:30:00Z\",\n  \"fresh_until\": \"2026-07-29T10:30:00Z\"\n}\n"
+    },
+    {
+      "index": 40,
+      "start_line": 2323,
+      "language": "python",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "fe008f28271e702f6f831e1a6beef15b493fc0e245b89940aed113cf1b6faec3",
+      "content": "def completion_gate(task, state):\n    required = task.completion_contract.required_claims\n    verified = {c.claim_id for c in state.verifications if c.passed and c.is_fresh}\n    if required <= verified and not state.open_high_risk_findings:\n        return \"SUCCEEDED\"\n    if verified and state.blocked:\n        return \"PARTIALLY_COMPLETED\"\n    if state.retryable:\n        return \"RETRY_SCHEDULED\"\n    return \"FAILED\"\n"
+    },
+    {
+      "index": 41,
+      "start_line": 2500,
+      "language": "json",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "1c0db122899c38c05fcf12531a6b5cb63cf6ef7dbec28c197a3a766dd4b5e64b",
+      "content": "{\n  \"effect\": \"ALLOW | DENY | REQUIRE_APPROVAL | TRANSFORM | QUARANTINE\",\n  \"reason_code\": \"DATA_EGRESS_REQUIRES_APPROVAL\",\n  \"policy_version\": \"2026-07-28.7\",\n  \"bound_action_hash\": \"...\",\n  \"expires_at\": \"2026-07-28T12:00:00Z\",\n  \"required_approver_role\": \"data_owner\",\n  \"transform\": null\n}\n"
+    },
+    {
+      "index": 42,
+      "start_line": 2582,
+      "language": "text",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "b8c337144597c9d12daf2008cee46393b820a80837aa259c114bce9a933b669d",
+      "content": "untrusted input\n  -> provenance label: external_ticket_content\n  -> model proposes ExportCustomerData(account=42)\n  -> canonicalise resource, tenant, fields and destination\n  -> deterministic schema and task-contract validation\n  -> classifier assigns exfiltration-risk score 0.94\n  -> policy maps score >=0.80 to DENY, not to a model suggestion\n  -> argument-level authorisation rejects export outside task scope\n  -> no approval request and no credential minting\n  -> denial event, trace, and security signal recorded\n"
+    },
+    {
+      "index": 43,
+      "start_line": 2599,
+      "language": "text",
+      "nonblank_lines": 12,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "b14c1d2ac4ca6d241978d5a03b3de549a67f012c4813116aeeff3581344a9eb5",
+      "content": "policy ALLOW_WITH_APPROVAL\n  -> create immutable canonical action bytes\n  -> bind approval to SHA-256(action), principal, tenant, policy version, expiry\n  -> suspend durable workflow\n  -> on resume, validate issuer, audience, signature, expiry, revocation and nonce\n  -> reload authoritative resource state\n  -> rerun policy to close the time-of-check/time-of-use gap\n  -> require the reconstructed action hash to equal the approved hash\n  -> mint one-operation, short-lived workload credential\n  -> execute through confined gateway with idempotency key\n  -> read authoritative state back from the source system\n  -> compare postcondition, commit audit event, revoke credential\n"
+    },
+    {
+      "index": 44,
+      "start_line": 2675,
+      "language": "text",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "8a902cc1123fc43982c367545147e612fd354231d133ee8f613ced8bc7a5846c",
+      "content": "user/device\n  -> agent API\n  -> context and memory stores\n  -> model provider\n  -> tool gateway\n  -> sandbox\n  -> internal systems\n  -> external internet/services\n  -> remote agents\n"
+    },
+    {
+      "index": 45,
+      "start_line": 2792,
+      "language": "text",
+      "nonblank_lines": 3,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "40cd2b17321a3ef3a9face83c9f761427f8b5223a1f4344086318e1c84b091fa",
+      "content": "UNTRUSTED_WEB + PRIVATE_CUSTOMER_DATA\n  may flow to: private analysis sandbox\n  may not flow to: public web, email, external MCP server\n"
+    },
+    {
+      "index": 46,
+      "start_line": 2863,
+      "language": "text",
+      "nonblank_lines": 1,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "d511c91037632ede83d8cc7931ddd4b9288382b178c5ef8993c6e0d76df3930d",
+      "content": "Expected loss(a) = sum_o P(o | evidence, a) * Loss(o, a)\n"
+    },
+    {
+      "index": 47,
+      "start_line": 2898,
+      "language": "text",
+      "nonblank_lines": 7,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "a0429ea6cac0ebd29dc81401d1a77e7e4d44a06d83e7524fbdc30eba7b657db7",
+      "content": "bucket = {\n  task_family: UI_ticket_verification,\n  risk: medium,\n  evidence_coverage: 0.6-0.8,\n  verifier_disagreement: false,\n  model_route: economical_model\n}\n"
+    },
+    {
+      "index": 48,
+      "start_line": 2975,
+      "language": "text",
+      "nonblank_lines": 6,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "16e79a41ef29c172eca5e8079ea47ecad6372342a55e906b94afc7716c5c7a5b",
+      "content": "EVSI(E) = current_minimum_expected_loss\n          - sum_over_o P(o | current evidence)\n              * minimum_expected_loss_after_observing(o)\n          - acquisition_cost(E)\n          - delay_cost(E)\n          - misleading_or_stale_evidence_risk(E)\n"
+    },
+    {
+      "index": 49,
+      "start_line": 3003,
+      "language": "text",
+      "nonblank_lines": 1,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "79cddf9f3784bcd09304a8f50e7ca97800cecfee145ac1ce133e59124874d73e",
+      "content": "0.70*£1.20 + 0.22*£0.50 + 0.08*£6.00 = £1.43\n"
+    },
+    {
+      "index": 50,
+      "start_line": 3011,
+      "language": "text",
+      "nonblank_lines": 1,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "dee24ff605afab9bb65b516b0c78748450f4afeceff65822347aa5a8c9f857a1",
+      "content": "£4.80 - £1.43 - £0.20 - £0.10 - £0.15 = £2.92\n"
+    },
+    {
+      "index": 51,
+      "start_line": 3034,
+      "language": "python",
+      "nonblank_lines": 17,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "6f84d37cd92feb94f5ed3b5d53b0a589d08e013494dd051ff4c5b6c5d1bf13f7",
+      "content": "def choose_next(state, candidates, risk_model, loss_table):\n    if completion_gate(state).verified:\n        return Stop(\"verified\")\n\n    scored = []\n    for action in candidates:\n        p_outcomes = risk_model.predict_interval(state.features, action)\n        worst_reasonable_loss = upper_expected_loss(p_outcomes, loss_table[action])\n        information_gain = empirical_information_value(action, state.bucket)\n        net_value = information_gain - action.cost - action.delay_cost\n        scored.append((action, net_value, worst_reasonable_loss))\n\n    useful = [x for x in scored if x[1] > state.minimum_value_margin]\n    if not useful:\n        return EscalateOrStop(\"no positive-value action\")\n\n    action, _, loss = min(useful, key=lambda x: x[2])\n    if policy.requires_approval(action, loss):\n        return RequestApproval(action)\n    return Execute(action)\n"
+    },
+    {
+      "index": 52,
+      "start_line": 3066,
+      "language": "text",
+      "nonblank_lines": 5,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "df4f7cdd9dc41d008fba84a2d4657f943aeaa102b2491000362047ace827f4b3",
+      "content": "deterministic parser\n  -> economical model\n  -> stronger model\n  -> independent verifier\n  -> human specialist\n"
+    },
+    {
+      "index": 53,
+      "start_line": 3097,
+      "language": "json",
+      "nonblank_lines": 11,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "2b5829aca466ce72f0d973900d530fd7575f926f535b9274cab742d4fe0303c7",
+      "content": "{\n  \"decision_id\": \"d-91\",\n  \"choices\": [\"execute\", \"inspect_more\", \"escalate\"],\n  \"selected\": \"inspect_more\",\n  \"calibration_bucket\": \"qa.medium.coverage_60_80.v3\",\n  \"estimated_probability_interval\": [0.14, 0.23],\n  \"loss_policy\": \"support-defect-v5\",\n  \"evidence_ids\": [\"ev-7\", \"ev-9\"],\n  \"reason_code\": \"BACKEND_STATE_UNVERIFIED\",\n  \"policy_version\": \"p-18\"\n}\n"
+    },
+    {
+      "index": 54,
+      "start_line": 3181,
+      "language": "text",
+      "nonblank_lines": 1,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "89a5f2b29aa825113dd1177b379577a7673fd9bc25fc47b991820c54533815d6",
+      "content": "severity_weighted_unsafe_event_density = sum(event_severity_weight) / trials\n"
+    },
+    {
+      "index": 55,
+      "start_line": 3405,
+      "language": "python",
+      "nonblank_lines": 16,
+      "authenticity_label": "Tested companion example - executed with Python 3.13.5, NumPy 2.3.5, pandas 2.2.3 and SciPy 1.17.0 from `requirements.txt` and the accompanying `environment_attestation.json`.",
+      "sha256": "b68e6bab2b8f99482845216e258aec6f474188d5aa731640b245b04a8b40e3da",
+      "content": "\ndef cluster_bootstrap(df, reps=200_000, seed=20260729):\n    task_diffs = (\n        df.groupby(\"task_id\")[[\"baseline_verified\", \"candidate_verified\"]]\n          .mean()\n          .assign(\n              diff=lambda x: x[\"candidate_verified\"] - x[\"baseline_verified\"]\n          )[\"diff\"]\n          .to_numpy()\n    )\n    rng = np.random.default_rng(seed)\n    draws = np.empty(reps)\n    for start in range(0, reps, 5_000):\n        size = min(5_000, reps - start)\n        sample = rng.integers(0, len(task_diffs), size=(size, len(task_diffs)))\n        draws[start:start + size] = task_diffs[sample].mean(axis=1)\n    return task_diffs.mean(), np.quantile(draws, [0.025, 0.975])\n"
+    },
+    {
+      "index": 56,
+      "start_line": 3563,
+      "language": "text",
+      "nonblank_lines": 18,
+      "authenticity_label": "Generated from the companion synthetic files; not production evidence.",
+      "sha256": "6aec66f07b5d4cc25375d8c289e15f8de5be65f560002b87657e6a3a8b9364ba",
+      "content": "Release study: qa-agent-2.3-synth versus qa-agent-2.2-synth\nDataset: qa_eval_synthetic_trials.csv (120 tasks, 360 paired trial rows)\nPrimary estimand: mean candidate-minus-baseline verified frequency per task\nObserved improvement: +12.50 percentage points\n95% percentile task-cluster bootstrap interval: +9.17 to +15.83 points\nTask endpoint: >=2/3 verified trials and zero unsafe events\nTask passes: 102 candidate vs 88 baseline\nMcNemar exact p: 0.00661 (19 candidate-only, 5 baseline-only)\nUnsafe events: 6/360 candidate vs 14/360 baseline\nSafety non-inferiority: one-sided 95% cluster upper bound -0.28 pp (< +1.00 pp margin)\nSeverity-weighted incident points: 56 candidate vs 114 baseline\nEscalation recall: 80.2% candidate vs 69.4% baseline\nMissed-escalation rate: 19.8% candidate vs 30.6% baseline\nCost per verified success: £0.475 candidate vs £0.513 baseline\np95 latency: 66.8 s candidate vs 82.5 s baseline\nTrace completeness: 99.7% candidate\nFailure injection: 40/40 safe outcomes\nDisposition: synthetic gate pass; no production inference permitted\n"
+    },
+    {
+      "index": 57,
+      "start_line": 3628,
+      "language": "json",
+      "nonblank_lines": 15,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "0720ca0722606b6001a03712f1a6bc636c6c0fd945f0927e7eef13e99a42779f",
+      "content": "{\n  \"event_id\": \"evt_01...\",\n  \"event_type\": \"tool.execution.completed\",\n  \"occurred_at\": \"2026-07-28T09:40:16Z\",\n  \"task_id\": \"task_01...\",\n  \"workflow_id\": \"wf_01...\",\n  \"run_id\": \"run_01...\",\n  \"attempt\": 2,\n  \"actor\": {\"kind\": \"tool_gateway\", \"id\": \"crm-write-v3\"},\n  \"policy_version\": \"policy-2026-07-15\",\n  \"prompt_version\": \"triage-18\",\n  \"model\": \"provider/model-version\",\n  \"payload_ref\": \"object://traces/...\",\n  \"previous_event_id\": \"evt_00...\"\n}\n"
+    },
+    {
+      "index": 58,
+      "start_line": 3919,
+      "language": "text",
+      "nonblank_lines": 5,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "ccb62d4a7671aea78f998e657049432caddfeb10cd7d0565326ed4733df564c6",
+      "content": "classification/extraction      -> fast structured-output model\nroutine read-only research     -> mid-tier model + retrieval\nrepository-scale modification  -> high-reasoning coding model + sandbox\nhigh-risk mutation             -> high-reasoning model + approval + verifier\nvisual UI verification         -> vision-capable model + deterministic checks\n"
+    },
+    {
+      "index": 59,
+      "start_line": 3953,
+      "language": "text",
+      "nonblank_lines": 6,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "6c73ede5c7295466a0a0ab7a38d9187c6389319eca20a5a09bede8c9e74da776",
+      "content": "economical model\n    -> schema and outcome verification\n    -> if model-related uncertainty or failure:\n           stronger model with preserved evidence\n    -> if high risk or unresolved:\n           independent verifier or human\n"
+    },
+    {
+      "index": 60,
+      "start_line": 4107,
+      "language": "text",
+      "nonblank_lines": 11,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "5aa2ad7817c0271717ad0026db2c6791b8404d426c2cd285b0d61f266a3c4ee0",
+      "content": "per-task cost =\n    routing\n  + prompt/context construction\n  + model inference\n  + tool/API usage\n  + sandbox compute\n  + storage and tracing\n  + retries\n  + verification\n  + human approval/review\n  + expected incident and rollback cost\n"
+    },
+    {
+      "index": 61,
+      "start_line": 4224,
+      "language": "text",
+      "nonblank_lines": 3,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "55b84cb331d7531a2dd59c66cfca18b713247a6eeca3eb894ecb2916b0c8517b",
+      "content": "issue + repository + broad shell access\n                 -> one autonomous agent loop\n                 -> “tests pass” summary\n"
+    },
+    {
+      "index": 62,
+      "start_line": 4248,
+      "language": "text",
+      "nonblank_lines": 11,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "836ae60f2339de5038076dfb3b1b5a1e8bb0ea89f2e1daeb803cbf14ad00a92b",
+      "content": "issue intake\n    -> deterministic task normalisation\n    -> isolated workspace at pinned base revision\n    -> repository index and policy load\n    -> model creates bounded change plan\n    -> plan validator checks scope and required verification\n    -> incremental edit/test loop\n    -> independent verification in clean workspace\n    -> diff and provenance audit\n    -> evidence bundle\n    -> human review / draft pull request\n"
+    },
+    {
+      "index": 63,
+      "start_line": 4269,
+      "language": "json",
+      "nonblank_lines": 16,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "b59c5b365c2f663027246e8d1f1abcbb87cf9c630accb012bab72fb8b3f81ca1",
+      "content": "{\n  \"task_id\": \"code_01...\",\n  \"repository\": \"org/project\",\n  \"base_revision\": \"6d4e...\",\n  \"workspace_id\": \"ws_01...\",\n  \"phase\": \"IMPLEMENTING\",\n  \"plan_version\": 3,\n  \"allowed_paths\": [\"src/service/**\", \"tests/service/**\"],\n  \"changed_paths\": [\"src/service/cache.py\"],\n  \"acceptance_checks\": [\n    {\"id\": \"unit\", \"status\": \"passed\", \"evidence_ref\": \"...\"},\n    {\"id\": \"integration\", \"status\": \"pending\"}\n  ],\n  \"attempt_budget\": {\"model_calls_remaining\": 14, \"wall_minutes_remaining\": 31},\n  \"unresolved\": [\"migration behaviour on existing cache entries\"]\n}\n"
+    },
+    {
+      "index": 64,
+      "start_line": 4366,
+      "language": "json",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "b714b97011bb6f6399b5a6b1bc9faca92a7c954da886db2844b628ed41105b87",
+      "content": "{\n  \"hypothesis\": \"cache entries are not invalidated when tenant policy changes\",\n  \"files_to_inspect\": [\"src/service/cache.py\", \"tests/service/test_cache.py\"],\n  \"intended_changes\": [\n    {\"path\": \"src/service/cache.py\", \"reason\": \"include policy version in key\"}\n  ],\n  \"verification\": [\"unit\", \"service-integration\"],\n  \"risks\": [\"existing entries become unreachable but remain until expiry\"]\n}\n"
+    },
+    {
+      "index": 65,
+      "start_line": 4605,
+      "language": "yaml",
+      "nonblank_lines": 46,
+      "authenticity_label": "Framework-neutral pseudocode - data contract.",
+      "sha256": "65dceb2ada10f953e31d44a013da680e9b3dad710397eb2eb0570a2633e577be",
+      "content": "manifest_version: 3\ncompaction:\n  boundary_id: cmp_01J...\n  trigger: automatic\n  source_history_hash: sha256:...\n  summary_model: ...\n  summary_prompt_version: compact-7\nobjective:\n  task_id: code_01J...\n  current_goal: \"make tenant policy part of the cache key\"\n  plan_version: 4\n  unresolved_decisions:\n    - \"whether old entries require eager migration\"\nartifacts:\n  workspace_revision: 83c10f...\n  modified_paths:\n    - src/service/cache.py\n  authoritative_snapshots:\n    - path: src/service/cache.py\n      content_hash: sha256:...\n      read_after_revision: 83c10f...\nverification:\n  completed:\n    - check: unit-cache\n      evidence_id: ev_102\n  pending:\n    - service-integration\ncapabilities:\n  active_tool_schemas: [repo.search, file.read, patch.apply, test.run]\n  discovered_capabilities: [db.schema.inspect]\n  invoked_skills: [repository-debugging]\nauthority:\n  principal: repository-agent\n  policy_version: repo-policy-18\n  workspace_roots: [/workspace/project]\n  pending_approvals: []\nchildren:\n  active:\n    - child_id: agent_72\n      purpose: \"inspect migration behaviour\"\n      transcript_ref: ...\n      cancellation_ref: ...\n  completed_outputs: []\nconversation:\n  semantic_summary: \"...\"\n  preserved_recent_items: [item_910, item_911]\n"
+    },
+    {
+      "index": 66,
+      "start_line": 4712,
+      "language": "text",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "ec5f27e3d1c47d1195f826f890ddf3ecc78d86a1fb63ae6fc02ffe9ec4f45222",
+      "content": "child_context = project(\n    task_contract,\n    child_purpose,\n    required_artifacts,\n    fresh_observations,\n    permitted_capabilities,\n    authority_profile,\n    parent_lineage\n)\n"
+    },
+    {
+      "index": 67,
+      "start_line": 4749,
+      "language": "text",
+      "nonblank_lines": 6,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "af9389e01f107363bb7688c3d9eeffe6dfaba279bbce9fb840cf0c2703cf1ff0",
+      "content": "child_authority = intersect(\n    parent_delegable_authority,\n    role_policy,\n    task_scope,\n    current_risk_policy\n) - explicitly_prohibited_capabilities\n"
+    },
+    {
+      "index": 68,
+      "start_line": 4825,
+      "language": "text",
+      "nonblank_lines": 6,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "0cef3d11f361e9e6ff71dcd7de90cd7995c278e8b95ff767ede8168eefb454fb",
+      "content": "[stable policy and static instructions]\n[stable tool schemas in canonical order]\n[versioned repository or product context]\n[durable task state]\n[volatile current observations]\n[current user/action input]\n"
+    },
+    {
+      "index": 69,
+      "start_line": 4922,
+      "language": "text",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "e1b5166570a3b090be6ef18a8838f15619135c8796dcc8c42d4ee02b67cd2a00",
+      "content": "stream model response\n  -> collect typed tool calls and call identifiers\n  -> resolve permissions and policy under the advertised context\n  -> schedule each tool according to its execution semantics\n  -> stream or buffer partial observations\n  -> normalise, truncate, replace or persist large results\n  -> emit one terminal result for every accepted tool call\n  -> run post-tool and stop hooks\n  -> account for background tasks and queued notifications\n  -> continue, interrupt, fail, or declare terminal completion\n"
+    },
+    {
+      "index": 70,
+      "start_line": 4965,
+      "language": "text",
+      "nonblank_lines": 15,
+      "authenticity_label": "Framework-neutral pseudocode - protocol sketch.",
+      "sha256": "c5a30c594262b4695b383f1c2de12f25a848765de951aedf7b2cbd7d80e24855",
+      "content": "client -> initialize(protocol_version, client_capabilities)\nserver -> initialized(server_capabilities, limits, schema_digest)\n\nclient -> thread.start(configuration, authority_profile_ref)\nserver -> thread.started(thread_id)\n\nclient -> turn.start(thread_id, input_items, idempotency_key)\nserver -> turn.started(turn_id)\nserver -> item.started(item_id, item_type)\nserver -> item.delta(item_id, payload_delta)\nserver -> approval.requested(action_hash, summary, expiry)\nclient -> approval.respond(action_hash, decision)\nserver -> item.completed(item_id, evidence_ref)\nserver -> turn.completed(turn_id, disposition)\n\nclient -> turn.interrupt(turn_id, reason)\nclient -> thread.resume(thread_id, after_event_id)\nserver -> events.replay(...)\n"
+    },
+    {
+      "index": 71,
+      "start_line": 5015,
+      "language": "text",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "ce4bfd6e0c97e75b08c2dd71634831a403e827bbde6dd8fea92a92e7e603b1eb",
+      "content": "Business task\n  └── execution thread or lineage\n       ├── turn\n       │    ├── input item\n       │    ├── model proposal item\n       │    ├── tool execution item\n       │    ├── mutation item\n       │    └── evidence item\n       └── turn\n"
+    },
+    {
+      "index": 72,
+      "start_line": 5062,
+      "language": "text",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "9cd0a886931c5987e5bf379097c0a3c97a1862980ca7e036bc6446f25c3f3558",
+      "content": "IDLE\n  -> PREPARING(trigger, phase, source_window)\n  -> HOOK_CHECK\n  -> SUMMARISING(implementation, attempt)\n  -> BUILDING_REPLACEMENT\n  -> VALIDATING_REPLACEMENT\n  -> COMMITTING_CHECKPOINT\n  -> COMPLETED\n\nAny non-committed state -> INTERRUPTED or FAILED\nCOMPLETED -> ordinary execution using replacement window\n"
+    },
+    {
+      "index": 73,
+      "start_line": 5144,
+      "language": "yaml",
+      "nonblank_lines": 30,
+      "authenticity_label": "Framework-neutral pseudocode - authority profile.",
+      "sha256": "90888e68e15ed551b7dc398215c8af5cd5523bf709e255c848eac1ded2ee927c",
+      "content": "profile_version: qa-agent-authority/v4\nidentity:\n  principal: qa-agent\n  tenant: test-tenant\nscope:\n  environments: [staging]\n  repositories: [project-a]\ncapabilities:\n  read: [browser.read, jira.read, api.read]\n  write: [jira.comment.draft]\nprohibited:\n  - production.write\n  - credential.export\n  - external_message.send\nlimits:\n  max_tool_calls: 100\n  max_parallel_children: 3\n  maximum_cost_gbp: 8.00\n  deadline_seconds: 1800\napproval:\n  required_for:\n    - irreversible_write\n    - external_message.send\n  ttl_seconds: 900\nsandbox:\n  network: allowlisted\n  writable_roots: [/workspace]\ndelegation:\n  may_delegate: [repository-explorer, evidence-verifier]\n  child_must_attenuate: true\n"
+    },
+    {
+      "index": 74,
+      "start_line": 5352,
+      "language": "text",
+      "nonblank_lines": 1,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "749bb95428f5674e5b7bf77284127787f03f1ab061403f046379020c6aa4b157",
+      "content": "@mention -> launch browser agent -> browse until it “looks right” -> comment\n"
+    },
+    {
+      "index": 75,
+      "start_line": 5374,
+      "language": "text",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "169786a588b0d18870038f4014b7c9d9ed8f6d1cb18508643292a0866091c7c1",
+      "content": "issue-tracker webhook or poller\n    -> signature and event validation\n    -> idempotent enqueue\n    -> task normaliser\n    -> environment reservation\n    -> acceptance-criteria compiler\n    -> browser/API execution loop\n    -> independent evidence validation\n    -> report generator\n    -> issue-tracker comment and artifact links\n"
+    },
+    {
+      "index": 76,
+      "start_line": 5394,
+      "language": "sql",
+      "nonblank_lines": 18,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "5bb1f1a48e9f3532f6c51d03c3dab7a43a7829de9efdc21ef4f6fdd0e255713b",
+      "content": "CREATE TABLE qa_task (\n  id                 uuid PRIMARY KEY,\n  source_event_key   text UNIQUE NOT NULL,\n  ticket_key         text NOT NULL,\n  ticket_revision    text NOT NULL,\n  environment        text NOT NULL,\n  state              text NOT NULL,\n  available_at       timestamptz NOT NULL,\n  lease_owner        text,\n  lease_expires_at   timestamptz,\n  attempt            integer NOT NULL DEFAULT 0,\n  max_attempts       integer NOT NULL,\n  payload_ref        text NOT NULL,\n  result_ref         text,\n  last_error_class   text,\n  created_at         timestamptz NOT NULL,\n  updated_at         timestamptz NOT NULL\n);\n"
+    },
+    {
+      "index": 77,
+      "start_line": 5422,
+      "language": "text",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "35f9e4e8952b2e9746c70f4ada6b928ef7ba907a14254639483d1c552d60ea77",
+      "content": "QUEUED\n  -> PREPARING\n  -> WAITING_FOR_ENVIRONMENT\n  -> AUTHENTICATING\n  -> EXECUTING\n  -> WAITING_FOR_CLARIFICATION\n  -> VERIFYING\n  -> REPORTING\n  -> SUCCEEDED | PARTIALLY_COMPLETED | FAILED | CANCELLED | EXPIRED\n"
+    },
+    {
+      "index": 78,
+      "start_line": 5443,
+      "language": "json",
+      "nonblank_lines": 16,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "35a0107de4022ef5e081a043c9f147fcf70f3fe426ff343b8da637f0ae076eae",
+      "content": "{\n  \"criterion_id\": \"AC-2\",\n  \"claim\": \"A workspace admin can export the filtered dataset as CSV\",\n  \"preconditions\": [\n    \"authenticated as workspace_admin\",\n    \"dataset fixture ds_42 exists\",\n    \"filter country=IN is applied\"\n  ],\n  \"action\": \"request CSV export\",\n  \"expected_observations\": [\n    {\"source\": \"ui\", \"predicate\": \"success notification appears\"},\n    {\"source\": \"api\", \"predicate\": \"export job reaches COMPLETE\"},\n    {\"source\": \"artifact\", \"predicate\": \"CSV contains only matching rows\"}\n  ],\n  \"destructive\": false\n}\n"
+    },
+    {
+      "index": 79,
+      "start_line": 5568,
+      "language": "json",
+      "nonblank_lines": 21,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "188ca27b8a04ec46ab78261bf2330f0446b8986c81fa54ef7125d01dd75fbf11",
+      "content": "{\n  \"ticket\": \"APP-1842\",\n  \"ticket_revision\": \"2026-07-28T08:15:00Z\",\n  \"build\": \"web-2026.07.28.3\",\n  \"environment\": \"qa-eu-2\",\n  \"summary\": \"2 passed, 1 failed, 1 ambiguous\",\n  \"criteria\": [\n    {\n      \"id\": \"AC-2\",\n      \"verdict\": \"failed\",\n      \"reproduction\": [\"...\"],\n      \"expected\": \"...\",\n      \"observed\": \"...\",\n      \"evidence_refs\": [\"artifact://...\", \"image://...\"],\n      \"confidence\": \"high\"\n    }\n  ],\n  \"questions\": [\"Should export preserve displayed column order?\"],\n  \"regression_candidates\": [\"api/export_filtered_dataset\"],\n  \"residual_risk\": [\"Safari not tested\"]\n}\n"
+    },
+    {
+      "index": 80,
+      "start_line": 5649,
+      "language": "text",
+      "nonblank_lines": 18,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "e8ac08de9f1c4f89e9c8426d95c18efa3aeedc21a5a3e4477170b523bd050540",
+      "content": "Jira webhook\n    | signed event\n    v\nAdmission API ----reject----> audit log\n    | create task + outbox row\n    v\nPostgreSQL task queue <---- lease/heartbeat ---- Worker\n    |                                      |\n    |                                      +--> browser sandbox\n    |                                      +--> read-only product API\n    |                                      +--> evidence store\n    |                                      +--> model gateway\n    v\nVerifier service ---- criterion results ----> task ledger\n    |\n    +--> approval service (when required)\n    |\n    +--> Jira reporter (idempotent comment key)\n"
+    },
+    {
+      "index": 81,
+      "start_line": 5677,
+      "language": "sql",
+      "nonblank_lines": 38,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "0c83aad01c9dbfec9c3fdec5171f7a85dc0c78b0bfa48cbf9d5f95ca680066a0",
+      "content": "CREATE TABLE qa_task (\n    task_id              uuid PRIMARY KEY,\n    source_ticket_id     text NOT NULL,\n    source_event_id      text NOT NULL UNIQUE,\n    tenant_id            text NOT NULL,\n    state                text NOT NULL,\n    risk_class           text NOT NULL,\n    workflow_version     text NOT NULL,\n    prompt_bundle_version text NOT NULL,\n    tool_catalog_version text NOT NULL,\n    lease_owner          text,\n    lease_expires_at     timestamptz,\n    fencing_token        bigint NOT NULL DEFAULT 0,\n    attempt_count        integer NOT NULL DEFAULT 0,\n    proposal_hash        text,\n    created_at           timestamptz NOT NULL,\n    updated_at           timestamptz NOT NULL,\n    CHECK (state IN (\n      'QUEUED','RUNNING','WAITING_FOR_INPUT','WAITING_FOR_APPROVAL',\n      'RETRY_SCHEDULED','VERIFYING','SUCCEEDED','PARTIAL','FAILED',\n      'CANCELLED','EXPIRED','QUARANTINED'))\n);\n\nCREATE TABLE qa_event (\n    event_id         bigserial PRIMARY KEY,\n    task_id          uuid NOT NULL REFERENCES qa_task(task_id),\n    event_type       text NOT NULL,\n    event_version    integer NOT NULL,\n    payload          jsonb NOT NULL,\n    created_at       timestamptz NOT NULL DEFAULT now()\n);\n\nCREATE TABLE qa_outbox (\n    outbox_id        bigserial PRIMARY KEY,\n    task_id          uuid NOT NULL REFERENCES qa_task(task_id),\n    destination      text NOT NULL,\n    idempotency_key  text NOT NULL UNIQUE,\n    payload          jsonb NOT NULL,\n    delivered_at     timestamptz\n);\n"
+    },
+    {
+      "index": 82,
+      "start_line": 5727,
+      "language": "json",
+      "nonblank_lines": 31,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "bcd7fb4ed7207de1736d7a0cfab74089d70b8c3895076a59e76fd06804be17e5",
+      "content": "{\n  \"$id\": \"QaTaskContract.v1\",\n  \"type\": \"object\",\n  \"required\": [\"task_id\", \"ticket\", \"risk_class\", \"criteria\", \"authority\"],\n  \"properties\": {\n    \"task_id\": {\"type\": \"string\", \"format\": \"uuid\"},\n    \"ticket\": {\n      \"type\": \"object\",\n      \"required\": [\"id\", \"revision\", \"summary\"],\n      \"properties\": {\n        \"id\": {\"type\": \"string\"},\n        \"revision\": {\"type\": \"string\"},\n        \"summary\": {\"type\": \"string\"}\n      }\n    },\n    \"risk_class\": {\"enum\": [\"low\", \"medium\", \"high\"]},\n    \"criteria\": {\n      \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\": {\"$ref\": \"AcceptanceCriterion.v1\"}\n    },\n    \"authority\": {\n      \"type\": \"object\",\n      \"required\": [\"allowed_environments\", \"write_actions\"],\n      \"properties\": {\n        \"allowed_environments\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n        \"write_actions\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}\n      }\n    }\n  }\n}\n"
+    },
+    {
+      "index": 83,
+      "start_line": 5763,
+      "language": "json",
+      "nonblank_lines": 15,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "b2ee3febd3e51b3c34f2224e643a7aae187bd4c36e723e77d1c6fadf7231041b",
+      "content": "{\n  \"$id\": \"AcceptanceCriterion.v1\",\n  \"type\": \"object\",\n  \"required\": [\"criterion_id\", \"statement\", \"verification_mode\", \"mandatory\"],\n  \"properties\": {\n    \"criterion_id\": {\"type\": \"string\"},\n    \"statement\": {\"type\": \"string\"},\n    \"verification_mode\": {\n      \"enum\": [\"api\", \"database_fixture\", \"dom\", \"visual\", \"human\"]\n    },\n    \"mandatory\": {\"type\": \"boolean\"},\n    \"expected\": {},\n    \"forbidden_side_effects\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}\n  }\n}\n"
+    },
+    {
+      "index": 84,
+      "start_line": 5786,
+      "language": "json",
+      "nonblank_lines": 14,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "fa19d492eb6c302a4bce36f057215fdff15db9248e39bca4f17cf450d75100f8",
+      "content": "{\n  \"$id\": \"EvidenceRecord.v1\",\n  \"type\": \"object\",\n  \"required\": [\"evidence_id\", \"type\", \"uri\", \"sha256\", \"captured_at\", \"provenance\"],\n  \"properties\": {\n    \"evidence_id\": {\"type\": \"string\"},\n    \"type\": {\"enum\": [\"screenshot\", \"dom\", \"http\", \"api\", \"log\", \"video_clip\"]},\n    \"uri\": {\"type\": \"string\"},\n    \"sha256\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"},\n    \"captured_at\": {\"type\": \"string\", \"format\": \"date-time\"},\n    \"provenance\": {\"type\": \"object\"},\n    \"redactions\": {\"type\": \"array\"}\n  }\n}\n"
+    },
+    {
+      "index": 85,
+      "start_line": 5805,
+      "language": "json",
+      "nonblank_lines": 15,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "eb23affba6699c5768f3a90279edf2ab89511f6daa886fd069bf0f65b444fe5f",
+      "content": "{\n  \"$id\": \"Finding.v1\",\n  \"type\": \"object\",\n  \"required\": [\"finding_id\", \"criterion_id\", \"status\", \"evidence_ids\", \"summary\"],\n  \"properties\": {\n    \"finding_id\": {\"type\": \"string\"},\n    \"criterion_id\": {\"type\": \"string\"},\n    \"status\": {\"enum\": [\"pass\", \"fail\", \"blocked\", \"ambiguous\"]},\n    \"severity\": {\"enum\": [\"none\", \"low\", \"medium\", \"high\", \"critical\"]},\n    \"evidence_ids\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n    \"summary\": {\"type\": \"string\"},\n    \"reproduction_steps\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n    \"unresolved_question\": {\"type\": [\"string\", \"null\"]}\n  }\n}\n"
+    },
+    {
+      "index": 86,
+      "start_line": 5844,
+      "language": "python",
+      "nonblank_lines": 28,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "d98215cfb12573237e8cb2dba8ccf44b1c6d06151a0ceead2a9b3b14f2d56749",
+      "content": "def process(task_id: UUID, worker_id: str) -> None:\n    lease = queue.acquire(task_id, worker_id, ttl_seconds=90)\n    task = ledger.load(task_id)\n    contract = compile_acceptance_criteria(task)\n    sandbox = browser_pool.create(task.tenant_id, network_policy=task.network_policy)\n\n    try:\n        while task.state in {\"RUNNING\", \"VERIFYING\"}:\n            queue.heartbeat(task_id, lease.token)\n            context = context_builder.for_stage(task, contract)\n            proposal = ActionProposal.model_validate(agent.next_action(context))\n            decision = policy.evaluate(task, proposal)\n\n            if decision.requires_approval:\n                ledger.suspend_for_approval(task, proposal.hash, lease.token)\n                return\n\n            outcome = tool_gateway.execute(\n                proposal,\n                credential=decision.scoped_credential,\n                idempotency_key=f\"{task_id}:{proposal.action_id}\",\n            )\n            evidence = evidence_store.persist(outcome.evidence)\n            task = ledger.append_outcome(task, outcome, evidence, lease.token)\n            task = verifier.advance(task, contract, lease.token)\n    except TransientError as exc:\n        queue.schedule_retry(task, classify_backoff(exc), lease.token)\n    except UnknownError as exc:\n        ledger.quarantine(task, sanitise_exception(exc), lease.token)\n    finally:\n        browser_pool.destroy(sandbox)\n"
+    },
+    {
+      "index": 87,
+      "start_line": 5972,
+      "language": "text",
+      "nonblank_lines": 11,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "6167ea6e1d83bed45b3d0ee84d848edeb5fe481f5fc920c7fc62918d7f9b2c0f",
+      "content": "task contract\n    -> application and account allowlist\n    -> environment snapshot\n    -> semantic state extraction\n    -> bounded action proposal\n    -> policy and freshness check\n    -> execute one action\n    -> observe changed state\n    -> milestone verification\n    -> approval before consequential commit\n    -> final authoritative verification\n"
+    },
+    {
+      "index": 88,
+      "start_line": 6003,
+      "language": "json",
+      "nonblank_lines": 11,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "fa7658db7ead41f98d3e60cb34b8680cb81ac4754890611b9ba78377db825cd5",
+      "content": "{\n  \"observation_id\": \"obs_81\",\n  \"application\": \"vendor-portal\",\n  \"url\": \"https://approved.example/quotes/new\",\n  \"identity\": \"purchasing-test@example.org\",\n  \"elements\": [\n    {\"handle\": \"el_12\", \"role\": \"button\", \"name\": \"Review request\"}\n  ],\n  \"screenshot_ref\": \"image://obs_81\",\n  \"captured_at\": \"...\"\n}\n"
+    },
+    {
+      "index": 89,
+      "start_line": 6055,
+      "language": "text",
+      "nonblank_lines": 7,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "8bb8eeb8df8259f5a59b01d244c29927214361298295d56092d28f24d9deef36",
+      "content": "Action: submit purchase request\nVendor: Example Systems Ltd\nAmount: GBP 18,400\nCost centre: ENG-PLATFORM\nAttachments: quote_112.pdf, security_review.pdf\nExternal recipients: procurement@example.org\nIrreversible effect: creates a formal approval workflow\n"
+    },
+    {
+      "index": 90,
+      "start_line": 6142,
+      "language": "text",
+      "nonblank_lines": 4,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "2629329b391b1400f954254a34894c66b68b3b7e15bcb878360ca55761ef5512",
+      "content": "natural-language question\n    -> model receives warehouse credentials\n    -> model writes arbitrary SQL\n    -> model narrates result\n"
+    },
+    {
+      "index": 91,
+      "start_line": 6166,
+      "language": "text",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "75f20bda4de80444a335d9bcab53d03da9673ad7fd4e60cd8d5170985aa3fc84",
+      "content": "question intake\n    -> metric and entity resolution\n    -> data-authority and sensitivity check\n    -> read-only analysis workspace\n    -> plan compiled to approved query graph\n    -> cost estimation and policy validation\n    -> execute bounded queries\n    -> deterministic validation and reconciliation\n    -> model interpretation\n    -> evidence-backed report\n"
+    },
+    {
+      "index": 92,
+      "start_line": 6188,
+      "language": "yaml",
+      "nonblank_lines": 13,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "b8ba96b974b2853cea05cb47d124500e5908dff2adf71afa434e63577f08e62f",
+      "content": "metric: monthly_recurring_revenue\nowner: finance_analytics\ncurrency: GBP\nbase_grain: subscription_month\nexpression: sum(recurring_amount_gbp)\nexclusions:\n  - trial subscriptions\n  - one-time services\nvalid_dimensions:\n  - region\n  - customer_segment\n  - product_family\nfreshness_slo: 24h\n"
+    },
+    {
+      "index": 93,
+      "start_line": 6227,
+      "language": "json",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "7a813a5b7b95d10236ad257eac6ab0e463e324cdb2b06e189e5a7c93e11d9311",
+      "content": "{\n  \"question\": \"drivers of EMEA mid-market MRR decline\",\n  \"baseline_period\": \"2026-05\",\n  \"comparison_period\": \"2026-06\",\n  \"metric\": \"monthly_recurring_revenue\",\n  \"cuts\": [\"product_family\", \"change_type\", \"country\"],\n  \"checks\": [\"finance_total_reconciliation\", \"join_cardinality\"],\n  \"hypotheses\": [\"churn\", \"contraction\", \"FX\", \"segment reclassification\"]\n}\n"
+    },
+    {
+      "index": 94,
+      "start_line": 6311,
+      "language": "json",
+      "nonblank_lines": 15,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "47e4ad991d58a372bfaae9edef50b540aa51861c505a87e4f26cb6078a7663f2",
+      "content": "{\n  \"analysis_id\": \"ana_01...\",\n  \"question_version\": 2,\n  \"metric_versions\": {\"monthly_recurring_revenue\": \"7\"},\n  \"snapshots\": {\n    \"subscription_monthly\": \"2026-07-27T02:00:00Z\"\n  },\n  \"queries\": [\n    {\"hash\": \"sha256:...\", \"artifact_ref\": \"sql://...\", \"result_hash\": \"sha256:...\"}\n  ],\n  \"checks\": [\n    {\"name\": \"finance_total_reconciliation\", \"status\": \"passed\", \"delta\": 0.0003}\n  ],\n  \"limitations\": [\"late-arriving June adjustments not included\"]\n}\n"
+    },
+    {
+      "index": 95,
+      "start_line": 6399,
+      "language": "json",
+      "nonblank_lines": 14,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "50efe4effc7632f453f363e064f6154bd6c40a9dc668f013d37e23227f828427",
+      "content": "{\n  \"research_id\": \"res_01...\",\n  \"question_version\": 3,\n  \"freshness_cutoff\": \"2026-07-28\",\n  \"subquestions\": [\n    {\"id\": \"Q1\", \"status\": \"sufficient\"},\n    {\"id\": \"Q2\", \"status\": \"open\"}\n  ],\n  \"sources\": 47,\n  \"claims\": 26,\n  \"contradictions\": 4,\n  \"search_budget_remaining\": 18,\n  \"current_gap\": \"recovery-channel takeover rates\"\n}\n"
+    },
+    {
+      "index": 96,
+      "start_line": 6442,
+      "language": "json",
+      "nonblank_lines": 9,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "8063f4224af70cd561de9a2271833a42f1d7aef976e25005af8bf93cb28991fa",
+      "content": "{\n  \"claim_id\": \"C17\",\n  \"text\": \"passkeys reduce credential-phishing susceptibility compared with reusable passwords\",\n  \"evidence_label\": \"established\",\n  \"supports\": [\"S4\", \"S8\", \"S11\"],\n  \"qualifiers\": [\"does not remove account-recovery risk\"],\n  \"contradicts\": [],\n  \"last_reviewed\": \"2026-07-28\"\n}\n"
+    },
+    {
+      "index": 97,
+      "start_line": 6525,
+      "language": "text",
+      "nonblank_lines": 4,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "18e011d3a9b5030cc66f88a6d01b05961e5b7d54b620a1c7519b7efd00e2f62f",
+      "content": "continue research when:\n  probability(new evidence changes decision)\n  x consequence of wrong decision\n  > expected retrieval, analysis, and delay cost\n"
+    },
+    {
+      "index": 98,
+      "start_line": 6618,
+      "language": "text",
+      "nonblank_lines": 11,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "bc49a26245c16ecbe964ff894e24d4467f2f061c3b7db624e3944f36ea60931a",
+      "content": "request intake\n    -> malware/content isolation\n    -> deterministic field extraction and validation\n    -> supplier identity resolution\n    -> independent out-of-band verification\n    -> anomaly and policy checks\n    -> model-assisted case summary\n    -> human dual approval with canonical preview\n    -> transactional change or payment instruction\n    -> authoritative read-back\n    -> reconciliation and audit record\n"
+    },
+    {
+      "index": 99,
+      "start_line": 6654,
+      "language": "json",
+      "nonblank_lines": 19,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "fdb4e432b920937d67825dbdcf49078c99de2fbc76d5ff6c9ebc4922bfc3ca2f",
+      "content": "{\n  \"proposal_id\": \"prop_01...\",\n  \"supplier_id\": \"SUP-3182\",\n  \"legal_entity\": \"Example UK Ltd\",\n  \"change\": {\n    \"field\": \"bank_account\",\n    \"old_fingerprint\": \"GB** **** 1204\",\n    \"new_fingerprint\": \"GB** **** 7781\"\n  },\n  \"verified_via\": [\n    \"known-directory phone callback\",\n    \"supplier-portal authenticated confirmation\"\n  ],\n  \"invoices\": [\"INV-4117\", \"INV-4119\"],\n  \"total\": {\"currency\": \"GBP\", \"amount\": \"18400.00\"},\n  \"risk_flags\": [],\n  \"evidence_hashes\": [\"sha256:...\"],\n  \"expires_at\": \"2026-07-29T12:00:00Z\"\n}\n"
+    },
+    {
+      "index": 100,
+      "start_line": 7059,
+      "language": "json",
+      "nonblank_lines": 12,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "78c9b0fa0681501de3db2d7cd8721d77a22baa4ab7ac0932ed628371d09bef39",
+      "content": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\"resource_id\", \"expected_version\", \"request_id\"],\n  \"properties\": {\n    \"resource_id\": {\"type\": \"string\", \"pattern\": \"^[A-Z]+-[0-9]+$\"},\n    \"expected_version\": {\"type\": \"integer\", \"minimum\": 1},\n    \"request_id\": {\"type\": \"string\", \"minLength\": 16},\n    \"reason\": {\"type\": \"string\", \"maxLength\": 500}\n  }\n}\n"
+    },
+    {
+      "index": 101,
+      "start_line": 7121,
+      "language": "json",
+      "nonblank_lines": 8,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "70a2284d2b222717106dfe1641b79074e02880e2a1d1f4c9f85fbbf85806a9c5",
+      "content": "{\n  \"status\": \"applied\",\n  \"resource_id\": \"CASE-42\",\n  \"previous_version\": 7,\n  \"new_version\": 8,\n  \"external_operation_id\": \"op_9182\",\n  \"verification_hint\": {\"tool\": \"case.get\", \"expected_version\": 8}\n}\n"
+    },
+    {
+      "index": 102,
+      "start_line": 7268,
+      "language": "json",
+      "nonblank_lines": 8,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "8ef7a7b849ed5a1c852f49cac5d79232eeeb583b4ba6d8c480b3ac911e784afd",
+      "content": "{\n  \"guardrail\": \"external-recipient-policy-v4\",\n  \"decision\": \"requires_approval\",\n  \"reason_code\": \"NEW_EXTERNAL_DOMAIN\",\n  \"evidence\": [\"recipient:partner.example\"],\n  \"policy_version\": \"2026-07-15\",\n  \"task_id\": \"task_01...\"\n}\n"
+    },
+    {
+      "index": 103,
+      "start_line": 7389,
+      "language": "text",
+      "nonblank_lines": 8,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "675399b983c32e86ccd6dab4dbbcf07305adb141993783068d0aa6c9436e017c",
+      "content": "obtain unauthorised payment\n  OR\n  + forge or replay approval\n  + change proposal after approval\n  + exploit over-privileged execution credential\n  + inject instructions that bypass policy\n  + duplicate a legitimate instruction\n  + compromise tool or external system\n"
+    },
+    {
+      "index": 104,
+      "start_line": 7490,
+      "language": "json",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "dbffe357379c5df2bfdf5a6f52c4eb9b162843ec01dfd0959885a073201d3837",
+      "content": "{\n  \"task_version\": \"qa-1842-v3\",\n  \"system_version\": \"agent-2026.07.28\",\n  \"model\": \"provider/model-version\",\n  \"prompt_version\": \"p18\",\n  \"tool_versions\": {\"browser\": \"6\", \"ticket\": \"3\"},\n  \"seed_or_nonce\": \"...\",\n  \"environment_snapshot\": \"env-42\",\n  \"budget\": {\"wall_seconds\": 900, \"model_calls\": 25}\n}\n"
+    },
+    {
+      "index": 105,
+      "start_line": 7586,
+      "language": "text",
+      "nonblank_lines": 7,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "d2c9e2e00b4b3cc429bd47e7c9d18d4c80a77f0b3e0b9ae7f6abc891f28d7153",
+      "content": "release only when:\n- high-risk unsafe-action count = 0 across the red-team suite;\n- verified completion improves by >= 5 percentage points;\n- lower confidence bound is above current production baseline;\n- cost per verified success increases by <= 10%;\n- recovery and rollback drills pass;\n- no critical grader defect is open.\n"
+    },
+    {
+      "index": 106,
+      "start_line": 7617,
+      "language": "json",
+      "nonblank_lines": 48,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "e9866fb1636daad4f96536fcd87602d323f992ac59f22ebb7a59c250e0235085",
+      "content": "{\n  \"trial_id\": \"trial_01...\",\n  \"evaluation_id\": \"eval_2026_07_qa\",\n  \"task\": {\n    \"id\": \"task_1842\",\n    \"version\": \"3\",\n    \"class\": \"ui_ticket_verification\",\n    \"risk\": \"medium\",\n    \"source\": \"production_derived\"\n  },\n  \"system\": {\n    \"application_version\": \"agent-2026.07.28\",\n    \"workflow_version\": \"qa-wf-12\",\n    \"prompt_versions\": [\"qa-system-18\", \"qa-report-7\"],\n    \"policy_version\": \"policy-2026-07-15\",\n    \"model_routes\": [\"visual-standard\", \"reasoning-escalation\"],\n    \"tool_versions\": {\"browser\": \"6\", \"ticket\": \"3\"}\n  },\n  \"environment\": {\n    \"fixture_id\": \"env-42\",\n    \"snapshot\": \"sha256:...\",\n    \"region\": \"eu-west\",\n    \"started_at\": \"...\"\n  },\n  \"budget\": {\n    \"wall_seconds\": 900,\n    \"model_calls\": 25,\n    \"tool_calls\": 100,\n    \"cost_limit\": \"12.00 GBP\"\n  },\n  \"outcome\": {\n    \"status\": \"partially_completed\",\n    \"verified\": true,\n    \"safe\": true,\n    \"score\": 0.75,\n    \"failure_labels\": [\"criterion_ambiguous\"]\n  },\n  \"metrics\": {\n    \"latency_ms\": 416000,\n    \"model_cost\": \"2.74 GBP\",\n    \"tool_cost\": \"0.41 GBP\",\n    \"human_review_seconds\": 83\n  },\n  \"trace_root\": \"trace_01...\",\n  \"evidence_bundle\": \"artifact://...\",\n  \"grader_results\": [\"grade://...\"],\n  \"invalid_trial\": false\n}\n"
+    },
+    {
+      "index": 107,
+      "start_line": 7675,
+      "language": "json",
+      "nonblank_lines": 25,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "edd85334bf0bc07aca23872db278651950f43d42c9faebce76ce95b97c9dd053",
+      "content": "{\n  \"trace_id\": \"trace_01...\",\n  \"span_id\": \"span_17\",\n  \"parent_span_id\": \"span_12\",\n  \"kind\": \"tool\",\n  \"name\": \"browser.click\",\n  \"started_at\": \"...\",\n  \"ended_at\": \"...\",\n  \"task_id\": \"task_1842\",\n  \"workflow_id\": \"wf_818\",\n  \"run_id\": \"run_4\",\n  \"attempt\": 1,\n  \"observation_id\": \"obs_81\",\n  \"input_ref\": \"object://redacted-input\",\n  \"canonical_input_hash\": \"sha256:...\",\n  \"identity_scope\": \"qa-test/read-write-fixture\",\n  \"policy_decision\": \"allow\",\n  \"status\": \"ok\",\n  \"output_ref\": \"object://redacted-output\",\n  \"attributes\": {\n    \"tool_version\": \"6\",\n    \"idempotency_key\": null,\n    \"external_operation_id\": null\n  }\n}\n"
+    },
+    {
+      "index": 108,
+      "start_line": 7725,
+      "language": "json",
+      "nonblank_lines": 10,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "1fae954926740911aa45a6260f9611121730a8b139d25a80a031274eb5d2ce53",
+      "content": "{\n  \"event_type\": \"workflow.transition\",\n  \"from\": \"EXECUTING\",\n  \"to\": \"WAITING_FOR_APPROVAL\",\n  \"reason_code\": \"EXTERNAL_SUBMISSION\",\n  \"condition_evidence\": [\"proposal://prop_44\"],\n  \"workflow_version\": \"12\",\n  \"sequence\": 91,\n  \"fencing_token\": 8\n}\n"
+    },
+    {
+      "index": 109,
+      "start_line": 7757,
+      "language": "json",
+      "nonblank_lines": 12,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "311cc50177405365ff80e1f98e82236c0f5969b973d3ce6a7d9778710f571df2",
+      "content": "{\n  \"evidence_id\": \"ev_92\",\n  \"type\": \"authoritative_readback\",\n  \"source\": \"crm.case.get\",\n  \"source_version\": \"3\",\n  \"captured_at\": \"...\",\n  \"content_hash\": \"sha256:...\",\n  \"artifact_ref\": \"artifact://...\",\n  \"supports\": [\"criterion-2\"],\n  \"sensitivity\": \"confidential\",\n  \"retention\": \"90d\"\n}\n"
+    },
+    {
+      "index": 110,
+      "start_line": 8189,
+      "language": "text",
+      "nonblank_lines": 8,
+      "authenticity_label": "Framework-neutral pseudocode.",
+      "sha256": "c84ac680741a6f88ca7bbbc8c2677f1c15fa52e90577f56b9d62beb9f8faea6f",
+      "content": "Decision: [code / model / hybrid]\nSemantic ambiguity: [description]\nDeterministic controls: [preconditions, schema, policy]\nAuthority: [scope]\nVerification: [postcondition]\nFailure handling: [abstain, retry, escalate, compensate]\nEvaluation evidence: [link]\nOwner and review date: [owner/date]\n"
+    }
+  ]
+}

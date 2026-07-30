@@ -1,0 +1,129 @@
+{
+  "schema_version": "production-agent-engineering/environment-attestation/v2",
+  "edition": "1.7.0",
+  "platform": "Linux-6.12.13-x86_64-with-glibc2.41",
+  "python": "3.13.5 (main, May  5 2026, 21:05:52) [GCC 14.2.0]",
+  "packages": [
+    {
+      "name": "numpy",
+      "version": "2.3.5",
+      "requires": [],
+      "installed_tree_sha256": "3f711eda325d31acc1f33085c8a530133477c693bf018e816e9e3671515d8422",
+      "file_count": 1313
+    },
+    {
+      "name": "packaging",
+      "version": "25.0",
+      "requires": [],
+      "installed_tree_sha256": "e14cc3af8614797345b797c0a835b27f5ebddb45ddbd13e6bd9a27ed41121df2",
+      "file_count": 41
+    },
+    {
+      "name": "pandas",
+      "version": "2.2.3",
+      "requires": [
+        "numpy>=1.26.0; python_version >= \"3.12\"",
+        "python-dateutil>=2.8.2",
+        "pytz>=2020.1",
+        "tzdata>=2022.7"
+      ],
+      "installed_tree_sha256": "755bccd6de9ef9a569e8cf26a1601fc36890ea3de5b9dddb7cfc012d1fe6fdf6",
+      "file_count": 2922
+    },
+    {
+      "name": "PyMuPDF",
+      "version": "1.26.7",
+      "requires": [],
+      "installed_tree_sha256": "df4a4b830827482db41644837a1a4eaa051e95e05f3c535cc33f97e1e9ce6995",
+      "file_count": 128
+    },
+    {
+      "name": "pypdf",
+      "version": "5.9.0",
+      "requires": [],
+      "installed_tree_sha256": "c489019cc9e3cbd7d6d93aa0ae4066a427fc47759f671c03691d7e4577b4560b",
+      "file_count": 117
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "requires": [
+        "six>=1.5"
+      ],
+      "installed_tree_sha256": "cea408e8e97b68d7852d175860b7cda1449b74b2e18de6fe0c9abbe99b09a579",
+      "file_count": 45
+    },
+    {
+      "name": "pytz",
+      "version": "2026.2",
+      "requires": [],
+      "installed_tree_sha256": "04002047d1e3f8335124a5e7e78f279dc69d38a275f09abf7cc61c9b95257314",
+      "file_count": 624
+    },
+    {
+      "name": "scipy",
+      "version": "1.17.0",
+      "requires": [
+        "numpy<2.7,>=1.26.4"
+      ],
+      "installed_tree_sha256": "5032f68cc923c2f2c03c0e3917c7a79bfcf06b55a0f6ce9bc72216f15cabcd85",
+      "file_count": 2400
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "requires": [],
+      "installed_tree_sha256": "837cb0e32a4a911ec9e8c1d90f3e89ebfd695f99492235da44cc4a88d491a681",
+      "file_count": 9
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.2",
+      "requires": [],
+      "installed_tree_sha256": "629237b7fce84cb1bdae94b3569dc9408feff335e0f62cbddc59045f1a1131da",
+      "file_count": 657
+    }
+  ],
+  "binaries": {
+    "python": {
+      "path": "/opt/pyvenv/bin/python",
+      "sha256": "4703a3d15898c0b5d81c3f939e93bdd8ca6116342093fb160ab1e01860dd7d8b",
+      "version_lines": [
+        "Python 3.13.5"
+      ]
+    },
+    "pandoc": {
+      "path": "/usr/bin/pandoc",
+      "sha256": "0336f5db0c5db91d3b7e29e3adc226bebd76d074bf28a907e50fc148bded3e8b",
+      "version_lines": [
+        "pandoc 3.1.11.1",
+        "Features: -server +lua"
+      ]
+    },
+    "xelatex": {
+      "path": "/usr/bin/xelatex",
+      "sha256": "f55d68533cce6f5d55d0e9c0158f8a2acc804d58025f0066fc774b7edb535b01",
+      "version_lines": [
+        "XeTeX 3.141592653-2.6-0.999996 (TeX Live 2025/dev/Debian)",
+        "kpathsea version 6.4.0/dev"
+      ]
+    },
+    "pdftotext": {
+      "path": "/usr/bin/pdftotext",
+      "sha256": "adaa25b3c79ecedfd281187e95d60f28b948aba837b88b3b42f30e850d0aad41",
+      "version_lines": [
+        "pdftotext version 25.06.0",
+        "Copyright 2005-2025 The Poppler Developers - http://poppler.freedesktop.org"
+      ]
+    },
+    "gs": {
+      "path": "/usr/bin/gs",
+      "sha256": "791baf36ffa6dc66578c3b0feeb9b9d7ebeab5ef52624b7461550f02341b90ed",
+      "version_lines": [
+        "10.05.1"
+      ]
+    }
+  },
+  "reconstructive_lock": false,
+  "note": "Attests the observed build environment; it is not a hash-locked resolver, wheelhouse, OCI image, or reconstructive dependency lock."
+}

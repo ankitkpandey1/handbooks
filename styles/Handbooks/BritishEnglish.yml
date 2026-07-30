@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# The books declare `lang: en-GB`, so the spelling should match. This is drift control, not
+# pedantry: mixed -ise/-ize across a 180-page document is the sort of thing a reader notices and
+# quietly downgrades the whole book for.
+#
+# Excluded on purpose:
+#   * artifact/artefact — "artifact attestations" and "actions/upload-artifact" are proper
+#     nouns from GitHub, so a blanket swap would corrupt correct usage. Left to the author.
+#   * license/licence — "license" is the correct en-GB verb ("licensed under"), and only the
+#     noun takes -ce. A substitution rule cannot tell them apart.
+#   * program/programme — "program" is correct en-GB for software.
+extends: substitution
+message: "Use en-GB '%s' rather than '%s' — the manuscripts declare lang: en-GB."
+level: warning
+ignorecase: true
+swap:
+  behavior:        behaviour
+  behaviors:       behaviours
+  behavioral:      behavioural
+  color:           colour
+  colors:          colours
+  favor:           favour
+  favors:          favours
+  labor:           labour
+  honor:           honour
+  organize:        organise
+  organized:       organised
+  organizing:      organising
+  organization:    organisation
+  organizations:   organisations
+  initialize:      initialise
+  initialized:     initialised
+  initializing:    initialising
+  initialization:  initialisation
+  serialize:       serialise
+  serialized:      serialised
+  serialization:   serialisation
+  normalize:       normalise
+  normalized:      normalised
+  normalization:   normalisation
+  optimize:        optimise
+  optimized:       optimised
+  optimizing:      optimising
+  optimization:    optimisation
+  minimize:        minimise
+  maximize:        maximise
+  summarize:       summarise
+  summarized:      summarised
+  prioritize:      prioritise
+  prioritized:     prioritised
+  parallelize:     parallelise
+  parallelized:    parallelised
+  synchronize:     synchronise
+  synchronized:    synchronised
+  authorize:       authorise
+  authorized:      authorised
+  authorization:   authorisation
+  recognize:       recognise
+  recognized:      recognised
+  analyze:         analyse
+  analyzed:        analysed
+  analyzing:       analysing
+  catalog:         catalogue
+  catalogs:        catalogues
+  defense:         defence
+  offense:         offence
+  fulfill:         fulfil
+  fulfilled:       fulfilled
+  center:          centre
+  centered:        centred
+  modeling:        modelling
+  modeled:         modelled
+  labeling:        labelling
+  labeled:         labelled
+  canceled:        cancelled
+  traveled:        travelled

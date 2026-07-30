@@ -1,0 +1,26 @@
+# Technical Names and Technical Verbs, in the ASD-STE100 sense: domain vocabulary that is
+# exempt from general prose rules. Add to this rather than weakening a rule.
+[Aa]gentic
+[Hh]arness(es)?
+[Ii]dempotenc[ey]
+[Ll]ineari[sz]ed?
+[Pp]andoc
+XeLaTeX
+Sigstore
+SLSA
+in-toto
+Zenodo
+[Aa]ttestation
+provenance
+[Tt]elemetry
+[Oo]bservability
+[Rr]unbook
+[Ss]ubagent
+[Tt]ool-use
+[Mm]ulti-agent
+LLM
+LLMs
+MCP
+SDK
+SDKs
+CLI

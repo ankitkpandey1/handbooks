@@ -1,0 +1,244 @@
+{
+  "schema_version": "production-agent-engineering/source-contract-receipt/v2",
+  "edition": "1.7.0",
+  "audit_timestamp": "2026-07-29T19:30:00+05:30",
+  "record_count": 23,
+  "all_fetched": true,
+  "all_git_blob_sha1_verified": true,
+  "all_content_sha256_verified": false,
+  "records": [
+    {
+      "repository": "anthropics/claude-agent-sdk-python",
+      "commit": "f8b9ec923982082a02c485924e0f60367949c3a1",
+      "path": "src/claude_agent_sdk/types.py",
+      "expected_blob_sha1": "c5fb86893232385f1ddf4ee0a5a24854176aa364",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "anthropics/claude-agent-sdk-python",
+      "commit": "f8b9ec923982082a02c485924e0f60367949c3a1",
+      "path": "CHANGELOG.md",
+      "expected_blob_sha1": "ad076c63a3b77a55d74b138c7130415c5afd774b",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "anthropics/claude-agent-sdk-python",
+      "commit": "f8b9ec923982082a02c485924e0f60367949c3a1",
+      "path": "src/claude_agent_sdk/__init__.py",
+      "expected_blob_sha1": "50d5b9fe6be8edb06fce77f43da12a94c507197d",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "anthropics/claude-agent-sdk-python",
+      "commit": "f8b9ec923982082a02c485924e0f60367949c3a1",
+      "path": "src/claude_agent_sdk/client.py",
+      "expected_blob_sha1": "03705f0853b48d500fc40a6db8c2f888afe071d5",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "anthropics/claude-agent-sdk-python",
+      "commit": "f8b9ec923982082a02c485924e0f60367949c3a1",
+      "path": "src/claude_agent_sdk/_internal/client.py",
+      "expected_blob_sha1": "7b0a593874f3af50ba369f72bef814cedf6d7d29",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "anthropics/claude-agent-sdk-python",
+      "commit": "f8b9ec923982082a02c485924e0f60367949c3a1",
+      "path": "src/claude_agent_sdk/_internal/message_parser.py",
+      "expected_blob_sha1": "e42e479c6eb19e5f11e4ba8eaca44a5805cde2b3",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "google/adk-python",
+      "commit": "6bab08fc803d26853417c4d6e71704b1a72e035e",
+      "path": "src/google/adk/version.py",
+      "expected_blob_sha1": "41f3d65ff06acdc29bf1ed6b24f97f4ba72d8a35",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "google/adk-python",
+      "commit": "6bab08fc803d26853417c4d6e71704b1a72e035e",
+      "path": "src/google/adk/workflow/__init__.py",
+      "expected_blob_sha1": "c1062dc043091a5c019cfe2db001840cffde84b4",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "google/adk-python",
+      "commit": "6bab08fc803d26853417c4d6e71704b1a72e035e",
+      "path": "src/google/adk/workflow/_graph.py",
+      "expected_blob_sha1": "56c5459012baefe75110e2b9ef66134a564320c7",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "google/adk-python",
+      "commit": "6bab08fc803d26853417c4d6e71704b1a72e035e",
+      "path": "src/google/adk/workflow/_workflow.py",
+      "expected_blob_sha1": "d0fc585f77a8f98b95018002c0e9026475b22cee",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "google/adk-python",
+      "commit": "6bab08fc803d26853417c4d6e71704b1a72e035e",
+      "path": "src/google/adk/agents/llm_agent.py",
+      "expected_blob_sha1": "bb1af0a1d402b511b0fd4fd368416495a4fce587",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "ChinaSiro/claude-code-sourcemap",
+      "commit": "a8a678cb6244e6770e1e421767ff0987a1d95549",
+      "path": "README.md",
+      "expected_blob_sha1": "04e97ab6edc394cdff31b369abd725e92bffb6e5",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "ChinaSiro/claude-code-sourcemap",
+      "commit": "a8a678cb6244e6770e1e421767ff0987a1d95549",
+      "path": "restored-src/src/services/compact/compact.ts",
+      "expected_blob_sha1": "f8f86eafb26b70db955c58a34f402b425c285a9c",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "ChinaSiro/claude-code-sourcemap",
+      "commit": "a8a678cb6244e6770e1e421767ff0987a1d95549",
+      "path": "restored-src/src/tools/AgentTool/runAgent.ts",
+      "expected_blob_sha1": "e2cb942e72c58a9059f54080311ee61744433e0c",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "ChinaSiro/claude-code-sourcemap",
+      "commit": "a8a678cb6244e6770e1e421767ff0987a1d95549",
+      "path": "restored-src/src/utils/forkedAgent.ts",
+      "expected_blob_sha1": "eff959539611d7eda35c2f95b0c82246dfa12d6a",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "ChinaSiro/claude-code-sourcemap",
+      "commit": "a8a678cb6244e6770e1e421767ff0987a1d95549",
+      "path": "restored-src/src/query.ts",
+      "expected_blob_sha1": "07e8b6fae53877a912424c0cdbbf321186eeca5f",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "openai/codex",
+      "commit": "fe01054a28fa4bd04716d9ceadb410f2443a50ce",
+      "path": "codex-rs/app-server/README.md",
+      "expected_blob_sha1": "bc69103e2aeb7afd956cba3bbd3bccc3dac770b5",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "openai/codex",
+      "commit": "fe01054a28fa4bd04716d9ceadb410f2443a50ce",
+      "path": "codex-rs/core/src/compact.rs",
+      "expected_blob_sha1": "71abe5acc369b3299c8a507979e4de00177e5828",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "openai/codex",
+      "commit": "fe01054a28fa4bd04716d9ceadb410f2443a50ce",
+      "path": "codex-rs/core/src/tasks/compact.rs",
+      "expected_blob_sha1": "def729b2ace83a84debe230d25cb3483a00b9074",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "openai/codex",
+      "commit": "cef3910ea4d09617e50a94e40bf25a6cb2e4e765",
+      "path": "codex-rs/core/src/tools/router.rs",
+      "expected_blob_sha1": "73c98dec1125aed7671050a509b7b2ed8ad95b7d",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "openai/codex",
+      "commit": "cef3910ea4d09617e50a94e40bf25a6cb2e4e765",
+      "path": "codex-rs/core/src/tools/parallel.rs",
+      "expected_blob_sha1": "deb0ab85acc565ff576dc176e01e588378499e6f",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "openai/codex",
+      "commit": "cef3910ea4d09617e50a94e40bf25a6cb2e4e765",
+      "path": "codex-rs/core/src/tools/context.rs",
+      "expected_blob_sha1": "fb6c05cc76406dcb5ec8d63d8cedcbe364b24e1f",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    },
+    {
+      "repository": "openai/codex",
+      "commit": "cef3910ea4d09617e50a94e40bf25a6cb2e4e765",
+      "path": "codex-rs/core/src/tools/lifecycle.rs",
+      "expected_blob_sha1": "974ef88bd76181634efd70b63c19fd47f544ee43",
+      "fetched": true,
+      "git_blob_sha1_verified": true,
+      "expected_content_sha256": null,
+      "content_sha256_verified": false
+    }
+  ],
+  "limitations": [
+    "Raw-content SHA-256 values were not recorded during the source audit."
+  ]
+}

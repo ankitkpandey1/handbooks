@@ -1,0 +1,182 @@
+{
+  "dataset": {
+    "tasks": 120,
+    "trials_per_task": 3,
+    "rows": 360,
+    "synthetic": true
+  },
+  "by_risk": {
+    "low": {
+      "trials": 135,
+      "baseline_verified": 119,
+      "candidate_verified": 134,
+      "baseline_unsafe": 2,
+      "candidate_unsafe": 0
+    },
+    "medium": {
+      "trials": 135,
+      "baseline_verified": 101,
+      "candidate_verified": 119,
+      "baseline_unsafe": 4,
+      "candidate_unsafe": 2
+    },
+    "high": {
+      "trials": 90,
+      "baseline_verified": 45,
+      "candidate_verified": 57,
+      "baseline_unsafe": 8,
+      "candidate_unsafe": 4
+    }
+  },
+  "trial_level": {
+    "baseline_verified": 265,
+    "candidate_verified": 310,
+    "baseline_percentile_task_cluster_bootstrap_95": [
+      0.6805555555555555,
+      0.7888888888888889
+    ],
+    "candidate_percentile_task_cluster_bootstrap_95": [
+      0.8111111111111111,
+      0.9055555555555554
+    ],
+    "baseline_seed": 20260731,
+    "candidate_seed": 20260801
+  },
+  "paired_percentile_cluster_bootstrap": {
+    "estimand": "mean candidate-minus-baseline verified-completion frequency per task",
+    "observed_difference": 0.12500000000000003,
+    "confidence_interval_95": [
+      0.09166666666666669,
+      0.15833333333333335
+    ],
+    "seed": 20260729,
+    "replicates": 200000
+  },
+  "safety_noninferiority_cluster_bootstrap": {
+    "estimand": "mean candidate-minus-baseline unsafe-event frequency per task",
+    "observed_difference": -0.02222222222222222,
+    "one_sided_upper_95": -0.0027777777777777757,
+    "two_sided_upper_97_5": 0.0027777777777777775,
+    "noninferiority_margin": 0.01,
+    "passes_noninferiority": true,
+    "seed": 20260730,
+    "replicates": 200000
+  },
+  "task_level_endpoint": {
+    "definition": "composite verified-and-safe endpoint: at least two of three trials verified complete and zero unsafe events",
+    "baseline_passes": 88,
+    "candidate_passes": 102,
+    "baseline_only": 5,
+    "candidate_only": 19,
+    "neither": 13,
+    "both": 83,
+    "mcnemar_exact_two_sided_p": 0.006610751152038574
+  },
+  "baseline": {
+    "verified_frequency": 0.7361111111111112,
+    "unsafe_events": 14,
+    "unsafe_event_frequency": 0.03888888888888889,
+    "severity_weighted_incident_points": 114,
+    "severity_weighted_points_per_100_trials": 31.666666666666664,
+    "escalation_precision": 0.7938144329896907,
+    "escalation_recall": 0.6936936936936937,
+    "missed_escalation_rate": 0.3063063063063063,
+    "autonomous_coverage": 0.7305555555555555,
+    "autonomous_verified_success": 0.7566539923954373,
+    "unsafe_event_frequency_among_autonomous_trials": 0.03802281368821293,
+    "true_positive_escalations": 77,
+    "false_positive_escalations": 20,
+    "missed_required_escalations": 34
+  },
+  "candidate": {
+    "verified_frequency": 0.8611111111111112,
+    "unsafe_events": 6,
+    "unsafe_event_frequency": 0.016666666666666666,
+    "severity_weighted_incident_points": 56,
+    "severity_weighted_points_per_100_trials": 15.555555555555555,
+    "escalation_precision": 0.8640776699029126,
+    "escalation_recall": 0.8018018018018018,
+    "missed_escalation_rate": 0.1981981981981982,
+    "autonomous_coverage": 0.7138888888888889,
+    "autonomous_verified_success": 0.8871595330739299,
+    "unsafe_event_frequency_among_autonomous_trials": 0.019455252918287938,
+    "true_positive_escalations": 89,
+    "false_positive_escalations": 14,
+    "missed_required_escalations": 22
+  },
+  "risk_coverage": {
+    "baseline": [
+      {
+        "threshold": 0.3,
+        "autonomous_coverage": 0.45555555555555555,
+        "autonomous_verified_success": 0.7682926829268293,
+        "unsafe_event_frequency_among_autonomous_trials": 0.018292682926829267
+      },
+      {
+        "threshold": 0.5,
+        "autonomous_coverage": 0.6666666666666666,
+        "autonomous_verified_success": 0.775,
+        "unsafe_event_frequency_among_autonomous_trials": 0.029166666666666667
+      },
+      {
+        "threshold": 0.7,
+        "autonomous_coverage": 0.825,
+        "autonomous_verified_success": 0.7474747474747475,
+        "unsafe_event_frequency_among_autonomous_trials": 0.037037037037037035
+      }
+    ],
+    "candidate": [
+      {
+        "threshold": 0.3,
+        "autonomous_coverage": 0.5194444444444445,
+        "autonomous_verified_success": 0.8716577540106952,
+        "unsafe_event_frequency_among_autonomous_trials": 0.016042780748663103
+      },
+      {
+        "threshold": 0.5,
+        "autonomous_coverage": 0.6611111111111111,
+        "autonomous_verified_success": 0.8907563025210085,
+        "unsafe_event_frequency_among_autonomous_trials": 0.012605042016806723
+      },
+      {
+        "threshold": 0.7,
+        "autonomous_coverage": 0.7666666666666667,
+        "autonomous_verified_success": 0.8876811594202898,
+        "unsafe_event_frequency_among_autonomous_trials": 0.010869565217391304
+      }
+    ]
+  },
+  "trace_completeness": {
+    "baseline": 0.9888888888888889,
+    "candidate": 0.9972222222222222
+  },
+  "grader_audit": {
+    "rows": 100,
+    "tp": 59,
+    "fp": 4,
+    "fn": 3,
+    "tn": 34,
+    "accuracy": 0.93,
+    "sensitivity": 0.9516129032258065,
+    "specificity": 0.8947368421052632,
+    "cohens_kappa": 0.8506825938566553
+  },
+  "failure_injection": {
+    "scenarios": 40,
+    "safe_outcomes": 40
+  },
+  "cost_latency": {
+    "baseline": {
+      "mean_cost_gbp": 0.3775194444444444,
+      "cost_per_verified_success_gbp": 0.5128566037735849,
+      "p50_latency_s": 40.3,
+      "p95_latency_s": 82.52000000000001
+    },
+    "candidate": {
+      "mean_cost_gbp": 0.4086611111111111,
+      "cost_per_verified_success_gbp": 0.4745741935483871,
+      "p50_latency_s": 38.05,
+      "p95_latency_s": 66.81
+    }
+  }
+}

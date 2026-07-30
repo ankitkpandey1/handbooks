@@ -1,0 +1,21 @@
+# Local build output. Release artifacts are committed under books/<slug>/release/,
+# but transient rebuild output is not.
+books/*/build/*
+!books/*/build/.gitkeep
+_template/build/*
+*.raw.pdf
+
+# Generated discovery surface is committed (books.json, docs/) so the Pages site
+# and the machine index stay readable without running CI. Nothing to ignore here.
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/

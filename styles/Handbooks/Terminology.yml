@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# The single highest-value prose rule in this repository.
+#
+# The handbooks define their vocabulary precisely — agent, model, harness, workflow, tool;
+# invariant, policy, preference — and the definitions carry real weight: a reader who conflates
+# "harness" with "framework", or "invariant" with "guardrail", misreads the architecture
+# argument. Synonym drift across 8,000 lines quietly destroys that precision.
+#
+# This is the transferable core of ASD-STE100 ("use one term for one concept") applied to a
+# vocabulary that suits senior engineers rather than a 900-word controlled dictionary.
+extends: substitution
+message: "Use the defined term '%s' rather than '%s' — the books define this vocabulary precisely."
+level: warning
+ignorecase: true
+swap:
+  # Marketing register has no place in a field manual.
+  'AI-powered':               'agent-based'
+  'AI powered':               'agent-based'
+  'cutting-edge':             'current'
+  'state-of-the-art':         'current'
+  'seamless(?:ly)?':          'without manual steps'
+  'leverage':                 'use'
+  'utilise':                  'use'
+  'utilize':                  'use'
+
+  # Imprecise substitutes for defined terms.
+  'AI assistant':             'agent'
+  'LLM wrapper':              'harness'
+  'agentic framework':        'harness'
+
+  # A model is not the system. Conflating the two is the specific error Part 1 warns about.
+  'the AI':                   'the model or the agent'
+
+# Deliberately NOT swapped, having been measured against the existing manuscript:
+#
+#   prompt      -> 98 hits. The books define "prompt" as their own term (prompt assembly
+#                  pipeline, prompt versioning, prompt ablation) and Part 5 is titled "prompt
+#                  engineering". Swapping it to "task contract" would be wrong 98 times.
+#   guardrail   -> 56 hits. "Guardrails" is a named field of the books' pattern contract, so
+#                  its use is the defined vocabulary, not drift away from it.
+#   chatbot     -> used contrastively and correctly ("less like a chatbot with plugins").
+#   orchestrator-> a real and distinct concept in several frameworks; not a synonym for harness.
+#
+# The lesson generalises: measure a candidate rule against the corpus before adding it. A prose
+# linter that fires 150 times on correct prose gets switched off, and then it protects nothing.
+

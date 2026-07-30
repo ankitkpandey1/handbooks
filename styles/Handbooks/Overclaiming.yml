@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# Absolutes this repository cannot support.
+#
+# The books make unusually strong verifiability claims and back them with a verifier suite. That
+# only stays credible if the *unbacked* absolutes never appear. "Fully reproducible" is precisely
+# the claim the reproducibility-boundary section exists to refuse: the build is environment-
+# attested, not byte-identical across dependency closures.
+#
+# Paired with the structural linter's tier check (scripts/lint-book.py), which stops a Tier B
+# book borrowing Tier A vocabulary.
+extends: existence
+message: "'%s' is an absolute this repository cannot verify. State the actual boundary instead."
+level: error
+ignorecase: true
+tokens:
+  # Narrowed to the artifact claim on purpose. Bare "fully reproducible" is legitimate elsewhere
+  # — the synthetic evaluation genuinely does reproduce exactly, and reproduce_qa_evaluation.py
+  # asserts it — so only the claim about the built document is an overclaim.
+  - fully reproducible (?:build|builds|PDF|artifact|artefact|document|release|pipeline)
+  - (?:100|completely) ?%? (?:reliable|reproducible|secure|accurate)
+  - bullet[- ]proof
+  - never fails?
+  - always works
+  - guaranteed to (?:work|succeed|prevent|be)
+  - zero (?:risk|downtime|failures?)
+  - impossible to (?:break|bypass|exploit)
+  - provably secure
+  - future[- ]proof

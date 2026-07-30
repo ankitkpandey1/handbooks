@@ -1,0 +1,43 @@
+{
+  "schema_version": "handbooks/book/v1",
+  "slug": "__SLUG__",
+  "tier": "B",
+  "status": "draft",
+  "title": "__TITLE__",
+  "subtitle": "",
+  "description": "",
+  "edition": "0.1.0",
+  "date": "__DATE__",
+  "language": "en-GB",
+  "authors": [
+    {
+      "name": "Ankit Kumar Pandey",
+      "role": "Author",
+      "email": "itsankitkp@gmail.com"
+    }
+  ],
+  "keywords": [],
+  "licenses": {
+    "prose": "CC-BY-4.0",
+    "code": "Apache-2.0"
+  },
+  "canonical_source": "source/__SLUG__.md",
+  "build": {
+    "formats": [
+      "pdf",
+      "epub",
+      "html",
+      "md"
+    ],
+    "needs_latex": true
+  },
+  "verify": {},
+  "release": {
+    "aliases": {
+      "pdf": "__SLUG__.pdf",
+      "epub": "__SLUG__.epub",
+      "html": "__SLUG__.html",
+      "md": "__SLUG__.md"
+    }
+  }
+}

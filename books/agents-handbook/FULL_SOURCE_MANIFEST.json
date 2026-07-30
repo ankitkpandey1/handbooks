@@ -1,0 +1,271 @@
+{
+  "schema_version": "production-agent-engineering/full-source-bundle/v1",
+  "edition": "1.7.0",
+  "bundle_name": "Production_Agent_Engineering_2026_Edition_1.7_Full_Source",
+  "canonical_source": "source/production_agent_engineering_2026_edition_1_7.md",
+  "build_entrypoint": "build_pdf_from_bundle.sh",
+  "verification_entrypoint": "verify_release.sh",
+  "release": {
+    "pdf": {
+      "path": "release/Production_Agent_Engineering_2026_Edition_1.7.pdf",
+      "sha256": "e14936d88f0e71f3de68b7af0e52abc9060320234069bffea013bdf0f81dbf68"
+    },
+    "reproducibility_package": {
+      "path": "release/Production_Agent_Engineering_2026_Edition_1.7_Reproducibility_Package.zip",
+      "sha256": "ec52a25d43da07adf2a855ad3fa3478e7033a2034c857f45c4f44a7ab98b91ce"
+    },
+    "build_receipt": {
+      "path": "release/Publication_Build_Receipt_Edition_1.7.json",
+      "sha256": "fe6c9e365d6d1bdff999a482caeaadc1851333a567b4ff9b2436cfd2af59cf20"
+    }
+  },
+  "file_count_excluding_manifest_and_checksum": 41,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3234,
+      "sha256": "2100bb3b458cf5ec499229ce674e7af0b47e31087ddc9a759bb6a055c1b7dc5c",
+      "executable": false
+    },
+    {
+      "path": "build_pdf_from_bundle.sh",
+      "bytes": 416,
+      "sha256": "60254b423d7ad81b0d38fd97817ffd99afc958b06f06127e8c3b68a2db807ae9",
+      "executable": true
+    },
+    {
+      "path": "release/Production_Agent_Engineering_2026_Edition_1.7.pdf",
+      "bytes": 1202147,
+      "sha256": "e14936d88f0e71f3de68b7af0e52abc9060320234069bffea013bdf0f81dbf68",
+      "executable": false
+    },
+    {
+      "path": "release/Production_Agent_Engineering_2026_Edition_1.7_Reproducibility_Package.zip",
+      "bytes": 200956,
+      "sha256": "ec52a25d43da07adf2a855ad3fa3478e7033a2034c857f45c4f44a7ab98b91ce",
+      "executable": false
+    },
+    {
+      "path": "release/Publication_Build_Receipt_Edition_1.7.json",
+      "bytes": 2255,
+      "sha256": "fe6c9e365d6d1bdff999a482caeaadc1851333a567b4ff9b2436cfd2af59cf20",
+      "executable": false
+    },
+    {
+      "path": "source/BUILD_ENVIRONMENT.txt",
+      "bytes": 566,
+      "sha256": "fe057d1804780172341aa11b32d0df08056bb03a4da4edc9ba94457e606a3e78",
+      "executable": false
+    },
+    {
+      "path": "source/README.md",
+      "bytes": 2361,
+      "sha256": "2d8e6798d4dc6a5a2887d4d7ebdd2d05bd84b5c564c9d68f7a6f5a05172c2db1",
+      "executable": false
+    },
+    {
+      "path": "source/attach_and_linearize_pdf.py",
+      "bytes": 4480,
+      "sha256": "fa512163a71484b3b6fdb8a1a3be455d07e54752a7d5b5998182ecdc967bf109",
+      "executable": true
+    },
+    {
+      "path": "source/build_pdf.sh",
+      "bytes": 494,
+      "sha256": "25e7237722bf970211ea58e93c58a7ce85acf2ae8c3da3f040720eb1905ceb18",
+      "executable": true
+    },
+    {
+      "path": "source/canonical_source_manifest.json",
+      "bytes": 1140,
+      "sha256": "c2d1f2fa089d320758b8f4b2d31ea1cae4e34fbe0bf6037cc4bd1fc74c55e6e3",
+      "executable": false
+    },
+    {
+      "path": "source/environment_attestation.json",
+      "bytes": 3941,
+      "sha256": "0cdbc5ecbb9d875925014d0cbad57fa227ccbd79260ff80975becbd6815fa1a1",
+      "executable": false
+    },
+    {
+      "path": "source/extract_manuscript_code_blocks.py",
+      "bytes": 1745,
+      "sha256": "8c112f9b793a79d2c5828d21f0c16ada2d072f49e3018385e9dd13454fb83407",
+      "executable": true
+    },
+    {
+      "path": "source/framework_source_contract_manifest.json",
+      "bytes": 24408,
+      "sha256": "1d583c9388fe0a11cda2755dd0831953f3df187edb94d110df10498f7eb8c6c1",
+      "executable": false
+    },
+    {
+      "path": "source/generate_build_receipt.py",
+      "bytes": 1913,
+      "sha256": "fc71454bc6a7c7ad5779ec65e08c5c2ade545b1baae8087c4bede58804fc7259",
+      "executable": true
+    },
+    {
+      "path": "source/generate_environment_lock.py",
+      "bytes": 2461,
+      "sha256": "a787184bcff9d321d9e4250370d4b86f6d57d4fe9b96bcf283b01b2d88833987",
+      "executable": true
+    },
+    {
+      "path": "source/listing_9_3_claude_deferred_approval.py",
+      "bytes": 3555,
+      "sha256": "6b658a0bed9e1ddf15d3dadd04e8e3d4bd9f01318c195abd74241f875b6a95f2",
+      "executable": true
+    },
+    {
+      "path": "source/manuscript_code_blocks.json",
+      "bytes": 80778,
+      "sha256": "fcc07241dcb4956b288d0191ed7a13de1711c47a11c3f94cbad14be0aa930afe",
+      "executable": false
+    },
+    {
+      "path": "source/pandoc_defaults.yaml",
+      "bytes": 75,
+      "sha256": "d77e421b13fc49a330ee9e34b9c6d2f8f96525cea884ebd77f3fbb4e62b2b5a0",
+      "executable": false
+    },
+    {
+      "path": "source/production_agent_engineering_2026_edition_1_7.md",
+      "bytes": 393636,
+      "sha256": "021532c7f69d95ae19564bff1636931817f3a79738ad736ea378faf417b3fe79",
+      "executable": false
+    },
+    {
+      "path": "source/qa_eval_synthetic_failure_injection.csv",
+      "bytes": 2369,
+      "sha256": "e3b6c4907782749ba533a6a5cfb1fef6fee1e5e719a1c7022ee44076c4eed3ad",
+      "executable": false
+    },
+    {
+      "path": "source/qa_eval_synthetic_grader_audit.csv",
+      "bytes": 943,
+      "sha256": "8a2fe4345ee0ff6f4ffa71332bd21019b90e925f780417aa0b0aa3fd57c98544",
+      "executable": false
+    },
+    {
+      "path": "source/qa_eval_synthetic_results.json",
+      "bytes": 5706,
+      "sha256": "bc6bee14a95eb86c8e3a3c74627e7fda4d9b3e814112daebd4845fd878944cb3",
+      "executable": false
+    },
+    {
+      "path": "source/qa_eval_synthetic_results.reproduced.json",
+      "bytes": 5706,
+      "sha256": "bc6bee14a95eb86c8e3a3c74627e7fda4d9b3e814112daebd4845fd878944cb3",
+      "executable": false
+    },
+    {
+      "path": "source/qa_eval_synthetic_trials.csv",
+      "bytes": 26991,
+      "sha256": "8bf6b06598810f67d6e7811a3b8fbc7a6f855fffb56f644735f00fc936a9ce33",
+      "executable": false
+    },
+    {
+      "path": "source/reproduce_qa_evaluation.py",
+      "bytes": 14921,
+      "sha256": "13ac963bd6e9a2556fb4e354470ef2cf3d1fb9e9415fdf3123c36d4567451608",
+      "executable": true
+    },
+    {
+      "path": "source/requirements.txt",
+      "bytes": 155,
+      "sha256": "8dded9a8a67769a362c3bdab4d5c71ee0ddffabbfc31b20c81dd51b917a53a57",
+      "executable": false
+    },
+    {
+      "path": "source/run_publication_checks.sh",
+      "bytes": 2099,
+      "sha256": "e06a5b3ec5420f7e44b4fe81080630e5ddffe8da583291320e442099b9070e8c",
+      "executable": true
+    },
+    {
+      "path": "source/source_contract_verification_receipt.json",
+      "bytes": 9164,
+      "sha256": "2cf83e30764f462eb80936f7836c469241f384a39392ecef9f513f6cb790b839",
+      "executable": false
+    },
+    {
+      "path": "source/test_deferred_approval_application_contract.py",
+      "bytes": 1325,
+      "sha256": "8eefa66ff49e124b6352ddbdee8bb8e7a146cfe79a5cc3c5229dbe2652946174",
+      "executable": true
+    },
+    {
+      "path": "source/verify_build_receipt.py",
+      "bytes": 1929,
+      "sha256": "0e022f2899dbf1c8b557a5301d7f2ca4e533be74ec9b903205273087d1260ca3",
+      "executable": true
+    },
+    {
+      "path": "source/verify_companion_references.py",
+      "bytes": 840,
+      "sha256": "0866c52ac0c2176044a6ac6dce5182db2c02a9d3a21c7cfe613df0be278cdbc5",
+      "executable": false
+    },
+    {
+      "path": "source/verify_edition_history.py",
+      "bytes": 795,
+      "sha256": "78832f06bd9a8a09d384a8d3ef1fcfd05a6d1a3b64a8793e25419504108d0471",
+      "executable": true
+    },
+    {
+      "path": "source/verify_embedded_package.py",
+      "bytes": 2474,
+      "sha256": "64253a1ae1f9f677ff3ce14d47bd1fd2bc83f4f540423c76af9eb541962cef5e",
+      "executable": true
+    },
+    {
+      "path": "source/verify_manuscript_examples.py",
+      "bytes": 1973,
+      "sha256": "bb43aaabad5c1d1660fa47c0c0c00e3bd598937a55ec2eccf6898f1f1e7eece3",
+      "executable": true
+    },
+    {
+      "path": "source/verify_pdf_binding.py",
+      "bytes": 2394,
+      "sha256": "2864144c6d917a017a289eb47ceb895895d26e8e3bb2e81f94fec259d6900dff",
+      "executable": true
+    },
+    {
+      "path": "source/verify_pdf_navigation.py",
+      "bytes": 1491,
+      "sha256": "307344d3c40a0ee9a30d6a6f28b8ba3695e59429eb162f14d6679f43f210c02f",
+      "executable": true
+    },
+    {
+      "path": "source/verify_pdf_text_layer.py",
+      "bytes": 1358,
+      "sha256": "b2f6eff947b42b32a6d39afa345817040e05d111e6d60eb2ef32cfd2506be9f1",
+      "executable": true
+    },
+    {
+      "path": "source/verify_release_metadata.py",
+      "bytes": 1144,
+      "sha256": "0930519324f146b599de897f242a55922c3d90b2bf656e0550b786445e5fbe69",
+      "executable": true
+    },
+    {
+      "path": "source/verify_section_numbering.py",
+      "bytes": 424,
+      "sha256": "87abb6146976a8097af5aebbb5001b5937a84a41753b741d2b3172365f870b64",
+      "executable": true
+    },
+    {
+      "path": "source/verify_source_contract_manifest.py",
+      "bytes": 3524,
+      "sha256": "ff1edc4d244fdd83dab70785eab11ce0758ad0c2026320b62994b4fcf63f243a",
+      "executable": true
+    },
+    {
+      "path": "verify_release.sh",
+      "bytes": 388,
+      "sha256": "6bd8beddcf725dc3a3eb3f5ca3fad5ccb5998ba9150c5c04f491859cef9763a8",
+      "executable": true
+    }
+  ]
+}

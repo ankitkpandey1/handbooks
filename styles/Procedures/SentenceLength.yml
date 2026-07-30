@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# ASD-STE100-derived rules for PROCEDURAL content only — runbooks, incident steps, release
+# sequences, anything a reader executes rather than reasons about.
+#
+# This is where STE genuinely earns its keep. A procedure is read under time pressure, often by
+# someone who did not write it, sometimes not in their first language, and an ambiguous step has
+# a real cost. STE's constraints are exactly right for that.
+#
+# Scoped in .vale.ini to books/*/source/procedures/**, so it never touches expository chapters.
+#
+# This implements the transferable subset. It is NOT ASD-STE100 conformance and must never be
+# described as such: the specification is 53 rules plus a ~900-word controlled dictionary
+# (Issue 9, January 2025), the dictionary is ASD copyright, and conformance checking is done by
+# certified commercial tools. Claiming conformance from this file would be the kind of
+# overclaim the tier system exists to prevent.
+extends: occurrence
+message: "Procedural sentence runs to %s words. STE caps instructions at 20 — one action per sentence."
+level: warning
+scope: sentence
+token: '\b\w+\b'
+max: 20

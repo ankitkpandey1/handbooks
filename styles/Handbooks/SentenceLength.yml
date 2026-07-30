@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# ASD-STE100-derived, deliberately relaxed.
+#
+# STE caps descriptive sentences at 25 words and procedural ones at 20. Those caps are correct
+# for maintenance procedures and wrong for expository argument: a 45-word sentence carrying one
+# conditional claim is clearer than three fragments whose relationship the reader must
+# reconstruct. So this rule sits well above the STE cap and only catches sentences that have
+# genuinely lost control.
+#
+# The stricter STE caps DO apply to procedural content — see ProceduralSTE.yml, which is scoped
+# to books/*/source/procedures/ in .vale.ini.
+extends: occurrence
+message: "Sentence runs to %s words. Check it carries one idea, not three."
+level: suggestion
+scope: sentence
+token: '\b\w+\b'
+max: 45
