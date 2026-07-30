@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# Hedges and intensifiers that reliably mark a claim standing without evidence.
+#
+# The contribution standard is that claims carry evidence labels. A linter cannot tell whether a
+# sentence is a claim, but it can spot the phrases writers reach for when asserting something
+# they have not sourced: "obviously", "it is well known that", "significantly better". Each hit
+# is a prompt to either attach a label or cut the sentence.
+extends: existence
+message: "'%s' usually stands in for evidence. Attach an evidence label or cut the claim."
+level: warning
+ignorecase: true
+# "clearly" is deliberately absent: measured against the manuscript, every hit was "clearly
+# labelled" or "clearly delimited" — an adverb on a concrete action, not a hedge. Vale uses RE2,
+# which has no lookahead, so the good and bad uses cannot be separated by pattern. Dropped in
+# favour of precision.
+tokens:
+  - obviously
+  - of course
+  - needless to say
+  - it (?:is|'s) (?:well[- ])?known
+  - everyone knows
+  - as we all know
+  - undoubtedly
+  - unquestionably
+  - it goes without saying
+  - arguably
+  - significantly (?:better|worse|faster|slower|cheaper)
+  - dramatically (?:better|worse|faster|slower|improve[sd]?)
+  - orders of magnitude (?:better|faster|cheaper)
+  - vastly
+  - trivially
