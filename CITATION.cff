@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you cite a specific handbook, please cite that book's edition rather than the repository as a whole."
+title: "Handbooks: source-controlled technical handbooks with reproducible builds"
+abstract: >-
+  A monorepo of short technical handbooks. Each book keeps its canonical manuscript under
+  version control and publishes verifiable artifacts (PDF, EPUB, HTML and single-file
+  Markdown) through GitHub Releases with build provenance attestation.
+type: software
+authors:
+  - given-names: "Ankit Kumar"
+    family-names: "Pandey"
+    email: "itsankitkp@gmail.com"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"  # add once registered
+repository-code: "https://github.com/ankitkpandey1/handbooks"
+url: "https://ankitkpandey1.github.io/handbooks/"
+license: CC-BY-4.0
+keywords:
+  - technical writing
+  - agent engineering
+  - reproducible builds
+  - handbook
+preferred-citation:
+  type: book
+  title: "Production Agent Engineering in 2026: A production systems field manual for advanced engineers"
+  authors:
+    - given-names: "Ankit Kumar"
+      family-names: "Pandey"
+      email: "itsankitkp@gmail.com"
+  edition: "1.7.0"
+  year: 2026
+  month: 7
+  url: "https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf"
+  license: CC-BY-4.0
