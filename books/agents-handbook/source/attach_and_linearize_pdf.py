@@ -104,7 +104,7 @@ def main() -> None:
     archive_name = args.archive.name
     embedded = writer.add_attachment(archive_name, archive_bytes)
     embedded.description = TextStringObject(
-        "Edition 1.7 reproducibility and publication-verification package"
+        "Edition 1.8 reproducibility and publication-verification package"
     )
     filespec_ref = writer._add_object(embedded.pdf_object)
 

@@ -267,6 +267,24 @@ def main() -> int:
     # verify_companion_references.py skips filenames that belong to the current edition.
     retext("source/verify_companion_references.py", [(old_prefix, args.asset_prefix)])
 
+    # Catch-all sweep for edition strings hard-coded anywhere else in the companion scripts.
+    # An explicit per-file list is fragile: each missed occurrence costs a full PDF build before
+    # the release gate reports it. verify_edition_history.py is excluded because the edition
+    # numbers in its expected sequence are history and must not move.
+    sweep_exclude = {"verify_edition_history.py"}
+    for py in sorted(src_dir.glob("*.py")):
+        if py.name in sweep_exclude:
+            continue
+        body = py.read_text(encoding="utf-8")
+        updated = (body
+                   .replace(f"'{old_ed}'", f"'{new_ed}'")
+                   .replace(f'"{old_ed}"', f'"{new_ed}"')
+                   .replace(f"Edition {old_ed_short}", f"Edition {new_ed_short}")
+                   .replace(f"Edition {old_ed}", f"Edition {new_ed}"))
+        if updated != body:
+            py.write_text(updated, encoding="utf-8")
+            print(f"    swept edition strings in source/{py.name}")
+
     # Generators stamp the edition into what they produce.
     retext("source/generate_build_receipt.py", [(f"'edition':'{old_ed}'", f"'edition':'{new_ed}'")])
     retext("source/generate_environment_lock.py", [(f"'edition':'{old_ed}'", f"'edition':'{new_ed}'")])

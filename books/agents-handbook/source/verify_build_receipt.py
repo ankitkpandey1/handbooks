@@ -7,7 +7,7 @@ def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 ap=argparse.ArgumentParser(); ap.add_argument('pdf',type=Path); ap.add_argument('archive',type=Path); ap.add_argument('receipt',type=Path); a=ap.parse_args(); r=json.loads(a.receipt.read_text())
 required={'schema_version','edition','generated_at','canonical_source','reproducibility_archive','final_pdf','build_inputs','build_command','tool_versions','attestation','circularity_boundary'}
 if set(r)!=required: raise SystemExit(f'receipt fields mismatch: {set(r)^required}')
-if r['schema_version']!='production-agent-engineering/publication-build-receipt/v2' or r['edition']!='1.7.0': raise SystemExit('receipt schema/edition mismatch')
+if r['schema_version']!='production-agent-engineering/publication-build-receipt/v2' or r['edition']!='1.8.0': raise SystemExit('receipt schema/edition mismatch')
 datetime.datetime.fromisoformat(r['generated_at'])
 cm=json.loads((R/'canonical_source_manifest.json').read_text()); src=R/cm['source_filename']; d=fitz.open(a.pdf)
 checks=[(r['canonical_source'],src),(r['reproducibility_archive'],a.archive),(r['final_pdf'],a.pdf)]
