@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Erratum
+description: A factual error, broken link, or typo in a published book
+labels: ["erratum"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Published editions are never rewritten — corrections ship as a new edition. This issue
+        becomes the erratum record.
+  - type: input
+    id: book
+    attributes:
+      label: Book and edition
+      placeholder: "agents-handbook 1.7.0"
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Section number, heading, or page
+      placeholder: "§6.3 Progressive disclosure, or p. 74"
+    validations:
+      required: true
+  - type: textarea
+    id: says
+    attributes:
+      label: What it currently says
+    validations:
+      required: true
+  - type: textarea
+    id: should
+    attributes:
+      label: What it should say, and why
+      description: For a factual correction, cite a source.
+    validations:
+      required: true
