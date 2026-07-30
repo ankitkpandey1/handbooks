@@ -5,7 +5,7 @@ Short technical handbooks with full source, reproducible builds and verifiable r
 
 | Book | Tier | Edition | Formats |
 |---|---|---|---|
-| **Production Agent Engineering in 2026** | A | 1.7.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md) |
+| **Production Agent Engineering** | A | 1.8.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md) |
 
 ## Tiers
 

@@ -21,7 +21,7 @@ def extract(src:Path):
         idx+=1
         blocks.append({'index':idx,'start_line':start+1,'language':lang,'nonblank_lines':sum(bool(x.strip()) for x in content.splitlines()),'authenticity_label':label,'sha256':hashlib.sha256(content.encode()).hexdigest(),'content':content})
         i=j+1
-    return {'schema_version':'production-agent-engineering/manuscript-code-blocks/v2','edition':'1.7.0','source_filename':src.name,'source_sha256':hashlib.sha256(src.read_bytes()).hexdigest(),'blocks':blocks}
+    return {'schema_version':'production-agent-engineering/manuscript-code-blocks/v2','edition':'1.8.0','source_filename':src.name,'source_sha256':hashlib.sha256(src.read_bytes()).hexdigest(),'blocks':blocks}
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('source',type=Path); ap.add_argument('output',type=Path); a=ap.parse_args()
     a.output.write_text(json.dumps(extract(a.source),indent=2,ensure_ascii=False)+'\n')

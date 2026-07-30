@@ -1,6 +1,6 @@
-# Production Agent Engineering in 2026 - Edition 1.7 full source bundle
+# Production Agent Engineering - Edition 1.7 full source bundle
 
-This archive contains the complete materials supplied for building, inspecting, and validating Edition 1.7.0.
+This archive contains the complete materials supplied for building, inspecting, and validating Edition 1.8.0.
 
 ## Directory layout
 
@@ -30,7 +30,7 @@ bash build_pdf_from_bundle.sh
 The default output is:
 
 ```text
-build/Production_Agent_Engineering_2026_Edition_1.7.pdf
+build/Production_Agent_Engineering_Edition_1.8.pdf
 ```
 
 To choose another path:
@@ -47,7 +47,7 @@ The build performs two stages:
 The exact publication command recorded by the release receipt is:
 
 ```bash
-bash build_pdf.sh production_agent_engineering_2026_edition_1_7.md Production_Agent_Engineering_2026_Edition_1.7_Reproducibility_Package.zip Production_Agent_Engineering_2026_Edition_1.7.pdf
+bash build_pdf.sh production_agent_engineering_edition_1_8.md Production_Agent_Engineering_Edition_1.8_Reproducibility_Package.zip Production_Agent_Engineering_Edition_1.8.pdf
 ```
 
 ## Verify the supplied release

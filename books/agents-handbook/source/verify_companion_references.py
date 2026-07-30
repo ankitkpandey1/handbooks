@@ -10,7 +10,7 @@ ignore={'CLAUDE.md','AGENTS.md','README.md'}
 missing=[]
 for ref in sorted(refs-ignore):
     name=Path(ref.split()[-1]).name
-    if name.startswith('Production_Agent_Engineering_2026_Edition_1.7'):
+    if name.startswith('Production_Agent_Engineering_Edition_1.8'):
         continue
     if not (R/name).exists(): missing.append(ref)
 if missing: raise SystemExit(f'missing referenced companion artefacts: {missing}')

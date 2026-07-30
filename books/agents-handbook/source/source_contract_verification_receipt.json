@@ -1,6 +1,6 @@
 {
   "schema_version": "production-agent-engineering/source-contract-receipt/v2",
-  "edition": "1.7.0",
+  "edition": "1.8.0",
   "audit_timestamp": "2026-07-29T19:30:00+05:30",
   "record_count": 23,
   "all_fetched": true,

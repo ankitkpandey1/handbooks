@@ -1,0 +1,112 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# Regenerates the derived artifacts of a Tier A edition and commits them back to the branch.
+#
+# Text transforms are done locally by scripts/cut-edition.py, which needs nothing installed.
+# The artifacts that need Pandoc, XeLaTeX, Ghostscript and PyMuPDF are built here, because
+# those are the build authority — a maintainer without a TeX installation must still be able
+# to cut an edition.
+#
+# Run from the branch that already contains the text transforms:
+#   gh workflow run prepare-edition.yml --ref <branch> -f slug=agents-handbook
+name: prepare-edition
+
+on:
+  # Triggering on the edition branch avoids GitHub's requirement that a workflow_dispatch
+  # target already exist on the default branch. An edition in progress is, by definition, not
+  # on main yet.
+  push:
+    branches: ["edition/**"]
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Book slug whose edition artifacts should be regenerated"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    # This job commits back to the same branch, so it must not react to its own commit. The
+    # bot's message carries the marker below.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      !contains(github.event.head_commit.message, 'regenerate edition')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Resolve target book
+        id: target
+        run: |
+          set -euo pipefail
+          SLUG="${{ inputs.slug }}"
+          if [[ -z "$SLUG" ]]; then
+            # On a branch push, derive the slug from the branch name: edition/<slug>-<version>
+            NAME="${GITHUB_REF_NAME#edition/}"
+            for candidate in $(python3 scripts/bookmeta.py slugs); do
+              [[ "$NAME" == "$candidate"* ]] && SLUG="$candidate" && break
+            done
+          fi
+          [[ -n "$SLUG" ]] || { echo "::error::could not determine slug from '$GITHUB_REF_NAME'"; exit 1; }
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+          echo "Target: $SLUG (edition $(python3 scripts/bookmeta.py get "$SLUG" edition))"
+
+      - name: Cache apt archives
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: apt-${{ runner.os }}-tex-${{ hashFiles('scripts/setup-toolchain.sh') }}
+
+      - name: Install pinned toolchain
+        run: bash scripts/setup-toolchain.sh --python-reqs "books/${{ steps.target.outputs.slug }}/source/requirements.txt"
+
+      - name: Regenerate and verify the edition
+        run: bash scripts/regen-edition.sh "${{ steps.target.outputs.slug }}"
+
+      - name: Refresh catalogue
+        run: python3 scripts/build-index.py
+
+      - name: Show what changed
+        run: |
+          git status --short
+          {
+            echo "### Regenerated \`${{ steps.target.outputs.slug }}\` edition artifacts"
+            echo '```'
+            git status --short
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit
+        run: |
+          set -euo pipefail
+          if git diff --quiet && git diff --cached --quiet && [[ -z "$(git status --porcelain)" ]]; then
+            echo "nothing to commit"; exit 0
+          fi
+          EDITION="$(python3 scripts/bookmeta.py get "${{ steps.target.outputs.slug }}" edition)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          # Heredoc rather than an inline multi-line -m: continuation lines of a YAML literal
+          # block must stay indented, and an unindented commit body silently invalidates the
+          # whole workflow file.
+          cat > /tmp/msg.txt <<MSG
+          build(${{ steps.target.outputs.slug }}): regenerate edition $EDITION artifacts
+
+          Derived artifacts rebuilt by scripts/regen-edition.sh in CI: code-block manifest,
+          environment attestation, canonical source manifest hashes, member checksums,
+          companion archive, PDF, external build receipt, bundle manifest, bundle checksums
+          and full-source archive.
+
+          verify_release.sh passed as the gate.
+
+          Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+          MSG
+          sed -i 's/^          //' /tmp/msg.txt
+          git commit -F /tmp/msg.txt
+          git push

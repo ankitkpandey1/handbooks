@@ -98,6 +98,30 @@ jobs:
           set -euo pipefail
           python3 -m compileall -q scripts books || exit 1
 
+      # A workflow file with a YAML error fails at GitHub's parser with only "workflow file
+      # issue" and no line number, and it produces no job logs to read. Catching it here gives
+      # a real error message. An unindented commit-message body inside a `run: |` block is the
+      # way this actually happened.
+      - name: Workflow and issue-template YAML parses
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet pyyaml
+          python3 - <<'PY'
+          import sys, yaml
+          from pathlib import Path
+          bad = 0
+          for p in sorted(Path('.github').rglob('*.yml')):
+              try:
+                  yaml.safe_load(p.read_text())
+              except yaml.YAMLError as exc:
+                  mark = getattr(exc, 'problem_mark', None)
+                  where = f" (line {mark.line + 1})" if mark else ""
+                  print(f"::error file={p}::YAML error{where}: {getattr(exc, 'problem', exc)}")
+                  bad += 1
+          print(f"checked {len(list(Path('.github').rglob('*.yml')))} file(s), {bad} invalid")
+          sys.exit(1 if bad else 0)
+          PY
+
       - name: Catalogue is up to date
         run: |
           set -euo pipefail

@@ -21,12 +21,12 @@ keywords:
   - handbook
 preferred-citation:
   type: book
-  title: "Production Agent Engineering in 2026: A production systems field manual for advanced engineers"
+  title: "Production Agent Engineering: A production systems field manual for advanced engineers"
   authors:
     - given-names: "Ankit Kumar"
       family-names: "Pandey"
       email: "itsankitkp@gmail.com"
-  edition: "1.7.0"
+  edition: "1.8.0"
   year: 2026
   month: 7
   url: "https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf"
