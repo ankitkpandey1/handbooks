@@ -1,0 +1,206 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# Verifies only the books a change actually touches, so a typo fix in one book never waits
+# on a 181-page rebuild of another. Contributors get an answer in minutes.
+name: pr-verify
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scope:
+    name: what changed
+    runs-on: ubuntu-24.04
+    outputs:
+      books: ${{ steps.detect.outputs.books }}
+      any: ${{ steps.detect.outputs.any }}
+      tooling: ${{ steps.detect.outputs.tooling }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect touched books
+        id: detect
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="$GITHUB_SHA"
+            git cat-file -e "$BASE" 2>/dev/null || BASE="$(git rev-list --max-parents=0 HEAD | tail -1)"
+          fi
+          CHANGED="$(git diff --name-only "$BASE" "$HEAD" || git ls-files)"
+          echo "changed files:"; echo "$CHANGED"
+
+          # A change to shared tooling can break every book, so verify all of them.
+          TOOLING=false
+          if echo "$CHANGED" | grep -qE '^(scripts/|\.github/workflows/)'; then TOOLING=true; fi
+
+          if [[ "$TOOLING" == "true" ]]; then
+            BOOKS="$(python3 scripts/bookmeta.py slugs)"
+            echo "shared tooling changed -> verifying every book"
+          else
+            BOOKS="$(echo "$CHANGED" | sed -n 's|^books/\([^/]*\)/.*|\1|p' | sort -u)"
+          fi
+
+          # Emit a JSON array for the matrix, and a flag so we can skip cleanly.
+          JSON="$(printf '%s\n' "$BOOKS" | grep -v '^$' | python3 -c 'import json,sys; print(json.dumps([l.strip() for l in sys.stdin if l.strip()]))')"
+          echo "books=$JSON" >> "$GITHUB_OUTPUT"
+          echo "tooling=$TOOLING" >> "$GITHUB_OUTPUT"
+          if [[ "$JSON" == "[]" ]]; then
+            echo "any=false" >> "$GITHUB_OUTPUT"
+            echo "No book content touched — skipping book verification." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "any=true" >> "$GITHUB_OUTPUT"
+            echo "Verifying: \`$(echo "$BOOKS" | tr '\n' ' ')\`" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  repo-hygiene:
+    name: repo hygiene
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Every book has valid metadata
+        run: |
+          set -euo pipefail
+          fail=0
+          for slug in $(python3 scripts/bookmeta.py slugs); do
+            echo "--- $slug"
+            python3 scripts/bookmeta.py validate "$slug" || fail=1
+          done
+          exit $fail
+
+      - name: Shell scripts parse
+        run: |
+          set -euo pipefail
+          for f in scripts/*.sh books/*/*.sh books/*/source/*.sh; do
+            [[ -f "$f" ]] || continue
+            bash -n "$f" || { echo "::error file=$f::shell syntax error"; exit 1; }
+          done
+
+      - name: Python compiles
+        run: |
+          set -euo pipefail
+          python3 -m compileall -q scripts books || exit 1
+
+      - name: Catalogue is up to date
+        run: |
+          set -euo pipefail
+          python3 scripts/build-index.py
+          if ! git diff --quiet -- books.json docs/; then
+            echo "::error::books.json or docs/ is stale. Run 'python3 scripts/build-index.py' and commit."
+            git diff --stat -- books.json docs/
+            exit 1
+          fi
+
+      - name: Published artifacts are untouched
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          # A published edition is immutable. Adding a new release directory is fine;
+          # modifying or deleting an existing artifact is not.
+          TOUCHED="$(git diff --name-only --diff-filter=MD "$BASE" "$HEAD" -- 'books/*/release/*' || true)"
+          if [[ -n "$TOUCHED" ]]; then
+            echo "::error::published release artifacts modified or deleted:"
+            echo "$TOUCHED"
+            echo "Published editions are immutable — ship a correction as a new edition."
+            exit 1
+          fi
+
+  verify:
+    name: verify ${{ matrix.slug }}
+    needs: scope
+    if: needs.scope.outputs.any == 'true'
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        slug: ${{ fromJson(needs.scope.outputs.books) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Structural lint (no toolchain needed)
+        run: python3 scripts/lint-book.py "${{ matrix.slug }}"
+
+      # Prose style is advisory: it reports into the PR summary and never fails the build.
+      # A style rule that can block a merge gets deleted; one that informs gets used.
+      - name: Prose style (Vale, advisory)
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          VALE_VERSION="3.3.0"
+          curl -fsSL "https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz" \
+            | tar -xz -C /usr/local/bin vale
+          bash scripts/lint-prose.sh "${{ matrix.slug }}" > prose.log 2>&1 || true
+          {
+            echo "#### Prose style — ${{ matrix.slug }}"
+            echo '```'
+            tail -40 prose.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          cat prose.log
+
+      - name: Read the book's requirements
+        id: reqs
+        run: |
+          TIER="$(python3 scripts/bookmeta.py get "${{ matrix.slug }}" tier)"
+          echo "tier=$TIER" >> "$GITHUB_OUTPUT"
+          echo "needs_latex=$(python3 scripts/bookmeta.py get "${{ matrix.slug }}" build.needs_latex false)" >> "$GITHUB_OUTPUT"
+
+      # Only Tier A books need the heavy toolchain on a PR: their verifier suites open the
+      # published PDF. Tier B is fully covered by lint above.
+      - name: Cache apt archives
+        if: steps.reqs.outputs.tier == 'A'
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: apt-${{ runner.os }}-tex-${{ hashFiles('scripts/setup-toolchain.sh') }}
+
+      - name: Install pinned toolchain
+        if: steps.reqs.outputs.tier == 'A'
+        run: |
+          set -euo pipefail
+          REQS="books/${{ matrix.slug }}/source/requirements.txt"
+          ARGS=()
+          [[ "${{ steps.reqs.outputs.needs_latex }}" == "true" ]] || ARGS+=(--no-latex)
+          [[ -f "$REQS" ]] && ARGS+=(--python-reqs "$REQS")
+          bash scripts/setup-toolchain.sh "${ARGS[@]}"
+
+      - name: Full verification
+        if: steps.reqs.outputs.tier == 'A'
+        run: bash scripts/verify-book.sh "${{ matrix.slug }}"
+
+      # Proves the manuscript still builds, and gives reviewers something to actually read.
+      - name: Build preview formats
+        if: steps.reqs.outputs.tier == 'A'
+        run: bash scripts/build-book.sh "${{ matrix.slug }}" html md
+
+      - name: Build preview formats (Tier B)
+        if: steps.reqs.outputs.tier != 'A'
+        run: |
+          bash scripts/setup-toolchain.sh --no-latex
+          bash scripts/build-book.sh "${{ matrix.slug }}" html md epub
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-${{ matrix.slug }}
+          path: books/${{ matrix.slug }}/build/
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,309 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# Publishes a book when a tag of the form <slug>/v<semver> is pushed.
+#
+#   git tag agents-handbook/v1.7.0 && git push origin agents-handbook/v1.7.0
+#
+# Verification gates the release: if the book's verifier suite fails, nothing is published.
+name: release
+
+on:
+  push:
+    tags:
+      - "*/v*"
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Book slug to build (dry run — builds and verifies, publishes nothing)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    name: resolve target
+    runs-on: ubuntu-24.04
+    outputs:
+      slug: ${{ steps.parse.outputs.slug }}
+      version: ${{ steps.parse.outputs.version }}
+      publish: ${{ steps.parse.outputs.publish }}
+      formats: ${{ steps.parse.outputs.formats }}
+      needs_latex: ${{ steps.parse.outputs.needs_latex }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse tag and cross-check book.json
+        id: parse
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            SLUG="${{ inputs.slug }}"
+            VERSION=""
+            PUBLISH="false"
+          else
+            REF="${GITHUB_REF#refs/tags/}"
+            SLUG="${REF%%/v*}"
+            VERSION="${REF##*/v}"
+            PUBLISH="true"
+            if [[ "$SLUG" == "$REF" || -z "$VERSION" ]]; then
+              echo "::error::tag '$REF' is not of the form <slug>/v<semver>"; exit 1
+            fi
+          fi
+
+          if [[ ! -f "books/$SLUG/book.json" ]]; then
+            echo "::error::no books/$SLUG/book.json — known slugs: $(python3 scripts/bookmeta.py slugs | tr '\n' ' ')"
+            exit 1
+          fi
+
+          # The tag is a claim about an edition. Make the book agree with it, so a release can
+          # never be cut from a manuscript whose declared edition differs from the tag.
+          EDITION="$(python3 scripts/bookmeta.py get "$SLUG" edition)"
+          if [[ "$PUBLISH" == "true" && "$VERSION" != "$EDITION" ]]; then
+            echo "::error::tag says v$VERSION but books/$SLUG/book.json declares edition $EDITION"
+            exit 1
+          fi
+
+          echo "slug=$SLUG"                                               >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION:-$EDITION}"                             >> "$GITHUB_OUTPUT"
+          echo "publish=$PUBLISH"                                         >> "$GITHUB_OUTPUT"
+          echo "formats=$(python3 scripts/bookmeta.py formats "$SLUG")"   >> "$GITHUB_OUTPUT"
+          echo "needs_latex=$(python3 scripts/bookmeta.py get "$SLUG" build.needs_latex false)" >> "$GITHUB_OUTPUT"
+
+          echo "### Releasing \`$SLUG\` v${VERSION:-$EDITION}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- tier: $(python3 scripts/bookmeta.py get "$SLUG" tier)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- formats: $(python3 scripts/bookmeta.py formats "$SLUG")" >> "$GITHUB_STEP_SUMMARY"
+          echo "- publish: $PUBLISH" >> "$GITHUB_STEP_SUMMARY"
+
+  build:
+    name: build and verify
+    needs: resolve
+    runs-on: ubuntu-24.04
+    outputs:
+      digest_table: ${{ steps.sums.outputs.table }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache apt archives
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: apt-${{ runner.os }}-tex-${{ hashFiles('scripts/setup-toolchain.sh') }}
+
+      - name: Install pinned toolchain
+        run: |
+          set -euo pipefail
+          REQS="books/${{ needs.resolve.outputs.slug }}/source/requirements.txt"
+          ARGS=()
+          [[ "${{ needs.resolve.outputs.needs_latex }}" == "true" ]] || ARGS+=(--no-latex)
+          [[ -f "$REQS" ]] && ARGS+=(--python-reqs "$REQS")
+          bash scripts/setup-toolchain.sh "${ARGS[@]}"
+
+      - name: Record build environment
+        run: |
+          {
+            echo "pandoc: $(pandoc --version | head -1)"
+            echo "xelatex: $(xelatex --version 2>/dev/null | head -1 || echo absent)"
+            echo "python: $(python3 --version)"
+            echo "runner: ${{ runner.os }} ${{ runner.arch }} / ubuntu-24.04"
+            echo "commit: $GITHUB_SHA"
+          } | tee build-environment.txt
+
+      # The gate. Runs before the build so a broken manuscript never gets typeset, and for a
+      # Tier A book this is the full verifier suite binding the published PDF to its source.
+      # Warnings are reported but not fatal (pass --strict to make them fatal); errors stop
+      # the release.
+      - name: Verify source (gate)
+        run: bash scripts/verify-book.sh "${{ needs.resolve.outputs.slug }}" 2>&1 | tee verify.log
+
+      - name: Surface lint warnings
+        if: always()
+        run: |
+          if grep -q '^warn ' verify.log 2>/dev/null; then
+            {
+              echo "#### Lint warnings"
+              echo '```'
+              grep '^warn ' verify.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Build all declared formats
+        run: bash scripts/build-book.sh "${{ needs.resolve.outputs.slug }}" ${{ needs.resolve.outputs.formats }}
+
+      - name: Stage release assets
+        id: stage
+        run: |
+          set -euo pipefail
+          SLUG="${{ needs.resolve.outputs.slug }}"
+          BOOK="books/$SLUG"
+          mkdir -p dist
+
+          # Freshly built artifacts, under stable unversioned names. These are what
+          # /releases/latest/download/<slug>.<ext> resolves to — permanent links that survive
+          # every future edition.
+          for f in "$BOOK"/build/*; do [[ -f "$f" ]] && cp "$f" dist/; done
+
+          # The canonical, version-named PDF and any extra assets the book declares
+          # (reproducibility package, build receipt, full-source bundle).
+          CANON="$(python3 scripts/bookmeta.py get "$SLUG" release.canonical_pdf)"
+          if [[ -n "$CANON" && -f "$BOOK/release/$CANON" ]]; then
+            cp "$BOOK/release/$CANON" dist/
+          fi
+          for extra in $(python3 scripts/bookmeta.py get "$SLUG" release.extra_assets); do
+            if [[ -f "$BOOK/$extra" ]]; then
+              cp "$BOOK/$extra" dist/
+            else
+              echo "::warning::declared release asset absent: $extra"
+            fi
+          done
+
+          cp build-environment.txt dist/
+          ls -lh dist/
+
+      - name: Checksums
+        id: sums
+        run: |
+          set -euo pipefail
+          cd dist
+          sha256sum -- * > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+          {
+            echo "table<<EOF"
+            echo "| file | sha256 |"
+            echo "|---|---|"
+            awk '{printf "| `%s` | `%s` |\n", $2, $1}' SHA256SUMS.txt
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.resolve.outputs.slug }}-v${{ needs.resolve.outputs.version }}
+          path: dist/
+          if-no-files-found: error
+
+  publish:
+    name: publish release
+    needs: [resolve, build]
+    if: needs.resolve.outputs.publish == 'true'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write       # create the release and upload assets
+      id-token: write       # Sigstore signing for provenance
+      attestations: write   # record the attestation
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.resolve.outputs.slug }}-v${{ needs.resolve.outputs.version }}
+          path: dist
+
+      # Signed SLSA build provenance for every asset, binding each file's digest to this
+      # workflow, repo and commit. Readers verify with:
+      #   gh attestation verify <file> --repo ${{ github.repository }}
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: "dist/*"
+
+      - name: Compose release notes
+        run: |
+          set -euo pipefail
+          SLUG="${{ needs.resolve.outputs.slug }}"
+          VERSION="${{ needs.resolve.outputs.version }}"
+          TITLE="$(python3 scripts/bookmeta.py get "$SLUG" title)"
+          SUBTITLE="$(python3 scripts/bookmeta.py get "$SLUG" subtitle)"
+          TIER="$(python3 scripts/bookmeta.py get "$SLUG" tier)"
+          BOUNDARY="$(python3 scripts/bookmeta.py get "$SLUG" assurance.reproducibility_boundary)"
+
+          cat > notes.md <<EOF
+          # $TITLE — Edition $VERSION
+
+          $SUBTITLE
+
+          **Assurance: Tier $TIER.**
+
+          ## Download
+
+          | Format | Link | For |
+          |---|---|---|
+          | PDF | [\`$SLUG.pdf\`](https://github.com/${{ github.repository }}/releases/download/$SLUG/v$VERSION/$SLUG.pdf) | reading |
+          | EPUB | [\`$SLUG.epub\`](https://github.com/${{ github.repository }}/releases/download/$SLUG/v$VERSION/$SLUG.epub) | e-readers |
+          | HTML | [\`$SLUG.html\`](https://github.com/${{ github.repository }}/releases/download/$SLUG/v$VERSION/$SLUG.html) | the web |
+          | Markdown | [\`$SLUG.md\`](https://github.com/${{ github.repository }}/releases/download/$SLUG/v$VERSION/$SLUG.md) | **agents and LLMs** |
+
+          Stable links that always point at the newest edition:
+          \`https://github.com/${{ github.repository }}/releases/latest/download/$SLUG.pdf\`
+
+          ## Verify this download
+
+          \`\`\`bash
+          gh attestation verify $SLUG.pdf --repo ${{ github.repository }}
+          sha256sum -c SHA256SUMS.txt
+          \`\`\`
+
+          Every asset carries Sigstore-signed SLSA build provenance tying it to commit
+          \`${{ github.sha }}\` and to the workflow that produced it.
+
+          For a full source-to-artifact check:
+
+          \`\`\`bash
+          git clone https://github.com/${{ github.repository }} && cd handbooks
+          scripts/verify-book.sh $SLUG
+          \`\`\`
+
+          ## Reproducibility boundary
+
+          $BOUNDARY
+
+          ## Asset digests
+
+          ${{ needs.build.outputs.digest_table }}
+          EOF
+          cat notes.md
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          SLUG="${{ needs.resolve.outputs.slug }}"
+          VERSION="${{ needs.resolve.outputs.version }}"
+          TITLE="$(python3 scripts/bookmeta.py get "$SLUG" title)"
+          gh release create "$SLUG/v$VERSION" \
+            --title "$TITLE — Edition $VERSION" \
+            --notes-file notes.md \
+            dist/*
+
+      - name: Summary
+        run: |
+          echo "Published **${{ needs.resolve.outputs.slug }} v${{ needs.resolve.outputs.version }}**" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "${{ needs.build.outputs.digest_table }}" >> "$GITHUB_STEP_SUMMARY"
+
+  reindex:
+    name: refresh catalogue
+    needs: [resolve, publish]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - name: Regenerate books.json and docs/
+        run: python3 scripts/build-index.py
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- books.json docs/; then
+            echo "catalogue already current"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add books.json docs/
+          git commit -m "chore: refresh catalogue for ${{ needs.resolve.outputs.slug }} v${{ needs.resolve.outputs.version }}"
+          git push

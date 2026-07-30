@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# Publishes docs/ to GitHub Pages: the human catalogue, books.json and llms.txt.
+#
+# One-time setup: Settings -> Pages -> Source: "GitHub Actions".
+name: pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "books.json"
+      - "books/*/book.json"
+      - "scripts/build-index.py"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Build from source rather than trusting the committed copy, so the site can never
+      # drift from the books' own metadata.
+      - name: Regenerate catalogue
+        run: python3 scripts/build-index.py
+
+      - name: Fail if the committed catalogue was stale
+        run: |
+          if ! git diff --quiet -- books.json docs/; then
+            echo "::warning::committed catalogue was stale; deploying the freshly generated one."
+            echo "Run 'python3 scripts/build-index.py' and commit to silence this."
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deploy
+        uses: actions/deploy-pages@v4
