@@ -156,7 +156,15 @@ def main() -> int:
     # ---------------------------------------------------- edition strings elsewhere
     # Plain textual replacements across the bundle. Each target is listed explicitly so an
     # unexpected file never gets rewritten silently.
-    def retext(rel: str, pairs: list[tuple[str, str]], required: bool = True) -> None:
+    def retext(rel: str, pairs: list[tuple[str, str]], required: bool = True,
+               every: bool = False) -> None:
+        """Apply literal replacements to one bundle file.
+
+        `every=True` asserts that *each* pair matched, not merely that the file changed. Use it
+        for targeted single-file edits. Without it, one matching pair masks the failure of the
+        others — which is exactly how the escaped-dot regexes in verify_release_metadata.py were
+        left on the previous edition while the file still reported as updated.
+        """
         p = book / rel
         if not p.is_file():
             if required:
@@ -164,8 +172,14 @@ def main() -> int:
             return
         body = p.read_text(encoding="utf-8")
         before = body
+        unmatched = []
         for a, b in pairs:
+            if a not in body:
+                unmatched.append(a)
+                continue
             body = body.replace(a, b)
+        if every and unmatched:
+            die(f"{rel}: these replacements found no match: {unmatched}")
         if body == before and required:
             die(f"no change made to {rel}; its edition references may have moved")
         p.write_text(body, encoding="utf-8")
@@ -207,15 +221,21 @@ def main() -> int:
     # These hard-code what they expect, which is the point: they fail loudly when an edition is
     # cut without updating them. Update them deliberately here.
     old_minor, new_minor = old_ed_short.split(".")[1], new_ed_short.split(".")[1]
+    # The patterns in this file are regex source, so the file literally contains a backslash
+    # before each dot. In a raw f-string `\.` is that one backslash plus the dot; `\\.` would be
+    # two backslashes and match nothing. every=True makes a mistake here fail loudly.
+    old_esc = old_ed.replace(".", r"\.")
+    new_esc = new_ed.replace(".", r"\.")
     retext("source/verify_release_metadata.py", [
-        # The regex-escaped forms inside the checks dict...
-        (rf"Edition 1\\.{old_minor}\\.0", rf"Edition 1\\.{new_minor}\\.0"),
-        (rf'"edition": "1\\.{old_minor}\\.0"', rf'"edition": "1\\.{new_minor}\\.0"'),
+        # The escaped edition token, however it is prefixed in the checks dict
+        # ("Edition 1\.7\.0", "Edition: 1\.7\.0", '"edition": "1\.7\.0"').
+        (old_esc, new_esc),
+        # The shortened form used for the evaluation check.
+        (rf"Edition 1\.{old_minor}", rf"Edition 1\.{new_minor}"),
         (f"edition_1_{old_minor}", f"edition_1_{new_minor}"),
-        (rf"evaluation in Edition 1\\.{old_minor}", rf"evaluation in Edition 1\\.{new_minor}"),
-        # ...and the plain-text success message the script prints.
+        # The plain-text success message the script prints.
         (f"Edition {old_ed}", f"Edition {new_ed}"),
-    ])
+    ], every=True)
 
     # The stale-metadata guard should now also reject the edition we just superseded.
     vrm = book / "source" / "verify_release_metadata.py"

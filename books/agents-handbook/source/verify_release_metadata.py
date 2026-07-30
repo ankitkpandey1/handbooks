@@ -4,11 +4,11 @@ import json,re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 checks={
- 'README.md':[r'Edition 1\.7\.0',r'bash run_publication_checks\.sh'],
- 'BUILD_ENVIRONMENT.txt':[r'Edition: 1\.7\.0'],
- 'canonical_source_manifest.json':[r'"edition": "1\.7\.0"',r'edition_1_8\.md'],
- 'framework_source_contract_manifest.json':[r'"edition": "1\.7\.0"'],
- 'reproduce_qa_evaluation.py':[r'evaluation in Edition 1\.7'],
+ 'README.md':[r'Edition 1\.8\.0',r'bash run_publication_checks\.sh'],
+ 'BUILD_ENVIRONMENT.txt':[r'Edition: 1\.8\.0'],
+ 'canonical_source_manifest.json':[r'"edition": "1\.8\.0"',r'edition_1_8\.md'],
+ 'framework_source_contract_manifest.json':[r'"edition": "1\.8\.0"'],
+ 'reproduce_qa_evaluation.py':[r'evaluation in Edition 1\.8'],
 }
 errors=[]
 for name,patterns in checks.items():
