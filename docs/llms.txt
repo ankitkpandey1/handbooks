@@ -6,7 +6,7 @@ Machine-readable catalogue with digests, outlines and asset URLs: https://ankitk
 
 ## Books
 
-- [Production Agent Engineering in 2026 (Edition 1.7.0, Tier A)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md): A production systems field manual for advanced engineers
+- [Production Agent Engineering (Edition 1.8.0, Tier A)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md): A production systems field manual for advanced engineers
 
 ## Notes for agents
 

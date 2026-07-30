@@ -1,8 +1,8 @@
 {
   "schema_version": "production-agent-engineering/manuscript-code-blocks/v2",
-  "edition": "1.7.0",
-  "source_filename": "production_agent_engineering_2026_edition_1_7.md",
-  "source_sha256": "021532c7f69d95ae19564bff1636931817f3a79738ad736ea378faf417b3fe79",
+  "edition": "1.8.0",
+  "source_filename": "production_agent_engineering_edition_1_8.md",
+  "source_sha256": "032436f24456bebbcdfe2d08647779aaafad8a27409c0e332b72ebf0633316f5",
   "blocks": [
     {
       "index": 1,
