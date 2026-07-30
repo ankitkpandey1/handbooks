@@ -14,7 +14,7 @@ or download any format from the table below.
 
 | Book | Tier | Edition | Download |
 |---|:---:|:---:|---|
-| **[Production Agent Engineering in 2026](books/agents-handbook)** — 181 pp. Architecture selection, harness and control-plane design, task contracts, context engineering, state and memory, security, durable execution, evaluation. | A | 1.7.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html) · [Markdown](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md) |
+| **[Production Agent Engineering](books/agents-handbook)** — 181 pp. Architecture selection, harness and control-plane design, task contracts, context engineering, state and memory, security, durable execution, evaluation. | A | 1.8.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html) · [Markdown](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md) |
 
 Those links always resolve to the newest edition, so they are safe to bookmark or cite. The
 Markdown export is a single plain file, meant for pasting into a model's context — it is usually
