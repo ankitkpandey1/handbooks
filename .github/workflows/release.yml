@@ -151,6 +151,39 @@ jobs:
           CANON="$(python3 scripts/bookmeta.py get "$SLUG" release.canonical_pdf)"
           if [[ -n "$CANON" && -f "$BOOK/release/$CANON" ]]; then
             cp "$BOOK/release/$CANON" dist/
+
+            # A Tier A book has an external build receipt and a verifier suite that attest to
+            # ONE specific PDF. A fresh CI rebuild is not that file — the reproducibility
+            # boundary is explicit that builds are not byte-identical across dependency
+            # closures. So the stable alias must serve the receipted artifact, or the primary
+            # download link would point at something verify_release.sh does not attest.
+            #
+            # The rebuild is still useful: comparing its digest to the receipted one is a real
+            # reproducibility measurement, so it is reported either way.
+            RECEIPTED="$(sha256sum "$BOOK/release/$CANON" | cut -d' ' -f1)"
+            if [[ -f "dist/$SLUG.pdf" ]]; then
+              REBUILT="$(sha256sum "dist/$SLUG.pdf" | cut -d' ' -f1)"
+            else
+              REBUILT="(not rebuilt)"
+            fi
+            cp "$BOOK/release/$CANON" "dist/$SLUG.pdf"
+
+            {
+              echo "#### Reproducibility measurement"
+              if [[ "$REBUILT" == "$RECEIPTED" ]]; then
+                echo "CI rebuild is **byte-identical** to the receipted PDF (\`$RECEIPTED\`)."
+              else
+                echo "CI rebuild differs from the receipted PDF, as the stated boundary allows:"
+                echo ""
+                echo "| | sha256 |"
+                echo "|---|---|"
+                echo "| receipted (published) | \`$RECEIPTED\` |"
+                echo "| CI rebuild | \`$REBUILT\` |"
+                echo ""
+                echo "TeX Live and fonts are not pinned, so this is expected. The stable"
+                echo "\`$SLUG.pdf\` link serves the **receipted** artifact."
+              fi
+            } >> "$GITHUB_STEP_SUMMARY"
           fi
           for extra in $(python3 scripts/bookmeta.py get "$SLUG" release.extra_assets); do
             if [[ -f "$BOOK/$extra" ]]; then
