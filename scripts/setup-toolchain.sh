@@ -85,7 +85,8 @@ if [[ "$WITH_LATEX" -eq 1 ]]; then
     fonts-noto-core \
     fonts-dejavu-core \
     poppler-utils \
-    ghostscript
+    ghostscript \
+    qpdf
 else
   echo "==> skipping LaTeX (--no-latex); pdf builds will not work"
 fi
@@ -99,7 +100,7 @@ if [[ -n "$PY_REQS" ]]; then
 fi
 
 # --- assert the toolchain contract -----------------------------------------------------
-# The books' own generate_environment_lock.py records exactly these five binaries, so they are
+# The books' own generate_environment_lock.py records exactly these binaries, so they are
 # the contract a PDF build depends on. Checking here means a missing dependency fails at install
 # time with a clear name, rather than 40 seconds into a XeLaTeX run with a cryptic message —
 # which is how the Ghostscript requirement was originally found.
@@ -124,10 +125,12 @@ if [[ "$WITH_LATEX" -eq 1 ]]; then
   check xelatex xelatex required
   check pdftotext pdftotext required
   check gs ghostscript required
+  check qpdf qpdf required
 else
   check xelatex xelatex optional
   check pdftotext pdftotext optional
   check gs ghostscript optional
+  check qpdf qpdf optional
 fi
 
 if [[ ${#MISSING[@]} -gt 0 ]]; then

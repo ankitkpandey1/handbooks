@@ -43,6 +43,15 @@ def find_companion_heading(pdf: Path) -> tuple[int, fitz.Rect, float]:
 
 
 def run_ghostscript(input_pdf: Path, output_pdf: Path) -> None:
+    """Compress and normalise. Runs BEFORE attachment, never after.
+
+    Ghostscript's pdfwrite device is a re-distiller, not a linearizer: it rebuilds the document
+    and does not reliably carry /FileAttachment annotations across, even with -dPreserveAnnots
+    (true by default in 10.x). Running it after attachment kept the embedded file stream but
+    silently dropped the visible paperclip annotation, which verify_embedded_package.py requires.
+    Linearisation is therefore done afterwards by qpdf, which rewrites the file structure without
+    touching page content or annotations.
+    """
     gs = shutil.which("gs")
     if not gs:
         raise SystemExit("Ghostscript is required for the final linearised PDF build")
@@ -52,14 +61,27 @@ def run_ghostscript(input_pdf: Path, output_pdf: Path) -> None:
         "-dNOPAUSE",
         "-dBATCH",
         "-sDEVICE=pdfwrite",
-        "-dFastWebView=true",
         "-dCompatibilityLevel=1.7",
         "-dDetectDuplicateImages=true",
         "-dCompressFonts=true",
+        "-dPreserveAnnots=true",
         f"-sOutputFile={output_pdf}",
         str(input_pdf),
     ]
     subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+
+
+def run_qpdf_linearize(input_pdf: Path, output_pdf: Path) -> None:
+    """Linearise for fast web view, preserving annotations and the embedded file tree."""
+    qpdf = shutil.which("qpdf")
+    if not qpdf:
+        raise SystemExit("qpdf is required for the final linearised PDF build")
+    subprocess.run(
+        [qpdf, "--linearize", "--object-streams=generate", str(input_pdf), str(output_pdf)],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+    )
 
 
 def main() -> None:
@@ -69,8 +91,12 @@ def main() -> None:
     parser.add_argument("output_pdf", type=Path)
     args = parser.parse_args()
 
-    page_index, rect, page_height = find_companion_heading(args.input_pdf)
-    reader = PdfReader(str(args.input_pdf))
+    # Compress first, so Ghostscript never sees the attachment or its annotation.
+    compressed = args.output_pdf.with_suffix(".compressed.tmp.pdf")
+    run_ghostscript(args.input_pdf, compressed)
+
+    page_index, rect, page_height = find_companion_heading(compressed)
+    reader = PdfReader(str(compressed))
     writer = PdfWriter()
     writer.clone_document_from_reader(reader)
 
@@ -114,11 +140,12 @@ def main() -> None:
     try:
         with attached.open("wb") as stream:
             writer.write(stream)
-        run_ghostscript(attached, linearised)
+        run_qpdf_linearize(attached, linearised)
         linearised.replace(args.output_pdf)
     finally:
         attached.unlink(missing_ok=True)
         linearised.unlink(missing_ok=True)
+        compressed.unlink(missing_ok=True)
 
     digest = hashlib.sha256(archive_bytes).hexdigest()
     print(f"embedded {archive_name} sha256={digest} on PDF page {page_index + 1}")

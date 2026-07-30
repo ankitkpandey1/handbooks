@@ -8,7 +8,7 @@
 #   scripts/regen-edition.sh <slug>
 #
 # Run after scripts/cut-edition.py has done the text transforms. Needs the full toolchain
-# (Pandoc, XeLaTeX, Ghostscript, pdftotext, PyMuPDF), so in practice this runs in CI.
+# (Pandoc, XeLaTeX, Ghostscript, qpdf, pdftotext, PyMuPDF), so in practice this runs in CI.
 #
 # Order matters and is not obvious:
 #   code blocks -> environment lock -> manifest hashes -> source checksums -> companion zip
@@ -38,7 +38,7 @@ ZIP_NAME="${PREFIX}_Reproducibility_Package.zip"
 RECEIPT_NAME="Publication_Build_Receipt_Edition_${ED_SHORT}.json"
 FULLSRC_NAME="${PREFIX}_Full_Source"
 
-for tool in pandoc xelatex gs pdftotext python3; do
+for tool in pandoc xelatex gs qpdf pdftotext python3; do
   command -v "$tool" >/dev/null 2>&1 || { echo "error: '$tool' missing. Run scripts/setup-toolchain.sh" >&2; exit 3; }
 done
 

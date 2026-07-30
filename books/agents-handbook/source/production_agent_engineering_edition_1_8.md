@@ -8365,6 +8365,7 @@ The guide now contains twenty-one substantive parts, six production case studies
 - corrected the rights statement to the CC-BY-4.0 grant the repository actually makes, replacing the "All rights reserved" notice that contradicted it;
 - regenerated every derived artefact under the new asset prefix: code-block manifest, environment attestation, canonical source manifest, member checksums, companion archive, PDF, external build receipt, bundle manifest and full-source archive;
 - added scripted edition cutting and regeneration so the edition strings pinned across manifests, verifiers and generators are updated together rather than by hand.
+- moved final linearisation from Ghostscript to qpdf: the pdfwrite device is a re-distiller and does not reliably carry the /FileAttachment annotation across, so on Ghostscript 10.02.1 the embedded companion archive survived while its visible paperclip annotation was silently dropped. Ghostscript now runs before attachment for compression only, and qpdf linearises afterwards without touching page content or annotations.
 
 \Needspace{5\baselineskip}
 

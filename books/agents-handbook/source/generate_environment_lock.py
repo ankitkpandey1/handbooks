@@ -31,7 +31,7 @@ while queue:
         except Exception: reqs.append(raw)
     seen[key]={'name':dist.metadata['Name'] or name,'version':dist.version,'requires':sorted(reqs),'installed_tree_sha256':tree,'file_count':len(files)}
 binaries={}
-for cmd in ['python','pandoc','xelatex','pdftotext','gs']:
+for cmd in ['python','pandoc','xelatex','pdftotext','gs','qpdf']:
     path=subprocess.run(['bash','-lc',f'command -v {cmd}'],capture_output=True,text=True).stdout.strip()
     if path and Path(path).is_file():
         version=subprocess.run([path,'--version'],capture_output=True,text=True).stdout.splitlines()[:2]
