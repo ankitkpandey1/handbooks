@@ -47,15 +47,38 @@ fails CI. `AGENTS.md` and `book.json` are *not* pinned — they are safe to edit
 
 ## Correcting the manuscript
 
-Corrections ship as a new edition, never as an in-place edit of a published one. To cut
-Edition 1.8.0:
+Corrections ship as a new edition, never as an in-place edit of a published one. **Do not cut
+an edition by hand.** The edition string is pinned in three manifests, the external receipt and
+five verifiers and generators; missing one costs a full PDF build before the release gate says
+so. Use the tooling:
 
-1. Copy the manuscript to the new edition filename and edit it there.
-2. Update the edition string everywhere `verify_release_metadata.py` checks for it:
-   `README.md`, `source/BUILD_ENVIRONMENT.txt`, `source/canonical_source_manifest.json`,
-   `source/framework_source_contract_manifest.json`, `source/reproduce_qa_evaluation.py`.
-3. Add an edition-history entry (`verify_edition_history.py` enforces this).
-4. Regenerate, do not hand-edit: `generate_environment_lock.py`,
-   `extract_manuscript_code_blocks.py`, `generate_build_receipt.py`, then both
-   `SHA256SUMS.txt` files.
-5. Run `bash verify_release.sh`, then tag `agents-handbook/v1.8.0`.
+```bash
+# 1. Text transforms. No toolchain needed. Writes the new manuscript, rewrites every pinned
+#    edition string, adds the changelog entry, updates book.json, removes superseded artifacts.
+scripts/cut-edition.py --slug agents-handbook --to <version> \
+  --source-name production_agent_engineering_edition_<major>_<minor>.md \
+  --asset-prefix Production_Agent_Engineering_Edition_<major>.<minor> \
+  --date <YYYY-MM-DD> --changelog <file of '- ' bullets>
+# add --title / --subtitle only when they actually change
+
+# 2. Edit the manuscript for the actual content change.
+
+# 3. Derived artifacts. Needs Pandoc, XeLaTeX, Ghostscript, qpdf, pdftotext and PyMuPDF, so
+#    push to an edition/** branch and let prepare-edition.yml do it, or run locally:
+scripts/regen-edition.sh agents-handbook
+
+# 4. Open a PR, merge, then tag.
+git tag agents-handbook/v<version> && git push origin agents-handbook/v<version>
+```
+
+`regen-edition.sh` ends by running `verify_release.sh`, so a regeneration that does not verify
+does not complete.
+
+Two things the tooling guards, both learned by getting them wrong:
+
+- The running-head edition string is replaced **in scope**, not globally. A blanket replacement
+  also rewrites the historical changelog heading for the superseded edition, which produces a
+  duplicate entry and destroys the edition history.
+- Ghostscript runs **before** attachment, for compression only. Its `pdfwrite` device is a
+  re-distiller and drops the `/FileAttachment` annotation that `verify_embedded_package.py`
+  requires; `qpdf --linearize` does the linearisation afterwards.
