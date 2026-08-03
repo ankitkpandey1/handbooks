@@ -8,6 +8,8 @@ Everything that is not automated, and the reasoning behind what is.
 
 ## One-time repository setup
 
+Sections 4 and 5 need a browser login and cannot be automated.
+
 Do these once, in order. Items 1–3 are required for releases to work at all.
 
 1. **Enable Actions write access for releases.**
@@ -29,24 +31,71 @@ Do these once, in order. Items 1–3 are required for releases to work at all.
      --add-topic technical-writing --add-topic llm --add-topic pandoc
    ```
 
-4. **Zenodo, for DOIs.** Sign in to [zenodo.org](https://zenodo.org) with GitHub, then
-   Account → GitHub → flip the switch on `ankitkpandey1/handbooks`. Zenodo mints a DOI for
-   every release **created after** the switch is on; earlier releases are not retroactively
-   archived.
+### 4. Zenodo, for DOIs
 
-   Two things to know:
+**What it is.** A free open-access repository run by CERN. Connected to a GitHub repository, it
+archives each new release and mints a **DOI** — a permanent identifier such as
+`https://doi.org/10.5281/zenodo.1234567`.
 
-   - Zenodo reads `CITATION.cff` **only if `.zenodo.json` is absent**. If both exist,
-     `.zenodo.json` wins and the CFF is silently ignored. This repo deliberately ships only
-     `CITATION.cff`. Do not add `.zenodo.json` unless you intend it to take over.
-   - Each release gets its own version DOI, plus a concept DOI that always resolves to the
-     newest. Cite the concept DOI on a CV; cite the version DOI in a paper.
+**Why bother.** Three reasons, in order of how much they actually matter here:
 
-   Once the first DOI exists, add the badge to `README.md` and the DOI to `CITATION.cff`.
+1. *Permanence.* A DOI keeps resolving if the repository is renamed, made private, deleted, or
+   if GitHub itself goes away, because Zenodo holds its own copy of the artifact. The
+   `releases/latest/download/` links are stable only while GitHub exists and the repo stays up.
+2. *Citability.* A DOI can go in a reference list. A GitHub URL reads as a link; a DOI reads as
+   a publication.
+3. *Discoverability.* Zenodo records are indexed by OpenAIRE, DataCite and Google Scholar.
 
-5. **Pin an ORCID.** Register at [orcid.org](https://orcid.org) and fill in the commented
-   `orcid:` field in `CITATION.cff`. This is what makes the books aggregate under one
-   identity across Zenodo, Crossref and any future publisher.
+Worth being honest about the size of the win: the audience for these handbooks is engineers, not
+academics, so this is mostly permanence insurance and credibility signalling. It costs about five
+minutes.
+
+**Steps.**
+
+1. [zenodo.org](https://zenodo.org) → **Sign in with GitHub** → authorise.
+2. **Account → GitHub** → find `ankitkpandey1/handbooks` → toggle **On**.
+3. Create a release *after* the toggle is on.
+
+**Zenodo only archives releases created after the switch is enabled.** Releases published before
+that are not picked up retroactively. To give an existing edition a DOI, either cut a new patch
+edition, or create a manual Zenodo deposit and upload the artifacts by hand.
+
+**Two DOIs per project.** Each release gets a *version* DOI; there is also a *concept* DOI that
+always resolves to the newest version. Put the concept DOI on a CV, profile or talk slide; cite a
+version DOI when referring to a specific edition.
+
+**The `.zenodo.json` trap.** Zenodo reads `CITATION.cff` **only when `.zenodo.json` is absent**.
+If both exist, `.zenodo.json` wins and the CFF is ignored silently. This repository ships only
+`CITATION.cff` deliberately. Do not add `.zenodo.json` unless you intend it to take over
+completely.
+
+**After the first DOI exists**, three things need updating, and until they are done the
+repository must not claim to be DOI-archived:
+
+- `CITATION.cff` — add `doi: "10.5281/zenodo.XXXXXXX"` (the concept DOI) at the top level.
+- `README.md` — replace the "not yet DOI-archived" sentence, and optionally add the badge Zenodo
+  provides on the record page.
+- This runbook — clear the item from "Known outstanding items".
+
+### 5. ORCID
+
+**What it is.** A free, permanent 16-digit identifier for a person, such as
+`0000-0002-1825-0097`. It distinguishes you from everyone with a similar name and aggregates your
+published work under one identity.
+
+**Why it matters here specifically.** These books are published under a personal identity that is
+deliberately separate from any employer. An ORCID is what keeps the handbooks, any future papers,
+and any Zenodo deposits attached to the same person regardless of which email address or
+institution is current at the time. Without one, the author is a name string that search engines
+have to guess about.
+
+**Steps.**
+
+1. Register at [orcid.org](https://orcid.org) — about three minutes.
+2. Add the ORCID to the Zenodo account (**Account → Profile**), so deposits link to it
+   automatically and appear on the ORCID record.
+3. Fill in the commented `orcid:` field in `CITATION.cff`, in both the top-level `authors` block
+   and the `preferred-citation` block.
 
 ## Cutting a release
 
@@ -128,5 +177,8 @@ regeneration sequence — for `agents-handbook` that is
   reads "All rights reserved" and contradicts the repository's CC-BY-4.0 licence. The
   structural linter warns about this on every run until it is fixed. See
   [LICENSING.md](../../LICENSING.md).
-- No DOI yet — pending the Zenodo switch in step 4 above.
-- No ORCID yet — pending step 5.
+- **No DOI yet.** The Zenodo switch (section 4) has not been enabled, so `agents-handbook`
+  v1.7.0 and v1.8.0 are not archived and have no DOI. `README.md` states this plainly rather
+  than claiming otherwise; correct it once the first DOI exists.
+- **No ORCID yet** — see section 5. The `orcid:` fields in `CITATION.cff` stay commented out
+  until there is a real one; a placeholder ORCID is worse than none.

@@ -49,6 +49,10 @@ gh attestation verify agents-handbook.pdf --repo ankitkpandey1/handbooks
 sha256sum -c SHA256SUMS.txt
 ```
 
+Needs GitHub CLI 2.60 or newer. Older versions fail with `unsupported tlog public key type:
+PKIX_ED25519`, which is the CLI being unable to read Sigstore's current trust root — not a
+problem with the artifact.
+
 For a Tier A book you can check the artifact against the source itself, offline:
 
 ```bash
@@ -123,7 +127,8 @@ Prose is [CC-BY-4.0](LICENSE). Scripts, verifiers and build tooling are
 [LICENSING.md](LICENSING.md) explains why the two are not applied to the same files.
 
 To cite a book, use the "Cite this repository" button or [`CITATION.cff`](CITATION.cff). Releases
-are archived with a DOI.
+are not yet DOI-archived — [the runbook](docs/maintainers/release-runbook.md#4-zenodo-for-dois)
+covers enabling that.
 
 ---
 
