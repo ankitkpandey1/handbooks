@@ -1,0 +1,110 @@
+{
+  "seed": 20260831,
+  "worlds": 100000,
+  "numerically_verified_worlds": 500,
+  "sampling_statement": "Uniform independent draws over stipulated intervals; not a real-world probability distribution.",
+  "regime_counts": {
+    "defection_dominates": 56284,
+    "cooperation_dominates": 6247,
+    "coordination": 18732,
+    "coexistence": 18737
+  },
+  "regime_fractions": {
+    "defection_dominates": 0.56284,
+    "cooperation_dominates": 0.06247,
+    "coordination": 0.18732,
+    "coexistence": 0.18737
+  },
+  "fraction_ending_at_or_above_half_cooperation": {
+    "0.01": 0.10488,
+    "0.1": 0.10906,
+    "0.5": 0.14608,
+    "0.9": 0.26185,
+    "0.99": 0.28904
+  },
+  "coordination_threshold_summary": {
+    "count": 18732,
+    "min": 0.0002239653231501874,
+    "median": 0.7057619745595661,
+    "max": 0.9999881282974739
+  },
+  "analytic_numeric_mismatches_over_003": 6,
+  "mismatch_examples": [
+    {
+      "payoffs": [
+        2.7675926319013673,
+        1.3935973442897263,
+        2.774348531273583,
+        1.42101707565807
+      ],
+      "kind": "defection_dominates",
+      "start": 0.9,
+      "end": 0.43813576458458536,
+      "expected": 0.0
+    },
+    {
+      "payoffs": [
+        2.7675926319013673,
+        1.3935973442897263,
+        2.774348531273583,
+        1.42101707565807
+      ],
+      "kind": "defection_dominates",
+      "start": 0.99,
+      "end": 0.9590691708994858,
+      "expected": 0.0
+    },
+    {
+      "payoffs": [
+        2.8516309117890204,
+        0.7718608308950268,
+        2.8753423087798424,
+        0.825343885454952
+      ],
+      "kind": "defection_dominates",
+      "start": 0.99,
+      "end": 0.1907487466950935,
+      "expected": 0.0
+    },
+    {
+      "payoffs": [
+        3.2648448947298343,
+        1.1441330776437824,
+        3.247407744247666,
+        1.1466747692888566
+      ],
+      "kind": "coordination",
+      "start": 0.1,
+      "end": 0.08888614099745494,
+      "expected": 0.0
+    },
+    {
+      "payoffs": [
+        3.2648448947298343,
+        1.1441330776437824,
+        3.247407744247666,
+        1.1466747692888566
+      ],
+      "kind": "coordination",
+      "start": 0.5,
+      "end": 0.9135946076468313,
+      "expected": 1.0
+    },
+    {
+      "payoffs": [
+        2.799904275689687,
+        1.115020382073715,
+        2.717796582034087,
+        1.1175986018703965
+      ],
+      "kind": "coordination",
+      "start": 0.1,
+      "end": 0.9660408279080637,
+      "expected": 1.0
+    }
+  ],
+  "decision_relevant_differences": [
+    "S-P controls whether rare cooperation can invade",
+    "R-T controls whether near-universal cooperation resists rare defection"
+  ]
+}

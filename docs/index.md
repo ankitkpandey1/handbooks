@@ -6,6 +6,7 @@ Short technical handbooks with full source, reproducible builds and verifiable r
 | Book | Tier | Edition | Formats |
 |---|---|---|---|
 | **Production Agent Engineering** | A | 1.8.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md) |
+| **One Expert, Machine-Scale Cognition** | B | 1.0.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.md) |
 
 ## Tiers
 

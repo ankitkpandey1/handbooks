@@ -1,0 +1,22 @@
+[
+  {"id":"swe01","domain":"swe","task":"One API endpoint allows an authorization bypass. A 200-service repository has inconsistent authorization helpers. Fix the incident and decide whether to escalate systemically."},
+  {"id":"swe02","domain":"swe","task":"A distributed integration test fails twice per week but passes on retry. One engineer has two days to distinguish product race, test race, and infrastructure noise."},
+  {"id":"swe03","domain":"swe","task":"A database column must change type while 40 internal consumers and three external clients remain live. Design a safe migration and compatibility plan."},
+  {"id":"swe04","domain":"swe","task":"Checkout p99 latency rose 35% after six merged changes. Logs are noisy and rollback of all six changes would lose urgent fixes."},
+  {"id":"swe05","domain":"swe","task":"A critical dependency vulnerability has a patch release, but the upgrade changes serialization behavior across 18 services."},
+  {"id":"swe06","domain":"swe","task":"A legacy batch pipeline silently dropped 0.4% of records last month. There is no end-to-end reconciliation or ownership map."},
+  {"id":"swe07","domain":"swe","task":"Redesign a widely used SDK method without breaking existing callers while correcting an ambiguity that caused repeated production defects."},
+  {"id":"n01","domain":"science","task":"Select three experiments from 30 mechanisms and 400 overlapping papers about solid-electrolyte conductivity loss."},
+  {"id":"n02","domain":"math","task":"A conjecture has 120 computational examples but its valid graph class may be misstated."},
+  {"id":"n03","domain":"strategy","task":"Decide whether a small SaaS firm should test a free tier when competitors can adapt and only two reversible tests are affordable."},
+  {"id":"n04","domain":"policy","task":"Draft an AI hiring notice when validation, data use, retention, appeal, and legal compliance are unknown."},
+  {"id":"n05","domain":"learning","task":"One instructor must provide individualized technical-English practice and reliable assessment to 90 mixed-level engineers."},
+  {"id":"n06","domain":"operations","task":"Redesign clinical-lab scheduling under variable arrivals and downtime without delaying urgent samples or inventing capacity data."},
+  {"id":"n07","domain":"design","task":"Generate and select an accessible wayfinding system for a hospital serving four languages and visually impaired visitors."},
+  {"id":"n08","domain":"writing","task":"Synthesize 300 interview transcripts into a board decision without erasing minority evidence or exposing identities."},
+  {"id":"n09","domain":"research","task":"Map a fast-moving technical field while detecting duplicated datasets, benchmark leakage, and contradictory results."},
+  {"id":"n10","domain":"simulation","task":"Assess whether cooperation survives across uncertain evolutionary-game payoffs without treating authored ranges as empirical probabilities."},
+  {"id":"n11","domain":"logistics","task":"Prepare a 72-hour flood water-allocation plan before route and rainfall forecasts stabilize."},
+  {"id":"n12","domain":"portfolio","task":"Allocate one expert-month across eight research bets with correlated evidence and different reversibility."},
+  {"id":"n13","domain":"early_stop","task":"Correct one isolated typo in a low-value internal sentence with no recurrence evidence."}
+]

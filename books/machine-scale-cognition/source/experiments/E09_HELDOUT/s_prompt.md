@@ -1,0 +1,3 @@
+Use selector-first constraint crossing on this request. Locate the binding constraint among representation, coverage, discrimination, review, execution authority, and learning. Specify the selector before scaling work. Produce a bounded object for the mathematician and stop rather than inventing missing mathematics.
+
+A mathematician has 120 computational observations suggesting a conjecture about a graph invariant. In one week, decide whether to pursue a proof, find counterexamples, or reformulate the conjecture. Give the most useful response you can without inventing the missing conjecture, invariant, graph class, or observations.

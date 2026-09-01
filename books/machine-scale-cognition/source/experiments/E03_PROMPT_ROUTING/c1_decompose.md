@@ -1,0 +1,1 @@
+For each supplied task, internally identify its formal problem type and decompose it into the minimum independently checkable calculations. Compute carefully, then return only the requested JSON object with no reasoning.

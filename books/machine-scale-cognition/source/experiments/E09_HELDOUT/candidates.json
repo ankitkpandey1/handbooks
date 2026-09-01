@@ -1,0 +1,10 @@
+[
+  {"id":"museum","task":"A regional museum has 80,000 uncatalogued photographs and one curator. In six weeks, decide what can be digitized and made searchable without publishing sensitive or wrongly attributed material."},
+  {"id":"water","task":"A rural district expects flood damage to three water-distribution routes. One operations lead must prepare a 72-hour allocation and rerouting plan before rainfall forecasts stabilize."},
+  {"id":"theorem","task":"A mathematician has 120 computational observations suggesting a conjecture about a graph invariant. In one week, decide whether to pursue a proof, find counterexamples, or reformulate the conjecture."},
+  {"id":"factory","task":"A small factory has two years of noisy maintenance logs across 140 machines and one reliability engineer. Identify which failure mechanism deserves the next shutdown inspection."},
+  {"id":"language","task":"One instructor must redesign a twelve-week technical-English course for 90 mixed-level engineers while preserving individualized practice and reliable assessment."},
+  {"id":"nonprofit","task":"A nonprofit needs a donor campaign in ten days but has incomplete consent records and uncertain evidence for several impact claims. One communications lead owns the release."},
+  {"id":"lab","task":"A clinical laboratory has variable arrivals, instrument downtime, and urgent samples. One manager must redesign next month's schedule without delaying stat tests or inventing capacity data."},
+  {"id":"heat","task":"A city analyst must recommend which of five urban-heat interventions to pilot across unequal neighborhoods, using sparse temperature sensors and contested community priorities."}
+]

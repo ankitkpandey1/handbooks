@@ -1,0 +1,55 @@
+{
+  "schema_version": "handbooks/book/v1",
+  "slug": "machine-scale-cognition",
+  "tier": "B",
+  "status": "published",
+  "title": "One Expert, Machine-Scale Cognition",
+  "subtitle": "A field guide to expanding checked search without expanding false confidence",
+  "description": "An evidence-bounded field guide for experts using language models to expand search, computation and comparison while controlling review debt, weak verification and unsafe action.",
+  "edition": "1.0.0",
+  "date": "2026-09-01",
+  "language": "en-GB",
+  "pages": 47,
+  "authors": [
+    {
+      "name": "Ankit Kumar Pandey",
+      "role": "Author",
+      "email": "itsankitkp@gmail.com"
+    }
+  ],
+  "keywords": [
+    "expert AI use",
+    "language models",
+    "decision theory",
+    "verification",
+    "test-time search",
+    "AI safety"
+  ],
+  "licenses": {
+    "prose": "CC-BY-4.0",
+    "code": "Apache-2.0"
+  },
+  "canonical_source": "source/machine-scale-cognition.md",
+  "build": {
+    "formats": [
+      "pdf",
+      "epub",
+      "html",
+      "md"
+    ],
+    "needs_latex": true
+  },
+  "verify": {
+    "entrypoint": "verify_experiments.sh",
+    "args": [],
+    "online_args": []
+  },
+  "release": {
+    "aliases": {
+      "pdf": "machine-scale-cognition.pdf",
+      "epub": "machine-scale-cognition.epub",
+      "html": "machine-scale-cognition.html",
+      "md": "machine-scale-cognition.md"
+    }
+  }
+}

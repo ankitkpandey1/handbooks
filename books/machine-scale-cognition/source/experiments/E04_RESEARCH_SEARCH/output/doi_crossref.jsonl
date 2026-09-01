@@ -1,0 +1,29 @@
+{"condition": "b1", "doi": "10.1002/aenm.201800933", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1002/aenm.201800933"}
+{"condition": "b1", "doi": "10.1002/aenm.202304327", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1002/aenm.202304327"}
+{"condition": "b1", "doi": "10.1038/s41467-024-52123-w", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41467-024-52123-w"}
+{"condition": "b1", "doi": "10.1038/s41563-020-00903-2", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41563-020-00903-2"}
+{"condition": "s", "doi": "10.1002/adfm.201909392", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1002/adfm.201909392"}
+{"condition": "s", "doi": "10.1002/aenm.202101228", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1002/aenm.202101228"}
+{"condition": "s", "doi": "10.1016/j.jpowsour.2020.228742", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1016/j.jpowsour.2020.228742"}
+{"condition": "s", "doi": "10.1016/j.ssi.2015.06.001", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1016/j.ssi.2015.06.001"}
+{"condition": "s", "doi": "10.1016/j.xcrp.2020.100106", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1016/j.xcrp.2020.100106"}
+{"condition": "s", "doi": "10.1021/acsami.8b05132", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1021/acsami.8b05132"}
+{"condition": "s", "doi": "10.1021/acsenergylett.0c01432", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1021/acsenergylett.0c01432"}
+{"condition": "s", "doi": "10.1021/acsenergylett.9b02668", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1021/acsenergylett.9b02668"}
+{"condition": "s", "doi": "10.1021/jacs.0c06363", "status": 429, "crossref_record": false, "target": "HTTP Error 429: Too Many Requests"}
+{"condition": "s", "doi": "10.1021/jacs.7b09531", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1021/jacs.7b09531"}
+{"condition": "s", "doi": "10.1038/s41467-017-01187-y", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41467-017-01187-y"}
+{"condition": "s", "doi": "10.1038/s41467-018-04762-z", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41467-018-04762-z"}
+{"condition": "s", "doi": "10.1038/s41467-020-20463-y", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41467-020-20463-y"}
+{"condition": "s", "doi": "10.1038/s41467-021-26894-5", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41467-021-26894-5"}
+{"condition": "s", "doi": "10.1038/s41467-023-35920-7", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41467-023-35920-7"}
+{"condition": "s", "doi": "10.1038/s41467-023-38037-z", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41467-023-38037-z"}
+{"condition": "s", "doi": "10.1038/s41560-018-0312-z", "status": 429, "crossref_record": false, "target": "HTTP Error 429: Too Many Requests"}
+{"condition": "s", "doi": "10.1038/s41563-021-00967-8", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1038/s41563-021-00967-8"}
+{"condition": "s", "doi": "10.1039/c8ee01053f", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1039/c8ee01053f"}
+{"condition": "s", "doi": "10.1088/0022-3727/41/22/223001", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1088/0022-3727/41/22/223001"}
+{"condition": "s", "doi": "10.1126/science.abg5998", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1126/science.abg5998"}
+{"condition": "s", "doi": "10.1149/1945-7111/ab9b08", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1149/1945-7111/ab9b08"}
+{"condition": "s", "doi": "10.1149/1945-7111/ac163d", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1149/1945-7111/ac163d"}
+{"condition": "s", "doi": "10.1149/2.1391814jes", "status": 200, "crossref_record": true, "target": "https://doi.org/10.1149/2.1391814jes"}
+{"condition": "s", "doi": "10.26599/nre.2023.9120050", "status": 200, "crossref_record": true, "target": "https://doi.org/10.26599/nre.2023.9120050"}

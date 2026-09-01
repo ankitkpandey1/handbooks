@@ -1,0 +1,1 @@
+A mathematician has 120 computational observations suggesting a conjecture about a graph invariant. In one week, decide whether to pursue a proof, find counterexamples, or reformulate the conjecture. Give the most useful response you can without inventing the missing conjecture, invariant, graph class, or observations.

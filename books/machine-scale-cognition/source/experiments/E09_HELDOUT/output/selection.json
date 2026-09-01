@@ -1,0 +1,10 @@
+{
+  "requirements_sha256": "c6e64c0a1166088a178f34a89295d9fc425e1d3acfc9de53de7d75745900a984",
+  "algorithm": "int(first_16_hex,16) mod N",
+  "candidate_count": 8,
+  "index": 2,
+  "selected": {
+    "id": "theorem",
+    "task": "A mathematician has 120 computational observations suggesting a conjecture about a graph invariant. In one week, decide whether to pursue a proof, find counterexamples, or reformulate the conjecture."
+  }
+}
