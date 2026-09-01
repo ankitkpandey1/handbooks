@@ -7,7 +7,7 @@ Machine-readable catalogue with digests, outlines and asset URLs: https://ankitk
 ## Books
 
 - [Production Agent Engineering (Edition 1.8.0, Tier A)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md): A production systems field manual for advanced engineers
-- [One Expert, Machine-Scale Cognition (Edition 2.0.0, Tier B)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.md): A field guide to expanding checked search without expanding false confidence
+- [One Expert, Machine-Scale Cognition (Edition 2.1.0, Tier B)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.md): A field guide to expanding checked search without expanding false confidence
 
 ## Notes for agents
 

@@ -1,6 +1,6 @@
 # AGENTS.md — machine-scale-cognition
 
-**Tier B.** Edition 2.0.0. See [`book.json`](book.json) for the machine-readable contract and
+**Tier B.** Edition 2.1.0. See [`book.json`](book.json) for the machine-readable contract and
 the repo root [`AGENTS.md`](../../AGENTS.md) for repo-wide rules.
 
 Canonical source: `source/machine-scale-cognition.md`

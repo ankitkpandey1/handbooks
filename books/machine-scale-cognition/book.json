@@ -6,7 +6,7 @@
   "title": "One Expert, Machine-Scale Cognition",
   "subtitle": "A field guide to expanding checked search without expanding false confidence",
   "description": "An evidence-bounded field guide for experts using language models to expand search, computation and comparison while controlling review debt, weak verification and unsafe action. Edition 2 derives every operating rule from Transformer computation and the mathematics of selection under uncertainty.",
-  "edition": "2.0.0",
+  "edition": "2.1.0",
   "date": "2026-09-02",
   "language": "en-GB",
   "pages": 101,
@@ -37,7 +37,8 @@
       "html",
       "md"
     ],
-    "needs_latex": true
+    "needs_latex": true,
+    "pandoc_defaults": "pandoc-pdf.yaml"
   },
   "verify": {
     "entrypoint": "verify_experiments.sh",
