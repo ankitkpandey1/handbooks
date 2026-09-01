@@ -15,6 +15,7 @@ or download any format from the table below.
 | Book | Tier | Edition | Download |
 |---|:---:|:---:|---|
 | **[Production Agent Engineering](books/agents-handbook)** — 181 pp. Architecture selection, harness and control-plane design, task contracts, context engineering, state and memory, security, durable execution, evaluation. | A | 1.8.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html) · [Markdown](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md) |
+| **[One Expert, Machine-Scale Cognition](books/machine-scale-cognition)** — 47 pp. An evidence-bounded field guide to expanding checked search, computation and comparison without expanding false confidence. | B | 1.0.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.html) · [Markdown](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.md) |
 
 Those links always resolve to the newest edition, so they are safe to bookmark or cite. The
 Markdown export is a single plain file, meant for pasting into a model's context — it is usually
@@ -31,8 +32,9 @@ suite you can run offline. For `agents-handbook` that is 17 checks, covering sec
 edition history, the PDF text layer and navigation, source-to-PDF binding, embedded archive
 identity, and exact reproduction of the synthetic evaluation.
 
-**Tier B** — manuscript plus metadata, structurally linted and built to all four formats. No
-verifier suite, no reproducibility package, no build receipt.
+**Tier B** — manuscript plus metadata, structurally linted and built to all four formats. A book
+may include local evidence checks, but no verifier binds the published artifact to an immutable
+reproducibility package and build receipt.
 
 New books start at Tier B and graduate by adding verifiers. Most should stay at Tier B; Tier A is
 worth the cost only when a book makes claims a reader would want to check mechanically. The
