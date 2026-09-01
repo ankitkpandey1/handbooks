@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
+# SPDX-License-Identifier: Apache-2.0
+#
+# Pandoc defaults for the PDF build only (build-book.sh passes this via
+# --defaults when book.json declares build.pandoc_defaults). The non-PDF
+# formats stay on the generic invocations in build-book.sh.
+pdf-engine: xelatex
+table-of-contents: true
+toc-depth: 2
+listings: true
+include-in-header:
+  - ${.}/listings-setup.tex
