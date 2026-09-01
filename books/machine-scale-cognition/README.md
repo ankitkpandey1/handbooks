@@ -1,6 +1,6 @@
 # One Expert, Machine-Scale Cognition
 
-**Tier B** · Edition 1.0.0 · [CC-BY-4.0](../../LICENSE) prose, [Apache-2.0](../../LICENSES/Apache-2.0.txt) code
+**Tier B** · Edition 2.0.0 · [CC-BY-4.0](../../LICENSE) prose, [Apache-2.0](../../LICENSES/Apache-2.0.txt) code
 
 > An evidence-bounded field guide for experts using language models to expand checked search,
 > computation and comparison. It teaches how to diagnose the binding constraint, design a

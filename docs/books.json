@@ -305,13 +305,13 @@
       "slug": "machine-scale-cognition",
       "title": "One Expert, Machine-Scale Cognition",
       "subtitle": "A field guide to expanding checked search without expanding false confidence",
-      "description": "An evidence-bounded field guide for experts using language models to expand search, computation and comparison while controlling review debt, weak verification and unsafe action.",
+      "description": "An evidence-bounded field guide for experts using language models to expand search, computation and comparison while controlling review debt, weak verification and unsafe action. Edition 2 derives every operating rule from Transformer computation and the mathematics of selection under uncertainty.",
       "tier": "B",
       "status": "published",
-      "edition": "1.0.0",
-      "date": "2026-09-01",
+      "edition": "2.0.0",
+      "date": "2026-09-02",
       "language": "en-GB",
-      "pages": 47,
+      "pages": 101,
       "authors": [
         "Ankit Kumar Pandey"
       ],
@@ -329,8 +329,8 @@
       },
       "source_path": "books/machine-scale-cognition",
       "canonical_source": "books/machine-scale-cognition/source/machine-scale-cognition.md",
-      "release_tag": "machine-scale-cognition/v1.0.0",
-      "release_page": "https://github.com/ankitkpandey1/handbooks/releases/tag/machine-scale-cognition/v1.0.0",
+      "release_tag": "machine-scale-cognition/v2.0.0",
+      "release_page": "https://github.com/ankitkpandey1/handbooks/releases/tag/machine-scale-cognition/v2.0.0",
       "downloads": {
         "pdf": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.pdf",
         "epub": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.epub",
@@ -362,48 +362,92 @@
           "title": "How to use this edition"
         },
         {
-          "level": 1,
-          "title": "What one expert can do now"
-        },
-        {
-          "level": 2,
-          "title": "How to read the evidence labels"
-        },
-        {
           "level": 2,
           "title": "How this guide was made"
         },
         {
           "level": 1,
-          "title": "Find the Useful Work"
+          "title": "The Asymmetry"
         },
         {
           "level": 2,
-          "title": "Turn a request into a proposition reality can answer"
+          "title": "The spine"
         },
         {
           "level": 2,
-          "title": "Find the binding constraint by intervention"
+          "title": "What a model call actually supplies"
         },
         {
           "level": 2,
-          "title": "Decide how bad work will be rejected"
+          "title": "Why another sample is not another witness"
         },
         {
           "level": 2,
-          "title": "Choose scale, a better check, a smaller claim, or no work"
+          "title": "Apply it now"
         },
         {
           "level": 2,
-          "title": "Chapter 1 evidence and further reading"
+          "title": "The spine, made procedural"
         },
         {
           "level": 1,
-          "title": "Turn the Problem into a Machine"
+          "title": "Diagnose the Constraint"
+        },
+        {
+          "level": 2,
+          "title": "Two facts about the model that every diagnosis leans on"
+        },
+        {
+          "level": 2,
+          "title": "Six suspects, not six categories"
+        },
+        {
+          "level": 2,
+          "title": "Why a second search can add zero information"
+        },
+        {
+          "level": 2,
+          "title": "When does an observation actually separate two explanations"
+        },
+        {
+          "level": 2,
+          "title": "Why generating more candidates does not monotonically help"
+        },
+        {
+          "level": 2,
+          "title": "Four choices, laid out as a decision"
+        },
+        {
+          "level": 2,
+          "title": "Review binding, not coverage"
+        },
+        {
+          "level": 2,
+          "title": "Coverage binding: mechanism vocabularies"
+        },
+        {
+          "level": 2,
+          "title": "Discrimination binding: payoff signs"
+        },
+        {
+          "level": 2,
+          "title": "The escalation inequality, derived from EVOI"
+        },
+        {
+          "level": 1,
+          "title": "Give the Problem a Shape"
+        },
+        {
+          "level": 2,
+          "title": "What a model call cannot certify"
         },
         {
           "level": 2,
           "title": "Separate what is known from what must be decided"
+        },
+        {
+          "level": 2,
+          "title": "Give every claim four fields"
         },
         {
           "level": 2,
@@ -414,28 +458,16 @@
           "title": "Move from the reported case to the cause"
         },
         {
-          "level": 2,
-          "title": "Design the human review before scaling"
-        },
-        {
-          "level": 2,
-          "title": "Chapter 2 evidence and further reading"
-        },
-        {
-          "level": 2,
-          "title": "Case: one authorisation bypass may reveal a wider defect"
-        },
-        {
-          "level": 2,
-          "title": "Case: change a live field without breaking 43 consumers"
-        },
-        {
           "level": 1,
-          "title": "Expand What Can Be Considered"
+          "title": "Search Topologies"
         },
         {
           "level": 2,
-          "title": "Choose the right kind of extra work"
+          "title": "What a topology is actually buying"
+        },
+        {
+          "level": 2,
+          "title": "Five ways to organise search"
         },
         {
           "level": 2,
@@ -443,23 +475,19 @@
         },
         {
           "level": 2,
-          "title": "Treat prompts as configuration, not magic"
+          "title": "Prompts are configuration, not magic"
         },
         {
           "level": 2,
-          "title": "Buy another batch only when it can change the decision"
+          "title": "Buy the next batch only when it can change the decision"
         },
         {
           "level": 2,
-          "title": "Chapter 3 evidence and further reading"
-        },
-        {
-          "level": 2,
-          "title": "Case: turn 164 papers into three useful experiments"
+          "title": "Case: 164 papers into three discriminating experiments"
         },
         {
           "level": 1,
-          "title": "Make Reality Select"
+          "title": "Build the Selector"
         },
         {
           "level": 2,
@@ -471,27 +499,63 @@
         },
         {
           "level": 2,
-          "title": "Measure what the check misses"
+          "title": "Scale multiplies whatever the checker lets through"
         },
         {
           "level": 2,
-          "title": "Build consequential writing from checked claims"
+          "title": "Picking a winner by score is a different risk from false acceptance"
         },
         {
           "level": 2,
-          "title": "Narrow the answer or refuse when checking stays weak"
+          "title": "Why large-scale search still pays for itself"
         },
         {
           "level": 2,
-          "title": "Chapter 4 evidence and further reading"
+          "title": "Six ways to build a selector"
         },
         {
           "level": 2,
-          "title": "Case: calculate a hundred thousand games without inventing odds"
+          "title": "Case: the cooperation-under-uncertain-payoffs question"
+        },
+        {
+          "level": 1,
+          "title": "How It Fails"
         },
         {
           "level": 2,
-          "title": "Case: when the right answer is less work"
+          "title": "1. Proxy gaming"
+        },
+        {
+          "level": 2,
+          "title": "2. Correlated retrieval"
+        },
+        {
+          "level": 2,
+          "title": "3. Confidence laundering"
+        },
+        {
+          "level": 2,
+          "title": "4. Trace theatre"
+        },
+        {
+          "level": 2,
+          "title": "5. Judge sycophancy and self-agreement"
+        },
+        {
+          "level": 2,
+          "title": "6. Context poisoning and injection"
+        },
+        {
+          "level": 2,
+          "title": "7. Review-queue collapse"
+        },
+        {
+          "level": 2,
+          "title": "8. Silent scope creep"
+        },
+        {
+          "level": 2,
+          "title": "9. Checker rot"
         },
         {
           "level": 1,
@@ -520,73 +584,9 @@
         {
           "level": 2,
           "title": "Manage a review queue without hiding risk"
-        },
-        {
-          "level": 2,
-          "title": "A practical action plan"
-        },
-        {
-          "level": 2,
-          "title": "Chapter 5 evidence and further reading"
-        },
-        {
-          "level": 1,
-          "title": "Build a System That Improves Itself"
-        },
-        {
-          "level": 2,
-          "title": "Save decisions, not transcripts"
-        },
-        {
-          "level": 2,
-          "title": "Turn escaped failures into prevention"
-        },
-        {
-          "level": 2,
-          "title": "Improve routing from local evidence"
-        },
-        {
-          "level": 2,
-          "title": "Detect new kinds of failure carefully"
-        },
-        {
-          "level": 2,
-          "title": "Run small improvement experiments"
-        },
-        {
-          "level": 2,
-          "title": "Run the complete loop"
-        },
-        {
-          "level": 2,
-          "title": "Chapter 6 evidence and further reading"
-        },
-        {
-          "level": 1,
-          "title": "Experiment Record"
-        },
-        {
-          "level": 2,
-          "title": "E01: aborted architecture search"
-        },
-        {
-          "level": 2,
-          "title": "E02: research-derived architecture probe"
-        },
-        {
-          "level": 2,
-          "title": "E03: prompt-routing ceiling effect"
-        },
-        {
-          "level": 2,
-          "title": "E04: scientific retrieval and synthesis"
-        },
-        {
-          "level": 2,
-          "title": "E05: evolutionary-game regime map"
         }
       ],
-      "outline_headings_total": 68,
+      "outline_headings_total": 95,
       "outline_truncated": true
     }
   ]
