@@ -5,11 +5,11 @@
   "status": "published",
   "title": "One Expert, Machine-Scale Cognition",
   "subtitle": "A field guide to expanding checked search without expanding false confidence",
-  "description": "An evidence-bounded field guide for experts using language models to expand search, computation and comparison while controlling review debt, weak verification and unsafe action. Edition 2 derives every operating rule from Transformer computation and the mathematics of selection under uncertainty.",
-  "edition": "2.1.0",
+  "description": "An evidence-bounded field guide for experts using language models to expand search, computation and comparison while controlling review debt, weak verification and unsafe action. Every operating rule is derived from Transformer computation and the mathematics of selection under uncertainty.",
+  "edition": "3.0.0",
   "date": "2026-09-02",
   "language": "en-GB",
-  "pages": 101,
+  "pages": 85,
   "authors": [
     {
       "name": "Ankit Kumar Pandey",

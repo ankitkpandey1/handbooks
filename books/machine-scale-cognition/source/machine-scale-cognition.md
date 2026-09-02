@@ -130,7 +130,7 @@ Everything in this book follows from that claim, so it is worth putting on an ho
 >
 > Coverage is the share of the possibilities that matter which actually got examined — routes searched, papers read, payoff regions sampled. The second factor is how reliably the selector rejects a bad candidate. The third is the chance that accepted work goes on to change the outcome it was meant to change; a repair that passes every test but never gets deployed changes nothing. Cost collects compute, review time, delay, and the failures that slip through anyway.
 >
-> The three factors multiply. Drive any one of them to zero and the product is zero, however large the others are. A route search that covers 180 of 200 affected services, behind an exploit test that rejects 95% of bad repairs, feeding a team that deploys what it accepts, scores about 0.9 × 0.95 × 0.97 ≈ 0.83 before cost. Remove the exploit test and the second factor collapses towards zero — and the product collapses with it, no matter how good the coverage was. Search without a selector is not a smaller version of the same value. It is close to none of it.
+> The three factors multiply. Drive any one of them to zero and the product is zero, however large the others are. A route search that covers 180 of 200 affected services, behind an exploit test that rejects 95% of bad repairs, feeding a team that deploys what it accepts, scores about 0.9 × 0.95 × 0.97, roughly 0.83, before cost. Remove the exploit test and the second factor collapses towards zero — and the product collapses with it, no matter how good the coverage was. Search without a selector is not a smaller version of the same value. It is close to none of it.
 >
 > **Basis.** \[designed\] A design equation for locating where value is lost, not a calibrated law with measured coefficients. It is used throughout the book as a way to ask which factor a given problem is actually short of.
 
@@ -254,7 +254,7 @@ Diagnose by which constraint currently binds, not by marching through a fixed li
 | Safe action | Run a reversible canary with a trip condition. | Feedback arrives before exposure becomes unacceptable. |
 | Learning | Retrieve prior decision records for a new case. | They change routing, a working assumption, a check, or a stop rule. |
 
-The middle column is where the work is. The rest of this chapter is the arithmetic behind it, starting with coverage — the easiest intervention to run without thinking, and the one the effective-sample-size formula tests directly.
+The middle column is where the work is. What follows is the arithmetic behind it, starting with coverage — the easiest intervention to run without thinking, and the one the effective-sample-size formula tests directly.
 
 ## When an observation actually separates two explanations
 
@@ -468,7 +468,10 @@ from renewal import renewal
 from support import support
 from export import export
 
-CASES = [" Pro ", "PRO", "pro", "Enterprise_Plan", "ENT", "free", " FREE "]
+CASES = [
+    " Pro ", "PRO", "pro", "Enterprise_Plan",
+    "ENT", "free", " FREE ",
+]
 FNS = {"quote": quote, "refund": refund, "renewal": renewal,
        "support": support, "export": export}
 
@@ -534,7 +537,7 @@ The conductivity question needs a form the first four cannot give it: separating
 cycling strain ──► contact loss / fracture ─────┐
  (mechanical: pressure,                         │
   electrode breathing, roughness)               ├──► rising interfacial
-                                                │    impedance (observed)
+                                                │    impedance
 electrolyte ────► resistive interphase growth ──┘
 decomposition
      └──► electronically conductive interphase
@@ -578,7 +581,7 @@ That posterior feeds directly into whether to build shared prevention rather tha
 >
 > $$P(\text{systemic} \mid O) \times (\text{loss avoided} + \text{reuse}) > \text{build} + \text{upkeep} + \text{delay} + \text{false alarms}$$
 >
-> **Worked example**, all figures invented for illustration and disclosed as such. Extrapolating loosely from the fixture's 40% alias-recurrence rate, assume six similar incidents surface over the next year if systemic: $100 each in reviewer time to diagnose and patch locally ($600), plus roughly $300 in avoided re-derivation next time an alias is needed — $900 total. Building one shared `parse_tier()` and migrating five call sites costs three engineer-hours at $150/hour ($450), one review round ($100), and an integration delay ($80) — $630, paid regardless of which hypothesis holds. Break-even is $630/900 ≈ 0.70. At the prior of 0.2 the inequality fails: do not build yet. At the posterior of 0.78 it holds: build the shared function — the check did not just inform the decision, it changed it.
+> **Worked example**, all figures invented for illustration and disclosed as such. Extrapolating loosely from the fixture's 40% alias-recurrence rate, assume six similar incidents surface over the next year if systemic: $100 each in reviewer time to diagnose and patch locally ($600), plus roughly $300 in avoided re-derivation next time an alias is needed — $900 total. Building one shared `parse_tier()` and migrating five call sites costs three engineer-hours at $150/hour ($450), one review round ($100), and an integration delay ($80) — $630, paid regardless of which hypothesis holds. Break-even is 630/900, about 0.70. At the prior of 0.2 the inequality fails: do not build yet. At the posterior of 0.78 it holds: build the shared function — the check did not just inform the decision, it changed it.
 >
 > **Basis.** \[designed\] The costs and the six-incident estimate are illustrative, not measured; the inequality is this chapter's operating rule for turning a probability into a decision.
 
@@ -660,7 +663,7 @@ Several complete candidates from a shared starting point, ranked by one check. I
 >
 > **Operational rule.** Cap tournament size near $N^{*}$, estimated from the check's own noise and expected quality spread; past that point, spend the next budget lowering the noise — a stronger check — rather than growing the tournament.
 >
-> **Basis.** [inferred] An order-statistics argument for the expected maximum of independent noise draws, applied to a check with measured or estimated noise; $\sigma = 2$ and $\Delta = 5$ are illustrative, not measured. [documented] Khalaf and colleagues report this mechanism empirically: true reward rises then falls under inference-time proxy optimisation (Khalaf et al. 2025).
+> **Basis.** \[inferred\] An order-statistics argument for the expected maximum of independent noise draws, applied to a check with measured or estimated noise; $\sigma = 2$ and $\Delta = 5$ are illustrative, not measured. \[documented\] Khalaf and colleagues report this mechanism empirically: true reward rises then falls under inference-time proxy optimisation (Khalaf et al. 2025).
 
 Eight candidates drawn from one shared prefill cost about 4,800 decode tokens if they share evidence, or roughly 4,000 tokens more if each pulls its own retrieval delta. With a check strong enough that N* comfortably exceeds eight, review only the two or three survivors — about four minutes each. Reviewing all eight blind, with no check to narrow them, costs eight times that and settles nothing about which candidate to trust.
 
@@ -670,7 +673,7 @@ Eight candidates drawn from one shared prefill cost about 4,800 decode tokens if
                  ┌─ assumption 1 (contact mechanics)  → develop → check
 context (root) ──┼─ assumption 2 (interphase growth)  → develop → check
                  ├─ assumption 3 (dendrite/metal)      → develop → check
-                 └─ assumption 4 (bulk transport)       → develop → check
+                 └─ assumption 4 (bulk transport)      → develop → check
 ```
 
 Distinct assumptions forced near the start, each developed on its own material. This is deliberately the expensive branch of the trade-off above: each branch needs different evidence, hence its own fresh read, in exchange for correlation low enough that the extra witnesses are worth the cost.
@@ -735,7 +738,7 @@ Diversity a check can use has to move the count of independent witnesses, not ju
 
 Temperature and top-p reshape which continuation gets sampled; they do not change what the underlying distribution is a distribution over. Reword a prompt without changing the evidence in its context, the tools available, or the check downstream, and you are asking the same distribution a differently worded question — it changes which decode path gets sampled, not what the model has access to or what will reject a bad answer.
 
-E03 tested this directly. Direct instruction, explicit decomposition, and chain-of-thought instructions ran on the same eight tool-available tasks against a shared answer schema. Every condition scored eight of eight and returned identical final answers; only output token counts differed, at 465, 592, and 386 across the three styles. The check was already saturated, so the three prompts sampled the same accepted region of the output space by three different decode paths — exactly what the earlier mechanism predicts.
+One retained run tested this directly. Direct instruction, explicit decomposition, and chain-of-thought instructions ran on the same eight tool-available tasks against a shared answer schema. Every condition scored eight of eight and returned identical final answers; only output token counts differed, at 465, 592, and 386 across the three styles. The check was already saturated, so the three prompts sampled the same accepted region of the output space by three different decode paths — exactly what the earlier mechanism predicts.
 
 Prompt sensitivity is not always absent — chain-of-thought instructions did measurably change output quality in a medical setting where the check was not already pinning the outcome the way E03's was (Sadanandan and Behzadan 2026). Compare wording only against a frozen task set and a real check; stop once variants rank the same way, and spend the next unit of effort on evidence, representation, or the check instead.
 
@@ -751,7 +754,7 @@ Prompt sensitivity is not always absent — chain-of-thought instructions did me
 >
 > **Worked example.** Four query families in the case below returned 164 unique DOI records, 29 of them appearing in more than one family — nearly a fifth of the fourth family's yield duplicating earlier ones, a saturation signal suggesting a fifth family would mostly return duplicates. Estimate $p_5 \approx 0.1$ from that trend. Catching a seventh mechanism before committing lab time to three experiments that assume six is worth roughly 200 review-minutes of avoided rework; the batch itself costs under 10 minutes of machine time plus about 15 minutes to scan the new family, call it 25. Then $EV_5 \approx 0.1 \times 200 - 25 = -5$ — a genuine judgement call, which is exactly what this arithmetic is for.
 >
-> **Basis.** [measured] The 164/130/29 record counts come from the retained E04 corpus. [inferred] The stopping rule is a standard expected-value calculation; $p_5$, $\Delta V$, and $c_5$ are estimated from that one run's yield and cost, not fitted from a general model. [documented] Past the point where $EV_n$ turns negative, more search is not neutral — pushing search harder against an imperfect check actively finds outputs that satisfy the check's proxy while failing the property it stands in for (Setlur et al. 2025; Khalaf et al. 2025).
+> **Basis.** \[measured\] The 164/130/29 record counts come from the retained E04 corpus. \[inferred\] The stopping rule is a standard expected-value calculation; $p_5$, $\Delta V$, and $c_5$ are estimated from that one run's yield and cost, not fitted from a general model. \[documented\] Past the point where $EV_n$ turns negative, more search is not neutral — pushing search harder against an imperfect check actively finds outputs that satisfy the check's proxy while failing the property it stands in for (Setlur et al. 2025; Khalaf et al. 2025).
 
 ## Case: 164 papers into three discriminating experiments
 
@@ -806,260 +809,249 @@ The interpretation was not independently checked to the same standard — no mat
 
 The corpus may miss relevant terminology, older work, or negative results, and abstracts may omit boundary conditions the full text carries. The three experiment cards — a planning artefact, not a validated protocol — may prove impractical or non-discriminating once a real cell and laboratory are involved. Query families stop being added once the next one returns mostly records already seen; a new measurement method is needed only if no proposed experiment can separate the mechanisms still standing.
 
-*What this chapter's evidence supports.* Two retained runs carry this chapter's evidence. A saturated eight-task prompt comparison (E03) supports "prompt wording did not matter on this batch," nothing broader. A single materials-science retrieval run (E04) supports claims about coverage, provenance, and citation traceability on one frozen corpus — 164 unique DOI records, 130 abstracts, 29 spanning more than one family, 25 traceable citations against a four-citation baseline — not that the resulting mechanisms or experiments are scientifically correct. The five-topology taxonomy, the cost trade-offs, the witness-count arithmetic, and the winner's-curse and batch-value derivations are inferred and designed, reasoned from the architecture and selection mathematics, not separately measured. The illustrative numbers in the worked examples — judge noise, quality gap, batch probabilities — are chosen to make the arithmetic concrete and reproducible with your own measured values, not benchmark results.
+*What this chapter's evidence supports.* Two retained runs carry this chapter's evidence. A saturated eight-task prompt comparison (E03) supports "prompt wording did not matter on this batch", nothing broader. A single materials-science retrieval run (E04) supports claims about coverage, provenance, and citation traceability on one frozen corpus — 164 unique DOI records, 130 abstracts, 29 spanning more than one family, 25 traceable citations against a four-citation baseline — not that the resulting mechanisms or experiments are scientifically correct. The five-topology taxonomy, the cost trade-offs, the witness-count arithmetic, and the winner's-curse and batch-value derivations are inferred and designed, reasoned from the architecture and selection mathematics, not separately measured. The illustrative numbers in the worked examples — judge noise, quality gap, batch probabilities — are chosen to make the arithmetic concrete and reproducible with your own measured values, not benchmark results.
 
 # Build the Selector
 
-A funding body is about to adopt a reward-and-penalty policy. The policy is meant to keep partner organisations cooperating, not quietly free-riding on shared resources. The question on the table is whether cooperation survives the policy. You can write one careful paragraph to answer it. Or you can ask a model to simulate a hundred thousand versions of the underlying game and report back. Both are now nearly free to produce. Neither is safe to trust unless you decide, in advance, what would make you throw the answer away.
+A funding body is about to adopt a reward-and-penalty policy meant to keep partner organisations cooperating, not quietly free-riding on shared resources. The question on the table is whether cooperation actually survives the policy. You can write one careful paragraph to answer it, or ask a model to simulate a hundred thousand versions of the underlying game. Both are now nearly free. Neither is safe to trust unless you decide, in advance, what would make you throw the answer away.
 
-A hundred thousand simulated games can go wrong in a far more expensive way than one paragraph can. The output looks precise and well-formatted, but it is wrong about the one thing the decision needed — because nobody checked whether the simulated world resembled the real one before scaling it up. Scale does not fix a bad selector. It multiplies whatever the selector lets through. How much it multiplies is not intuitive; it is a fact about probability, derived below.
-
-The task is not to generate the answer. It is to decide, before generation starts, what would make you reject one — and to build a mechanism that can make that decision at whatever volume you run. This chapter builds that mechanism. It covers a rejection rule; a verification ladder built on what each check is causally connected to; the arithmetic of how a weak checker fails at scale; six patterns for building a check where no compiler exists; and an empirical way to measure a checker's error rate before you trust it with a large run. The cooperation question gets its answer at the end, once these tools exist to answer it honestly.
+A hundred thousand simulated games can go wrong in a far more expensive way than one paragraph can. The output looks precise, but wrong about the one thing the decision needed, because nobody checked whether the simulated world resembled the real one before scaling it up. Scale does not fix a bad selector; it multiplies whatever the selector lets through, and how much is worked out below. This chapter builds a rejection rule, a verification ladder, the arithmetic of a weak checker failing at scale, six patterns for building a check where no compiler exists, and a way to measure a checker's own error rate. The cooperation question gets its answer at the end, once these tools exist to answer it honestly.
 
 ## Write the rejection rule first
 
 For every important output, finish this sentence: reject this result if \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_.
 
-A code change is rejected if a required test fails or a forbidden path remains reachable. A literature claim is rejected if no primary source supports it. A simulation conclusion is rejected if it flips under assumptions the summary did not disclose. A migration plan is rejected if rollback has not been rehearsed.
+A code change is rejected if a required test fails or a forbidden path remains reachable. A literature claim is rejected if no primary source supports it.
 
 The blank must name something checkable — an artefact, a test, an observation. "Reject if it seems weak" fails this test. "Reject if any sentence lacks a cited source passage" passes it.
 
-Write the rule before the candidates exist. Seeing attractive answers changes the judge. People rationalise results they already like, and any search process drifts toward whatever criteria are visible to it. If later exploration shows the original rule was wrong, that is a real finding. Record the change and test it against fresh cases. Do not rewrite history to say the rule was right all along.
+Write the rule before the candidates exist. Seeing attractive answers changes the judge, and any search process drifts toward whatever criteria are visible to it. If later exploration shows the rule was wrong, record the change and test it against fresh cases, rather than rewriting history to say it was right all along.
 
-The model can help build the rejection rule. It can draft tests, hunt for counterexamples, and organise evidence. But it should not be the sole judge of its own unsupported prose. The reason is architectural, not distrust of any particular model. At each step, a model's output is a sample from $p(x_t \mid x_{<t}, c)$ — a distribution over which continuation is likely text, given context $c$. Training shapes that distribution to produce plausible, fluent continuations. It is not a distribution over which world-state is true. When a model reports high confidence, it is reporting that a confident-sounding continuation was likely. That is a fact about text, not a fact about the world. If you cannot write a workable rejection rule for a claim, that tells you something: the claim is too vague to check, and it needs narrowing before you scale its production.
+The model can help build the rejection rule — drafting tests, hunting counterexamples — but should not judge its own unsupported prose. The reason is architectural, not distrust of a particular model: a model's output is a sample from its next-token distribution, trained to continue text plausibly rather than to report truthfully, so a stated high confidence is a fact about which continuation was likely, not about the world. If you cannot write a workable rejection rule for a claim, the claim is too vague to check, and needs narrowing first.
 
 ## Use the strongest check the problem allows
 
-\[opinion\] The value of any machine-scale system breaks into three factors, multiplied together: how much of the space that matters it covers, how often the selector rejects a bad candidate, and how often the accepted work actually changes anything — minus the compute, review, delay, and failure this costs. Coverage and downstream action are the other two factors. This chapter is entirely about the middle one, because it multiplies the other two rather than adding to them. A selector that never rejects anything zeroes the whole product, no matter how wide the coverage or how consequential the action would otherwise be.
-
-A check can only catch the class of error it is physically connected to. That is the whole content of the verification ladder — not a ranking of effort, but a ranking of what a check is wired to observe.
+Chapter 1's value equation showed a selector's reliability multiplies the other two factors, not adds to them: a selector that never rejects anything zeroes the whole product, however wide the coverage. This chapter is about that middle factor alone, and a check can only catch the error class it is physically connected to — the whole content of the ladder below, not a ranking of effort but of what a check is wired to observe.
 
 | Level | Causal connection | What it cannot see |
 |---|---|---|
-| Format and constraints | Structure of the output itself | Whether the content is true |
-| Calculation | Deterministic re-execution of arithmetic | Whether the calculation answers the right question |
-| Tests or proof | Behaviour under stated conditions | Requirements the test suite never encoded |
+| Format and constraints | The output's own structure | Whether the content is true |
+| Calculation | Re-executing the arithmetic | Whether it answers the right question |
+| Tests or proof | Behaviour under stated conditions | Requirements the suite never encoded |
 | Primary evidence | An external record, retrieved and compared | Whether the source itself is correct |
-| Intervention | The suspected cause, manipulated directly | Delayed effects outside the observation window |
-| Observed outcome | The actual action, in the actual environment, over time | Nothing within its own window — but it is the slowest and most expensive check to run |
+| Intervention | The suspected cause, manipulated directly | Delayed effects outside the window |
+| Observed outcome | The actual action, in its environment, over time | Nothing within its own window — slowest and most expensive to run |
 
-Passing a lower level never implies a higher one. Valid JSON can carry a fabricated fact — format is connected to structure, not truth. Passing today's tests does not prove a repair prevents tomorrow's regressions — tests are connected to the behaviours they enumerate, not the ones nobody wrote down. A simulation can be numerically exact while its assumptions describe no real system — calculation is connected to arithmetic, not to the world the arithmetic is claimed to model.
-
-None of these levels is "the model reports that it is confident." As shown above, that number is read off a distribution over token continuations. It is not a calibrated estimate of which world-state holds. It has no causal connection to anything outside the model's own generation process, so it cannot occupy any rung of this ladder.
+Passing a lower level never implies a higher one: valid JSON can carry a fabricated fact, and passing today's tests does not prove a repair prevents tomorrow's regressions, because tests are connected to the behaviours they enumerate, not the ones nobody wrote down. None of these levels is "the model reports that it is confident" — that number is read off a distribution over token continuations, with no causal connection outside the model's own generation process, so it cannot occupy any rung here.
 
 > **Mathematical detail: what a passed check is worth**
 >
-> Let $H$ be the hypothesis that a candidate is correct, in the specific sense a given check claims to verify. The check's sensitivity, $P(\text{pass}\mid H)$, is the chance a genuinely correct candidate passes. Its false-accept rate, $q = P(\text{pass}\mid \lnot H)$, is the chance an incorrect candidate passes anyway — this is the same $q$ used throughout the rest of this chapter. When a candidate passes, Bayes' rule says you should multiply the prior odds $P(H)/P(\lnot H)$ by the likelihood ratio
+> Let $H$ be the hypothesis that a candidate is correct, in the sense a check claims to verify. Its sensitivity, $P(\text{pass}\mid H)$, is the chance a genuinely correct candidate passes; its false-accept rate, $q = P(\text{pass}\mid \lnot H)$, is the chance an incorrect one passes anyway — the same $q$ used throughout this chapter. A pass multiplies the prior odds $P(H)/P(\lnot H)$ by the likelihood ratio
 >
 > $$
 > LR^{+} = \frac{P(\text{pass}\mid H)}{P(\text{pass}\mid \lnot H)} = \frac{\text{sensitivity}}{q}.
 > $$
 >
-> Take a source-binding check with sensitivity 0.95 and $q=0.05$ (five percent of unsupported claims still slip past — a cited passage that is topically similar but does not actually entail the claim). It has $LR^{+}=19$: a pass multiplies the prior odds of correctness by 19. A format check with sensitivity 0.99 and $q=0.6$ (most wrong answers are still syntactically valid) has $LR^{+}\approx1.65$ instead. A pass on that check barely moves belief about the *content*, even though it moves belief about *well-formedness* a great deal.
+> A source-binding check with sensitivity 0.95 and $q=0.05$ — five percent of unsupported claims slip past a cited passage that is topically similar but does not actually entail the claim — has $LR^{+}=19$: a pass multiplies the prior odds of correctness nineteen-fold. A format check with $q=0.6$, since most wrong answers are still syntactically valid, has $LR^{+}\approx1.65$ instead: a pass on it barely moves belief about *content*.
 >
-> **Operational rule.** Name the specific hypothesis you need decided. Then pick the cheapest available check with a small $q$ against *that* hypothesis. Moving up the ladder does not mean "being more thorough" in the abstract. It means buying a smaller $q$, and therefore a larger $LR^{+}$ per pass, against the question that actually matters. This is Bayesian model comparison applied to one candidate at a time (Appendix: mathematical toolbox) — nothing more exotic is needed to make the ladder rigorous.
+> Moving up a rung of the ladder means buying a smaller $q$ against the specific hypothesis that matters, not being more thorough in the abstract.
+>
+> **Basis.** \[designed\] Standard Bayesian model comparison, applied to one candidate at a time (see the toolbox appendix's sensitivity-analysis entry). The figures are illustrative, not measured from a fielded checker; mutation testing, below, is how a real checker's $q$ gets measured.
 
 ## Scale multiplies whatever the checker lets through
 
-Generating more candidates has become close to free. Continuations often share a prefix — the same evidence, the same instructions, branching from one cached context instead of reprocessing it from scratch. The model's key/value cache lets each additional candidate skip re-deriving that shared conditioning, so ten candidates from a shared setup cost little more than one. That collapse in generation cost is what makes checking, not generating, the binding constraint. And it is why every added candidate is a fresh opportunity for a weak checker to make a costly mistake.
+Generating more candidates has become close to free: continuations often share a prefix, branching from one cached context, so ten candidates from a shared setup cost little more than one. That collapse in generation cost is what makes checking, not generating, the binding constraint — and why every added candidate is a fresh chance for a weak checker to make a costly mistake.
 
-> **Mathematical detail: how false acceptance compounds — and what shared context does to it**
+> **Mathematical detail: how false acceptance compounds**
 >
-> Let $q$ be the checker's false-accept rate and $N$ the number of candidates checked. Suppose each candidate's failure is an independent event with probability $q$ of slipping past. Then the probability that at least one bad candidate is accepted is
+> Let $q$ be the checker's false-accept rate and $N$ the candidates checked. If each candidate's failure is an independent event with probability $q$ of slipping past, the probability that at least one bad candidate is accepted is
 >
 > $$
 > 1-(1-q)^N.
 > $$
 >
-> For $q=0.01$ and $N=100$, this is about 0.63. Independence is the assumption doing the work, and it is rarely true when $N$ candidates branch from a shared prefix. They condition on the same $c$ in $p(x_t\mid x_{<t},c)$, so a flaw in that shared conditioning — an ambiguous instruction, a missing piece of evidence, a systematic gap in the checker — does not fail independently $N$ times. It fails once and gets repeated $N$ times. The honest correction replaces $N$ with the effective number of independent trials,
+> For $q=0.01$ and $N=100$, this is about 0.63. Independence is doing the work, and it rarely holds when $N$ candidates branch from a shared prefix: a flaw in that shared conditioning — an ambiguous instruction, a missing piece of evidence, a systematic gap in the checker — fails once and gets repeated $N$ times, not independently $N$ times. The honest fix is to discount $N$ to an effective count before applying the formula, using the same effective-sample-size adjustment Chapter 1 derives for correlated votes: at the high correlation typical of candidates sharing a prefix, the effective count collapses toward one, and the compounding result above collapses back toward $q$ itself. The danger has changed shape: not a hundred independent tries, but a hundred near-copies of one flaw, and the only question is whether that flaw fools the checker.
 >
-> $$
-> N_{\text{eff}} = \frac{N}{1+(N-1)\rho},
-> $$
->
-> where $\rho$ is the pairwise correlation between candidates' failure events. At $\rho=0.8$, one hundred correlated candidates behave like $N_{\text{eff}}\approx100/80.2\approx1.25$ trials, and $1-(1-q)^{N_{\text{eff}}}$ collapses back toward $q$ itself. The danger has not gone away. It has changed shape. It is no longer "one bad candidate out of a hundred independent tries slips past." It is "a hundred near-copies of one flaw were generated, and the question is simply whether that one flaw fools the checker."
->
-> **Operational rule.** Do not read "we generated and checked 100 candidates" as "the checker had 100 independent chances to fail." Ask what actually varied between candidates — evidence, retrieval path, model family. That variation is what $N_{\text{eff}}$ measures, and for candidates sharing a prefix it is usually far smaller than $N$.
+> **Basis.** \[inferred\] The compounding formula follows from an independence assumption; the correlation correction is Chapter 1's effective-sample-size adjustment, applied here to a checker's pass/fail outcome. Neither worked figure is measured from a fielded system — a real $\rho$ has to come from the checker in question.
 
-## Picking a winner by score is a different risk from false acceptance
+Ask what actually varied between candidates — evidence, retrieval path, model family — rather than counting them. That variation is what the effective count measures, and for candidates sharing a prefix it is usually far smaller than the raw count suggests.
 
-Everything above assumed a check that returns pass or fail. Many real checks instead return a graded score — a reward model's rating, a judge's numeric verdict. The tempting move is to generate $N$ candidates and keep whichever scores highest. That fails differently from filtering with a rejection rule.
-
-\[documented\] Selecting the maximum of $N$ scores from an imperfect proxy selects partly for the proxy's own error, not only for genuine quality. True quality tends to rise with $N$ while the proxy is informative, then fall as $N$ grows further, because selection increasingly rewards whichever candidate's proxy error ran positive, rather than whichever candidate is actually good (Khalaf et al. 2025). \[inferred\] A rejection rule with false-accept rate $q$ lets scale raise the chance that at least one bad candidate slips through — the compounding risk derived above. A maximised proxy score has no reject option. It always returns a winner, so scale does not add a chance of failure. Instead it directly erodes the winner's expected true quality, past the point where the proxy's noise dominates genuine signal.
-
-**Operational rule.** Do not maximise a graded proxy score across an unbounded $N$. Cap $N$ where true quality peaks, checked against a stronger, independent check measured locally. Or replace maximisation with a hard rejection rule wherever one is available — a rejection rule's failure mode is at least the one this chapter already teaches you to measure.
+Everything above assumed a check that returns pass or fail. Many real checks instead return a graded score, and maximising it across many candidates is a different risk — Chapter 4's winner's-curse cap covers it. Where a hard rejection rule is available at all, prefer it to maximising a proxy.
 
 ## Why large-scale search still pays for itself
 
-\[documented\] Checking is often far cheaper than producing a correct answer outright. A solver verifies a candidate solution faster than it finds one from scratch. A compiler rejects an invalid program faster than a line-by-line review would. A citation lookup rejects an unsupported reference faster than a full re-read of the source (Zeng et al. 2025). That asymmetry, not raw generation volume, is why search at scale can be worth running.
+Checking is often far cheaper than producing a correct answer outright: a solver verifies a candidate solution faster than it finds one from scratch, and a compiler rejects an invalid program faster than a line-by-line review would (Zeng et al. 2025). That asymmetry, not raw generation volume, is why search at scale can be worth running.
 
 > **Mathematical detail: the economics of check-and-regenerate**
 >
-> \[inferred\] Suppose a candidate has probability $p$ of being genuinely correct, and a check with sensitivity near 1 and a small $q$ filters for it. For small $q$, the expected number of candidates needed before one is generated and accepted is approximately $1/p$. If generating one candidate costs $g$ tokens and running the check costs $c$ tokens, the expected total cost to reach one accepted correct candidate is
+> Suppose a candidate has probability $p$ of being genuinely correct, and a check with sensitivity near 1 and a small $q$ filters for it. For small $q$, the expected number of candidates needed before one is accepted is approximately $1/p$. If generating one candidate costs $g$ tokens and running the check costs $c$ tokens, the expected total cost to reach one accepted correct candidate is
 >
 > $$
 > \text{cost} \approx \frac{g+c}{p}.
 > $$
 >
-> Take a moderately difficult task where roughly one candidate in five is genuinely correct ($p=0.2$), a candidate that costs $g=500$ output tokens to generate, and a check that costs $c=50$ tokens to run (compiling and executing a test). The expected cost is $(500+50)/0.2=2{,}750$ tokens to reliably reach one accepted, checked answer — cheap enough to repeat across many problems.
+> Take a task where one candidate in five is genuinely correct ($p=0.2$), costing $g=500$ output tokens to generate, checked for $c=50$ tokens by compiling and executing a test. The expected cost is $(500+50)/0.2=2{,}750$ tokens to reliably reach one accepted, checked answer: cheap enough to repeat across many problems.
 >
-> **Operational rule.** The asymmetry breaks down as $c$ approaches $g$. If checking costs nearly as much as writing, scaling candidates buys nothing, and the right move is a small candidate set routed to a person.
+> **Basis.** \[inferred\] A first-order approximation for small $q$, not a fitted cost model; the 2,750-token figure is illustrative arithmetic. The underlying generate/check asymmetry is documented in the search literature (Zeng et al. 2025).
+
+The asymmetry breaks down once checking costs nearly as much as writing: scaling candidates then buys nothing, and the right move is a small candidate set routed to a person.
 
 ## Six ways to build a selector
 
-Most claims have no compiler and no test suite. The patterns below cover most of what a working check is made of when one has to be built rather than found.
+Most claims have no compiler and no test suite. The six patterns below cover most of what a working check is made of when one has to be built rather than found.
 
 ### Differential testing
 
-If two implementations built from independent logic agree on an output, that agreement is evidence. If they disagree, at least one is wrong. The disagreement itself locates the problem, without first deciding which side is at fault.
+If two independently built implementations agree on an output, that agreement is evidence; if they disagree, at least one is wrong, and the disagreement itself locates the problem.
 
-> ```python
-> # [illustrative]
-> def differential_check(candidate_fn, reference_fn, cases):
->     """Reject unless an independently derived function
+**\[illustrative\] A differential check against an independently built reference:**
+
+```python
+# [illustrative]
+def differential_check(candidate_fn, reference_fn, cases):
+    """Reject unless an independently derived function
     agrees with the candidate."""
->     disagreements = []
->     for case in cases:
->         a = candidate_fn(*case)
->         b = reference_fn(*case)
->         if a != b:
->             disagreements.append((case, a, b))
->     return disagreements  # non-empty means reject the candidate
-> ```
+    disagreements = []
+    for case in cases:
+        a = candidate_fn(*case)
+        b = reference_fn(*case)
+        if a != b:
+            disagreements.append((case, a, b))
+    return disagreements  # non-empty means reject the candidate
+```
 
-"Independent" is doing the same work here as $\rho$ did above. A brute-force loop checking a vectorised implementation is independent of its bug classes. Two calls to the same model, on the same prompt and the same evidence, are not independent — they are one opinion, asked twice, with $\rho$ close to 1. Two implementations that share a misreading of the specification will agree with each other and both be wrong. The check's real $q$ is the probability of exactly that shared misreading, not the probability of two unrelated bugs colliding.
+"Independent" does the same work here as correlation did above: a brute-force loop is independent of a vectorised implementation's bug classes, but two calls to the same model on the same prompt are one opinion asked twice, and implementations sharing a misreading of the specification agree with each other and both stay wrong.
 
 ### Metamorphic relations
 
-Some outputs have no fixed correct value to compare against, but they do have known relationships to their own transformations. A route-finder may have no single correct route, but doubling every edge weight must not change which route it picks. A translation should preserve meaning under paraphrase, even with no gold translation on file.
+Some outputs have no fixed correct value to compare against, but they do have known relationships to their own transformations. A route-finder may have no single correct route, but doubling every edge weight must not change which route it picks.
 
-> ```python
-> # [illustrative]
-> def metamorphic_check(fn, x, transform, relation):
->     """Reject unless fn respects a known relation
->     under a controlled transform."""
->     y1 = fn(x)
->     y2 = fn(transform(x))
->     # True keeps the candidate; False rejects it
->     return relation(y1, y2)
-> ```
+**\[illustrative\] A metamorphic check under a controlled transform:**
 
-This is the right tool exactly where no oracle exists — the common case for open-ended output. The work is finding a transform-and-relation pair strict enough to have a small $q$. "The output should be similar" is not a relation. "The selected route must not change when every edge weight is scaled by the same positive constant" is.
+```python
+# [illustrative]
+def metamorphic_check(fn, x, transform, relation):
+    """Reject unless fn respects a known relation
+    under a controlled transform."""
+    y1 = fn(x)
+    y2 = fn(transform(x))
+    # True keeps the candidate; False rejects it
+    return relation(y1, y2)
+```
+
+This is the right tool where no oracle exists — the common case for open-ended output. The work is finding a transform-and-relation pair strict enough to have a small false-accept rate: "the output should be similar" is not a relation; "the route must not change under a uniform positive rescaling" is.
 
 ### Property-based checks
 
-A handful of hand-picked cases exercises only the cases someone already thought of. A property-based check generates many inputs and asserts an invariant that must hold across all of them. It keeps the first violation it finds.
+A handful of hand-picked cases exercises only what someone already thought of. A property-based check instead generates many inputs and asserts an invariant across all of them, keeping the first violation it finds.
 
-> ```python
-> # [illustrative]
-> def property_check(fn, generator, invariant, trials=1000):
->     for _ in range(trials):
->         x = generator()
->         if not invariant(x, fn(x)):
->             # first counterexample: reject the candidate
->             return x
->     # no violation found — not a proof of correctness
->     return None
-> ```
+**\[illustrative\] A property-based check over generated inputs:**
 
-The invariant must hold by construction. "A sorted list's elements are non-decreasing and a permutation of the input" is a property. "The output looks sorted" is not. A run that finds no violation lowers your estimate of the check's $q$ against that invariant. It is not a certificate that $q=0$, because trials sample the input space rather than cover it. That is the same limit mutation testing runs into below, restated for a different technique.
+```python
+# [illustrative]
+def property_check(fn, generator, invariant, trials=1000):
+    for _ in range(trials):
+        x = generator()
+        if not invariant(x, fn(x)):
+            # first counterexample: reject the candidate
+            return x
+    # no violation found — not a proof of correctness
+    return None
+```
+
+The invariant must hold by construction: "a sorted list's elements are non-decreasing and a permutation of the input" is a property, "the output looks sorted" is not. A clean run lowers your estimate of the false-accept rate, not a certificate that it is zero, since trials sample the input space rather than cover it.
 
 ### Provenance chains
 
-Consequential writing — a public notice, a clinical note, a legal summary — can cause harm even in cautious-sounding language. That happens because ordinary generation produces the sentence first and looks for support afterward. That order invites rationalisation: the sentence already exists, so evidence gets fitted to it. A provenance chain reverses the order. Nothing gets written until it has a source.
+Consequential writing — a public notice, a clinical note, a legal summary — can cause harm even in cautious language, because ordinary generation produces the sentence first and looks for support afterward: the sentence already exists, so evidence gets fitted to it. A provenance chain reverses the order — nothing gets written until it has a source.
 
-> ```python
-> # [illustrative]
-> def provenance_check(sentence, sources):
->     """Reject a sentence unless a cited passage
->     actually supports its claim."""
->     source_id = sentence.get("source_id")
->     if source_id not in sources:
->         return "reject: no source cited"
->     if not entails(sources[source_id], sentence["claim"]):
->         return "reject: cited passage does not support the claim"
->     return "pass"
-> ```
+**\[illustrative\] A provenance check binding a sentence to its source:**
 
-`entails` must be backed by an actual retrieval of the source text into context — a tool call. A tool call is the only channel by which state outside the model's own weights enters $c$. Asking the model to recall what a source "probably said" is not a provenance check. It is more generation, conditioned on a memory of similar-sounding text, and it inherits the same failure modes as the claim it was meant to check.
+```python
+# [illustrative]
+def provenance_check(sentence, sources):
+    """Reject a sentence unless a cited passage
+    actually supports its claim."""
+    source_id = sentence.get("source_id")
+    if source_id not in sources:
+        return "reject: no source cited"
+    if not entails(sources[source_id], sentence["claim"]):
+        return "reject: cited passage does not support the claim"
+    return "pass"
+```
 
-For each candidate sentence, identify its factual claim, link it to an approved source, and record that source's limits. Drop or bracket the sentence if support is missing. Generate the surrounding prose only from sentences that survived. Do not repair an unsupported claim by softening its grammar. "May," "generally," and "we believe" do not create evidence. They only make the missing evidence harder to spot.
+The `entails` call must be backed by an actual retrieval of the source text into context — a tool call is the only channel by which outside state reaches the model. Asking it to recall what a source "probably said" is not a provenance check; it is more generation, inheriting the failure modes it was meant to check. Drop a sentence if support is missing — "may" and "we believe" do not create evidence.
 
-\[documented\] This is also why the fix for an unsupported claim is a provenance check, rather than a second request to "be more careful." Evidence on self-correction is mixed and depends heavily on model, task, and prompting setup (Tsui 2025; Ateia and Kruschwitz 2025; Liu et al. 2024). Feedback that works points at a missing source, a violated rule, or a failed prediction — an external fact the model did not previously have. Generic self-critique supplies no such fact. It is just another sample from the same $p(x_t\mid x_{<t},c)$ that produced the original error.
+This is also why the fix is a provenance check, not a second request to "be more careful". Self-correction evidence is mixed and depends on model, task, and prompting (Tsui 2025; Ateia and Kruschwitz 2025; Liu et al. 2024); generic self-critique supplies no new external fact, only another sample from the process that produced the error.
 
 ### Mutation-testing your own checker
 
-None of the preceding sections tell you what your checker's $q$ actually is. Normal examples cannot reveal it — they only show whether good work passes. To measure $q$, seed a known-bad candidate and see whether the checker catches it. This is mutation testing. It is the empirical estimator that the compounding formula above needs. $q$ is not a number you get to assume. It is a number you measure.
+None of the preceding patterns tell you what your checker's false-accept rate actually is — normal examples only show whether good work passes. To measure it, seed a known-bad candidate and see whether the checker catches it: this is mutation testing, the empirical estimator the compounding result above needs. It is not a number you assume. It is a number you measure.
 
-Target the boundary of the checker's claimed guarantee, not just easy syntax errors. Remove a required authorisation call and confirm the test suite fails. Delete a citation link and confirm the evidence check rejects the sentence. Move a payoff across a regime boundary and confirm the classifier's answer changes. Insert one unsupported sentence into a notice and confirm publication is blocked. If the checker accepts any of these, its claimed scope is false. Either the checker or the claim has to be narrowed before you generate more candidates against it.
+Target the boundary of the checker's claimed guarantee, not easy syntax errors: remove a required authorisation call and confirm the test suite fails, or delete a citation link and confirm the evidence check rejects the sentence. If the checker accepts either, its claimed scope is false, and either the checker or the claim has to be narrowed.
 
-> ```python
-> # [illustrative]
-> def mutation_score(checker, good_cases, seeded_bad_cases):
->     caught = sum(1 for c in seeded_bad_cases if not checker(c))
->     false_rejects = sum(1 for c in good_cases if not checker(c))
->     return {
->         "inserted": len(seeded_bad_cases),
->         "caught": caught,
->         "escaped": len(seeded_bad_cases) - caught,
->         "false_rejects_on_good_cases": false_rejects,
->     }
-> ```
+**\[illustrative\] Measuring a checker's own false-accept rate:**
+
+```python
+# [illustrative]
+def mutation_score(checker, good_cases, seeded_bad_cases):
+    caught = sum(1 for c in seeded_bad_cases if not checker(c))
+    false_rejects = sum(1 for c in good_cases if not checker(c))
+    return {
+        "inserted": len(seeded_bad_cases),
+        "caught": caught,
+        "escaped": len(seeded_bad_cases) - caught,
+        "false_rejects_on_good_cases": false_rejects,
+    }
+```
 
 > **Checking report \[designed\] — refund-service evidence checker (worked illustration)**
 >
 > | Field | Value |
 > |---|---|
 > | Seeded failures inserted | 20 (missing authorisation, stale source link, boundary-crossing regime, unsupported sentence) |
-> | Failures caught | 17 |
-> | Failures escaped | 3 (all in the "stale source link" class) |
+> | Failures caught / escaped | 17 caught; 3 escaped, all "stale source link" |
 > | Estimated $q$ | $\hat q = 3/20 = 0.15$ |
-> | False rejects on known-good cases | 1 of 30 |
-> | Largest remaining risk | Source links that resolve but point to a superseded document version |
+> | False rejects on good cases | 1 of 30 |
+> | Largest remaining risk | Links resolving to a superseded document version |
 
-\[inferred\] Plug $\hat q=0.15$ back into the compounding formula from the previous section (the uncorrelated case). At $N=100$ candidates, $1-(1-0.15)^{100}\approx1-8.7\times10^{-8}$. A false accept is not merely likely — it is a near-certainty. That is the arithmetic reason a 15-percent checker cannot be trusted with a large run without repair, however sound its passing cases look.
+Feed that measured rate into the compounding result above: across a hundred candidates, a checker missing fifteen percent of bad ones will very nearly certainly accept at least one. That is the arithmetic reason a fifteen-percent checker cannot be trusted with a large run without repair, however clean its passing cases look.
 
-Also record what a checker's stated universe does not cover. A search that returned 164 papers does not know how many relevant papers it missed. A test suite covering every known route may still miss one built through configuration rather than code. \[documented\] The right target is evidence coverage, not context volume. A large-scale search still needs an explicit universe, deduplication, and claim-level screening, because stuffing more material into context does not guarantee it gets used correctly (Wang et al. 2024). \[documented\] Retrieval performance can stay weak even inside a corpus the system has already seen, especially for queries that need reasoning rather than lookup. A retrieval-backed checker needs its own recall fixtures rather than trusting that broad exposure implies broad coverage (Su et al. 2024). State the checked universe, the part actually exercised, and which paths share a single point of failure — the same parser, the same judge. A shared point of failure is exactly the $\rho>0$ problem again, now inside a single check rather than across candidates.
+A checker's stated universe matters too: stuffing more context does not guarantee it gets used correctly, and retrieval can stay weak even inside a corpus already seen (Wang et al. 2024; Su et al. 2024). Note which paths share a single point of failure — the same parser, the same judge — the correlation problem again, inside one check.
 
 ### Cross-model adjudication
 
-When no test, proof, or source binding is available, a second model can vote on the first model's output. This is real evidence, but it is weaker than it looks, for the same reason two candidates from a shared prefix are not two independent trials. Two model calls that share weights, training data, and often the same context are not independent judges. They are closer to one judge consulted twice.
+When no test, proof, or source binding is available, a second model can vote on the first model's output. This is real evidence, but weaker than it looks: two model calls sharing weights and training data are closer to one judge consulted twice, repeating one blind spot across every candidate it reviews (Zhu et al. 2025; Setlur et al. 2025). A judge is itself a checker whose own confidence is not proof of coverage — a 2026 benchmark of language-model judges found rankings shifting with framing, and coverage claims inflated past what the judges actually verified (Mittal and Arike 2026). Mutation-test the judge before trusting its verdicts at scale.
 
-\[documented\] Do not count repeated judgments from the same model and context as independent evidence. A shared judge repeats one blind spot across every candidate it reviews (Zhu et al. 2025; Setlur et al. 2025). \[documented\] A judge is itself a checker, and its own confidence is not proof of its coverage. A 2026 benchmark of LLM judges evaluating reasoning found framing-dependent rankings, gaps in detecting and localising seeded faults, and coverage judgments inflated well past what the judges actually verified (Mittal and Arike 2026). The remedy is the same one from the previous section: mutation-test the judge itself against hidden faults before trusting its verdicts at scale, rather than reading its stated confidence as a coverage guarantee. \[inferred\] The correction for its correlation with other judges is the same effective-sample-size formula used above for correlated candidates, now applied to judges: $N_{\text{eff}} = N/(1+(N-1)\rho)$. Take five judges built as close variants of one model, reviewing the same evidence, at $\rho=0.8$. They behave like $N_{\text{eff}} = 5/(1+4\times0.8) = 5/4.2 \approx 1.2$ independent witnesses — barely more than one. The same five judges at $\rho=0.2$ — achieved by giving each a genuinely different evidence subset or a different model family — behave like $N_{\text{eff}} = 5/1.8 \approx 2.8$.
-
-**Operational rule.** If a panel of judges is to be worth more than one judge, spend effort lowering $\rho$ — different evidence, different retrieval paths, different model families — rather than adding more judges at the same $\rho$. A sixth correlated judge moves $N_{\text{eff}}$ from 1.2 to about 1.4. Halving $\rho$ moves it from 1.2 to 2.8. This is the mechanism behind this book's second corollary: a selector cannot tell clones apart, so diversity has to be engineered into the evidence each judge sees, not multiplied at the persona level.
+The correction is Chapter 1's effective-sample-size formula, applied to judges rather than voting branches: judges built as close variants of one model, reviewing the same evidence, sit at the same high correlation as those branches, and are worth barely more than a single witness however many are added. Lowering that correlation — a genuinely different evidence subset or model family per judge — is what buys additional independent judgment; adding more judges at the same correlation does not. A selector cannot tell clones apart, so diversity belongs in the evidence, not the persona.
 
 ## Case: the cooperation-under-uncertain-payoffs question
 
-**Constraint and selector.**
+**Constraint and selector.** The limiting factor here is not computation — a model can simulate as many games as anyone asks for. It is whether the simulation can be audited against the system it claims to represent: an uncalibrated model produces precise sensitivity analysis of an invented world, and a validated simple model beats it on decision value.
 
-The limiting factor in the funding body's question is not computation — a model can simulate as many games as anyone asks for. \[opinion\] A simulation's value is bounded by how far you can audit its state variables, transition rules, and parameter ranges against the system it claims to represent, not by how many trajectories are run. An uncalibrated model produces precise sensitivity analysis of an invented world. A validated simple model beats it on decision value, even at a fraction of the sample size. The limiting factor here is that a simulation faithfully reproduces whatever distribution, update rule, population size, and time horizon someone hands it — whether or not that matches the real organisations involved.
+Before running anything at scale, write the governing comparison down. The policy rests on a two-strategy game with four payoffs: mutual cooperation pays a reward, cooperating against a defector pays a sucker's loss, defecting against a cooperator pays a temptation gain, and mutual defection pays a punishment. A rare cooperator invades a population of defectors only if the sucker's loss beats the punishment; cooperators resist invasion by a rare defector only if the reward beats the temptation. Those two comparisons classify every game into one of four regimes before a single trajectory runs — that classification is the selector.
 
-Before running anything at scale, write the governing comparison down. In the two-strategy game underlying the policy, cooperating against a cooperator pays $R$, cooperating against a defector pays $S$, defecting against a cooperator pays $T$, and defecting against a defector pays $P$. Whether a rare cooperator can invade a population of defectors depends on the sign of $S-P$. Whether a population of cooperators resists invasion by a rare defector depends on the sign of $R-T$. Those two differences classify every game into one of four regimes, before a single trajectory is simulated. That classification is the selector: a calculation-level check, sitting above format and below intervention on the ladder, verifiable independently of the simulation run against it.
+**The one-shot baseline was already strong.** A single careful answer to "will cooperation survive?" identified those two comparisons as the controlling quantities, refused to convert the stipulated payoff ranges into real-world probabilities, and recommended worst-case over average-case reasoning. It did not need a hundred thousand games to get the shape right. The machine-scale run's job was narrower: build the full conditional map, and check its own behaviour against the rule that generated it.
 
-**The one-shot baseline was already strong.**
+**Machine-scale system.** The run drew 100,000 payoff sets from an authored, uniform, independent distribution over stipulated ranges — a stated assumption, not a claim about real payoffs — and classified each one analytically:
 
-A single careful answer to "will cooperation survive?" identified $S-P$ and $R-T$ as the controlling differences. It refused to convert the stipulated payoff ranges into real-world probabilities, and it recommended worst-case rather than average-case reasoning — a robust-statistics instinct (Appendix: mathematical toolbox): report the figure that resists a misspecified or contaminated assumption, not the mean of a range nobody measured. That baseline did not need a hundred thousand games to get the shape of the problem right. The machine-scale run's job was narrower: build the full conditional map, and check the map's own numerical behaviour against the analytic rule that generated it — mutation-testing the classifier against the one input space it claims to cover.
+**\[adapted\] The regime classifier, adapted from the experiment code:**
 
-**Machine-scale system.**
+```python
+# [adapted] from EXP/E05_EVOLUTIONARY_SIM/simulate.py
+def regime(R, S, T, P):
+    # at_zero: can a rare cooperator invade defectors?
+    # at_one: does full cooperation resist a rare defector?
+    at_zero = S - P
+    at_one = R - T
+    if at_zero > 0 and at_one > 0: return "cooperation_dominates"
+    if at_zero < 0 and at_one < 0: return "defection_dominates"
+    if at_zero < 0 and at_one > 0: return "coordination"
+    if at_zero > 0 and at_one < 0: return "coexistence"
+    return "boundary"
+```
 
-The run drew 100,000 payoff sets from an explicitly authored, uniform, independent distribution over stipulated ranges — a stated assumption, not a claim about real payoffs — and classified each one analytically:
-
-> ```python
-> # [adapted] from EXP/E05_EVOLUTIONARY_SIM/simulate.py
-> def regime(R, S, T, P):
->     # at_zero: can a rare cooperator invade defectors?
->     # at_one: does full cooperation resist a rare defector?
->     at_zero = S - P
->     at_one = R - T
->     if at_zero > 0 and at_one > 0: return "cooperation_dominates"
->     if at_zero < 0 and at_one < 0: return "defection_dominates"
->     if at_zero < 0 and at_one > 0: return "coordination"
->     if at_zero > 0 and at_one < 0: return "coexistence"
->     return "boundary"
-> ```
-
-Analytic classification alone made brute-force integration of all 100,000 worlds unnecessary. As a check on the classifier itself, 500 of the worlds were also integrated numerically from five starting cooperation levels each — 2,500 trajectories — and compared against the analytic prediction. This is mutation testing applied to a numerical model instead of a code checker. The question is whether independent computation agrees with the closed-form rule at the boundary, where slow dynamics are most likely to hide a real disagreement.
+Analytic classification alone made brute-force integration of all 100,000 worlds unnecessary. As a check on the classifier, 500 worlds were also integrated numerically from five starting cooperation levels each — 2,500 trajectories — and compared against the analytic prediction: mutation testing applied to a numerical model, asking whether independent computation agrees with the closed form near the boundary, where slow dynamics most likely hide a disagreement.
 
 > **Rendered map \[measured\] — 100,000 authored payoff worlds**
 >
@@ -1070,15 +1062,11 @@ Analytic classification alone made brute-force integration of all 100,000 worlds
 > | Coordination | 18.732% | Outcome depends on the starting share — basin dependent |
 > | Cooperation dominates | 6.247% | Cooperation both invades and resists defection |
 >
-> Numerical check: 500 worlds integrated from five starting shares each (2,500 trajectories). Six trajectories — all near regime boundaries, where the rate of change is slow — stayed more than 0.03 from their analytic target at the fixed horizon. The mismatches were kept in the record, not smoothed away.
+> Numerical check: 500 worlds integrated from five starting shares each (2,500 trajectories). Six trajectories — all near regime boundaries, where change is slow — stayed more than 0.03 from their analytic target. The mismatches were kept in the record, not smoothed away.
 
-\[inferred\] Six mismatches in 2,500 checked trajectories is an empirical error rate for this verification sample. It is not a distribution-free coverage guarantee for the other 99,500 worlds. A conformal-style coverage bound (Appendix: mathematical toolbox) would need the checked and unchecked worlds to be exchangeable draws from the same process — and this run gives real reason to doubt that, since the mismatches cluster near regime boundaries rather than scattering uniformly. The honest statement is narrower than a coverage guarantee: errors concentrate exactly where the classifier's causal picture goes slow, and that is where any unchecked world nearest a boundary deserves the least trust.
+Six mismatches in 2,500 checked trajectories is an empirical error rate for this sample, not a coverage guarantee for the other 99,500 worlds — that would need the checked and unchecked worlds to be exchangeable, and the mismatches cluster near regime boundaries rather than scattering uniformly. Errors concentrate exactly where the classifier's causal picture goes slow. The four percentages, too, describe the authored draw, not the funding body's actual organisations — labelling them that way is part of the selector.
 
-The four percentages describe the authored draw, not the funding body's actual organisations. Labelling them that way is part of the selector, not a footnote to it. A fraction reported without that label is easy to misread as a forecast.
-
-**Compressed human object.**
-
-The decision reaches its reviewer as one page, not a spreadsheet of 100,000 rows:
+**Compressed human object.** The decision reaches its reviewer as one page, not a spreadsheet of 100,000 rows:
 
 > **Decision package: cooperation-policy regime map**
 >
@@ -1088,28 +1076,22 @@ The decision reaches its reviewer as one page, not a spreadsheet of 100,000 rows
 > | Regimes and fractions | Defection 56.284%, coexistence 18.737%, coordination 18.732%, cooperation 6.247% — fraction under the authored draw, not real-world odds |
 > | Numerical check | 2,500 trajectories checked; 6 exceeded 0.03 error, all near slow boundaries |
 > | What this does not tell you | Which regime the real organisations are actually in |
-> | Next measurement | Measure the actual payoff to a lone cooperator among defectors ($S-P$) and the actual resistance of a cooperating population to one defector ($R-T$) |
+> | Next measurement | The real payoff to a lone cooperator among defectors, and the real resistance of a cooperating population to one defector |
 > | Decision this could change | Whether the policy is worth deploying, and at what starting adoption rate |
 
-Machine cost was the simulation run plus the 2,500-trajectory verification sample. Human review is limited to the model's assumptions, the boundary mismatches, and the proposed measurement — not a read of a hundred thousand rows, which would defeat the purpose of running the calculation at all. Naming $S-P$ and $R-T$ as the next measurement, rather than proposing a bigger simulation, applies a rule from experimental design: of everything you could measure next, ask which observation most reduces uncertainty about the decision, not which is easiest to simulate (Appendix: mathematical toolbox).
+Machine cost was the simulation run plus the 2,500-trajectory verification sample; human review is limited to the assumptions, the boundary mismatches, and the proposed measurement, not a read of a hundred thousand rows. Naming the two payoff differences as the next measurement asks which observation most reduces uncertainty about the decision, not which is easiest to simulate.
 
-**What was actually checked.**
-
-The computation is \[measured\]: the stored run records 100,000 classified worlds, 500 numerically integrated worlds, five starting shares each, and six finite-horizon mismatches above 0.03, under `experiments/E05_EVOLUTIONARY_SIM/`. The two-strategy game form is \[documented\] — a standard structure in the evolutionary-game literature, not this book's invention. The claim that this game form matches the funding body's actual incentives is \[designed\]: specified, not measured. No real population, payoff, or policy outcome was observed.
-
-The honest answer to "will cooperation survive?" is therefore a conditional map plus a measurement request, not a forecast. That is a smaller, more defensible object than "cooperation will probably survive" — and it is the object the rejection rule written at the start actually supports.
+**What was actually checked.** The stored run records 100,000 classified worlds and the 2,500-trajectory check, in the experiment record `E05_EVOLUTIONARY_SIM`. The two-strategy game form is standard in the evolutionary-game literature, not this book's invention; that it matches the funding body's actual incentives is a design choice, specified rather than measured, and no real population, payoff, or outcome was observed. The honest answer to "will cooperation survive?" is a conditional map plus a measurement request, not a forecast — the object this chapter's own rejection rule actually supports.
 
 > **Field card: what E05 tested**
 >
-> **Question.** When an analytic check exists for a simulated system, what does large-scale numerical computation add, and where does it earn its cost?
+> **Question.** Once an analytic check exists, what does large-scale numerical computation still add?
 >
-> **Setup.** 100,000 payoff worlds drawn from an authored uniform, independent distribution and classified by a closed-form sign rule. 500 of those worlds were also integrated numerically from five starting shares each, for 2,500 trajectories checked against the analytic prediction.
+> **Setup.** 100,000 payoff worlds classified by a closed-form rule; 500 also integrated numerically from five starting shares each — 2,500 trajectories checked against it.
 >
-> **Result.** The analytic rule classified every world, so brute-force integration of all 100,000 was unnecessary. Six of 2,500 numerically integrated trajectories remained more than 0.03 from their analytic target, concentrated near slow-moving regime boundaries.
->
-> **Finding and limit.** Derive the governing rule before simulating. Spend numerical computation on boundaries and finite horizons, where the closed form is least informative. This is \[measured\] for the computation itself. It is not a measurement of any real population, and the authored payoff ranges are not calibrated to any actual organisation's incentives.
+> **Result and limit.** The rule classified every world, so integrating all 100,000 was unnecessary; six of 2,500 trajectories stayed more than 0.03 from target, near slow-moving boundaries. Measured for the computation itself — the payoff ranges are not calibrated to any real organisation's incentives.
 
-**Boundaries.** The verification ladder, the likelihood-ratio reading of a passed check, the false-acceptance mathematics, and the correlated-trials mathematics in this chapter are \[inferred\] consequences of stated assumptions — a named hypothesis, an independence assumption, or a fixed pairwise correlation. They are not measurements of any particular checker's real $q$. That number comes only from mutation-testing the checker in question, as this chapter describes, and even then only within the distribution of seeded failures actually tried. The six construction patterns are \[designed\] procedures, demonstrated with illustrative code, not validated here against a retained field outcome. Their effectiveness in any given domain depends on finding a genuinely independent reference implementation, a strict relation, or a strong invariant — domain work this chapter cannot do in advance. The E05 evolutionary-game figures are \[measured\] for the computation that produced them and say nothing about any real population's payoffs, update rule, or actual cooperation rate. The chapter's own selector, applied to itself, rejects that stronger reading.
+*What this chapter's evidence supports.* The verification ladder, the likelihood-ratio reading of a passed check, and the compounding mathematics are \[inferred\] consequences of stated assumptions, not measurements of any particular checker's real false-accept rate — that number comes only from mutation-testing the checker in question. The six construction patterns are \[designed\] procedures, illustrated but not validated here against a retained field outcome; their effectiveness depends on finding a genuinely independent reference implementation, a strict relation, or a strong invariant. The E05 figures are \[measured\] for the computation itself and say nothing about any real population's payoffs. Applied to itself, this chapter's own rejection rule refuses that stronger reading.
 
 # How It Fails
 
@@ -1125,29 +1107,29 @@ Take a short drafting task. An employer needs a public notice explaining that an
 >
 > "Our recruiting team uses an AI-assisted tool called ResumeRank v3 to generate a score from application materials... The score is one input in the recruiting process and is not the sole basis for a hiring decision... Applicants may contact [designated recruiting contact] with questions or requests for human review, correction, or accommodation."
 
-None of the claims quoted above — "during some hiring processes," a named contact route, the score as merely "one input," an explicit right to "request human review, correction, or accommodation" — is licensed by the two supplied facts, though each reads as reasonable, careful drafting. The plain prompt invented three unsupported claims; the selector-first prompt invented three of its own. Telling a model to be careful is an instruction, not a check, and an instruction does not bind tokens to a source record.
+None of the claims quoted above — "during some hiring processes", a named contact route, the score as merely "one input", an explicit right to "request human review, correction, or accommodation" — is licensed by the two supplied facts, though each reads as reasonable, careful drafting. The plain prompt invented three unsupported claims; the selector-first prompt invented three of its own. Telling a model to be careful is an instruction, not a check, and an instruction does not bind tokens to a source record.
 
-This chapter names nine ways a run can succeed against its own check and still be wrong. Each traces to one of two patterns: either the check measures the wrong thing — the visible score, the surface fluency, the local diff — while what actually matters goes unmeasured, or the check's independence is an illusion, because generator, judge, retrieval, and reviewer all draw on the same correlated material. None of these nine are unique to this project's own runs: a cross-benchmark synthesis of agentic evaluations reports the same broad classes under different names and finds that scaffolding does not consistently help against them (Albayaydh, Zhao, and Flechais 2026). A check never mutated, measured, or revised rots silently, and that silent rot is the thread under everything below.
+This chapter names nine ways a run can succeed against its own check and still be wrong. Each traces to one of two patterns: either the check measures the wrong thing — the visible score, the surface fluency, the local diff — while what actually matters goes unmeasured, or the check's independence is an illusion, because generator, judge, retrieval, and reviewer all draw on the same correlated material. None of these nine is unique to this project's own runs: a cross-benchmark synthesis of agentic evaluations reports the same broad classes under different names and finds that scaffolding does not consistently help against them (Albayaydh, Zhao, and Flechais 2026). A check never mutated, measured, or revised rots silently, and that silent rot is the thread under everything below.
 
-## 1. Proxy gaming
+## Proxy gaming
 
 A proxy score stands in for true quality because true quality is expensive or impossible to measure directly. Selecting the best of many candidates by that proxy partly targets the proxy's own error, not the quality it approximates — the same winner's-curse effect Chapter 4 caps formally when it sets a limit on tournament size. Push the search hard enough and the candidate returned is increasingly one that drew a lucky reading from the proxy, not one that is actually good: the visible score keeps climbing while the quality it tracks stalls or falls, unnoticed by anyone watching the score alone.
 
 The tell is an independent check that refuses to go along with the story the cheap one tells — an automatic score rising while a small held-out sample, never seen by the optimisation loop, goes flat or slides backward. Freeze twenty or thirty such items out of the loop and watch their trend against the optimised set's; divergence is proxy gaming. The fix is not to search harder against the same weak proxy: keep the held-out sample private and rotate it, mutation-test the checker on a schedule, and when its trend plateaus, move up the verification ladder — toward a test, a proof, or primary evidence — instead of sideways into more candidates (Khalaf et al. 2025).
 
-## 2. Correlated retrieval
+## Correlated retrieval
 
 A model conditions everything it writes on the context it has been given, and two continuations drawn from the same context inherit whatever is fixed in it, including its gaps. Sampling five times from one evidence base does not produce five witnesses; it produces one witness read five times, because the thing that would make them independent — a different search, source, or tool — never varied. Chapter 1's effective-sample-size formula puts a number on this: five agents sharing one retrieval call carry the evidential weight of roughly one witness, not five, and a sixth or tenth barely moves that number, because correlation caps it, not headcount.
 
 The signal is agreement that looks strong until the evidence path is disturbed — five candidates concur, but reissue the same query with different phrasing or a different tool and the "consensus" moves. Rerunning a small sample of agreeing cases with a deliberately different evidence path is the cheap test; if agreement collapses, it was one witness in five costumes. The remedy is to engineer diversity at the evidence-gathering step, not the persona or temperature, and tag every candidate with its evidence lineage so a selector can discount shared ancestry rather than count raw agreement as though each vote were independent (Zhu et al. 2025).
 
-## 3. Confidence laundering
+## Confidence laundering
 
 Generation is trained and run to maximise the likelihood of the next token given what came before. Nothing in that objective is a truth predicate: fluency, register, and structural completeness are exactly what it is shaped to produce, and it never checks whether a sentence matches a source record. A fluent, confident sentence and a fluent, confident fabrication are, at the point of generation, the same kind of object; only something outside generation can tell them apart. The gap runs deeper than an absent truth predicate — token-level confidence, how sharply the next-token distribution peaks, is not the same quantity as confidence over answer classes, and calibration studies find that whatever exists in base models tends to degrade under instruction tuning and chain-of-thought prompting (Nakkiran et al. 2025). That lands on the case above: the selector-first prompt asked for exactly the kind of structured self-instruction this work links to worse calibration, and produced the same count of unsupported claims as the plain prompt. A tone-and-structure check would rate both notices highly. Neither deserves it.
 
-The earliest sign is the absence of per-sentence traceability: nobody can point to a source record for each factual clause without tracing it themselves. The test needs no model — extract every factual sentence, ask which supplied record licenses it, fail anything with no answer; a person with the source list and a highlighter clears a page in minutes, which is why skipping the check is a choice, not a necessity. Compile every public sentence from an approved claim ledger, or leave it visibly bracketed, rather than from the model's sense of a complete notice, and treat fluent hedges ("we are reviewing," "additional information will follow") as no substitute — they reassure because they are fluent, which is the failure, not the fix (Sadanandan and Behzadan 2026).
+The earliest sign is the absence of per-sentence traceability: nobody can point to a source record for each factual clause without tracing it themselves. The test needs no model — extract every factual sentence, ask which supplied record licenses it, fail anything with no answer; a person with the source list and a highlighter clears a page in minutes, which is why skipping the check is a choice, not a necessity. Compile every public sentence from an approved claim ledger, or leave it visibly bracketed, rather than from the model's sense of a complete notice, and treat fluent hedges ("we are reviewing", "additional information will follow") as no substitute — they reassure because they are fluent, which is the failure, not the fix (Sadanandan and Behzadan 2026).
 
-## 4. Trace theatre
+## Trace theatre
 
 Reviewers routinely treat a visible chain of reasoning as if reading it were reading the computation: the trace shows its work, so the work must be sound. Cue-intervention studies test this directly, planting a hint in the prompt and checking whether the trace acknowledges it as a reason. Reasoning models acknowledge influencing cues more often than non-reasoning models, but acknowledgment varies widely by model family and remains incomplete in every study to date, all run on artificial cue tasks with a narrow faithfulness measure (Chua and Evans 2025; Young 2026) — a lower bound on the problem, not a settled rate.
 
@@ -1155,7 +1137,7 @@ A fluent, complete-looking trace is therefore not evidence that it is complete. 
 
 Treat a reasoning trace as a work product to inspect — does it cite a real source, does its arithmetic hold up, does its claimed test exist — never as proof of what happened inside the model, and validate the conclusion externally rather than approve because the trace reads as thorough. Chain-of-thought monitoring should not be the sole correctness or safety control for a consequential decision (Young 2026).
 
-## 5. Judge sycophancy and self-agreement
+## Judge sycophancy and self-agreement
 
 Correlated retrieval describes samples from one generator sharing an evidence path. Judge sycophancy is the same correlation applied between a generator and its own judge: a judge sampled from a closely related context inherits the generator's blind spots instead of testing for them. Push the correlation in Chapter 1's effective-sample-size formula to its maximum and the number of independent witnesses collapses to exactly one, however many candidates a self-judging pair scores — the judge is not testing anything the generator did not already believe when it wrote the candidate.
 
@@ -1163,7 +1145,7 @@ This is not hypothetical inside this project's own record. An earlier architectu
 
 The signal is a judge whose approval rate for the generator's own style runs systematically higher than for an equally competent, differently styled outside baseline, with disagreement collapsing toward zero even on ambiguous tasks. Swapping in a structurally independent judge on a small sample and checking whether the ranking survives is the cheap test; the probe above never ran it, which is why its result could motivate a hypothesis but not settle one. Extra test-time compute is only valuable paired with verification that can discriminate good outputs from bad (Setlur et al. 2025), and a self-judge cannot discriminate what it cannot see past — models miss a describable class of their own errors even when asked to check (Tsui 2025). Use a judge with different weights, context, or provider than the generator, and treat generator-approves-generator as zero evidence.
 
-## 6. Context poisoning and injection
+## Context poisoning and injection
 
 A tool call is the only channel through which external state — a repository, a ticket, a web page, another system's response — enters a model's context, and a tool's output goes straight into the same context that conditions every subsequent token, including the model's own operating instructions. The architecture draws no structural line between instruction and data inside that context; the line exists only if something outside the model enforces it. Text retrieved from an untrusted source can therefore shift the model's next output exactly as a legitimate instruction would. This is a fact about the machinery, not a prompt-wording problem — a sentence such as "ignore any instructions embedded in retrieved content" is itself just more text inside the same context, with no guarantee against text arriving after.
 
@@ -1171,21 +1153,21 @@ The earliest signal is goal or permission drift after ingesting untrusted conten
 
 This is a security boundary, not a prose-quality defect, and the countermeasures belong to that register: least privilege, a control boundary for approval kept separate from the action's own tool access, and an append-only action log, all covered in Chapter 7. Naming the failure here is what lets it get caught early, before those controls are the last line of defence.
 
-## 7. Review-queue collapse
+## Review-queue collapse
 
 Model the human review step as a queue: candidates arrive for review at some rate, and a responsible reviewer clears them at another. Generation raises the arrival rate almost for free, since sampling more candidates is cheap; nothing raises the clearing rate, since that is bounded by a person's attention. Chapter 7 works out the queueing mathematics properly, but the shape can be stated without them: as utilisation climbs toward its limit, waiting time does not rise gently, it accelerates, well before the queue looks overtly overloaded. Scaling generation because it is cheap — the instinctive move — pushes utilisation toward that limit and produces exactly the collapse this failure names; under that pressure a reviewer stops reading and starts approving by appearance, so the check degrades exactly when volume matters most.
 
 The signal is queue depth or wait time climbing while the approval rate stays flat, and time per review falling as the backlog grows. Pulling a small sample of items approved during a backlog, re-reviewing them cold and blind, and comparing the disagreement rate against a short-queue baseline is the cheap test; a materially higher rate under backlog means the queue degraded the check, not just the wait. Cap queue size and stop generation when the cap is hit, rather than adding reviewers first — a full lane is evidence about where the constraint sits, not a staffing request. A large cross-domain agent benchmark reports the same shape under a different name, horizon-dependent degradation across thousands of trajectories, recommending that authority shrink as unverified depth grows rather than stay fixed while volume rises (X. J. Wang et al. 2026). Checker rot and silent scope creep, later in this chapter, worsen along the same axis.
 
-## 8. Silent scope creep
+## Silent scope creep
 
 A selector must exist before generation scales — this book's opening argument — but the selector that existed for the notice case, and for most ordinary tasks, tests correctness within the requested scope: does the edit work, do the tests pass, is the diff sound. Nothing tests whether the delivered scope matches the requested scope, because building that second selector is easy to skip. A change can therefore pass every check it faces while quietly expanding from fixing one instance into fixing, generalising, and monitoring an entire class — good work, which is what makes this failure hard to catch: nothing rejects it for being wrong, only for being unrequested.
 
-A separate task in the same experiment shows what correct restraint looks like, by contrast: one typo correction in a low-value sentence, no recurrence evidence supplied — "The weekly meting starts at nine," to be corrected and nothing more. Both the plain condition and the condition carrying explicit selector-first, constraint-crossing instructions returned exactly "The weekly meeting starts at nine." and stopped, building no taxonomy, detector, or monitoring workflow. This is a control, not a counterexample: it shows the line scope creep crosses by showing two conditions that did not cross it. No retained run caught the failure itself in the act; the general pattern is the author's judgement.
+A separate task in the same experiment shows what correct restraint looks like, by contrast: one typo correction in a low-value sentence, no recurrence evidence supplied — "The weekly meting starts at nine", to be corrected and nothing more. Both the plain condition and the condition carrying explicit selector-first, constraint-crossing instructions returned exactly "The weekly meeting starts at nine." and stopped, building no taxonomy, detector, or monitoring workflow. This is a control, not a counterexample: it shows the line scope creep crosses by showing two conditions that did not cross it. No retained run caught the failure itself in the act; the general pattern is the author's judgement.
 
 The earliest signal is a diff size, file count, or number of new abstractions exceeding what the stated scope would predict. Writing the requested and delivered scope as two short phrases and comparing them before merging is the cheap test; anything in the delivered phrase not implied by the requested one is creep, whether or not it is good work. Require the local-versus-systemic decision as an explicit, approved step before scope expands, rather than letting it happen inside a single ungoverned turn. Models can show real self-correction ability under the right prompting (Liu et al. 2024), but that is distinct from restraint: correcting a genuine defect can still exceed the mandate in the act of looking for one.
 
-## 9. Checker rot
+## Checker rot
 
 Chapter 5's false-accept compounding result says that across a batch of independent checks, the chance at least one bad item slips through depends entirely on each check's own false-accept rate — and that rate is not a constant. A fixture goes stale, a relative path resolves against the wrong working directory, a rubric stops matching the current task distribution. Assume a two-percent miss rate and ten items and you expect trouble about one time in five; let the checker silently rot to thirty percent and the same batch fails you almost every time. The formula does not change; the number nobody re-measured does.
 
@@ -1259,7 +1241,7 @@ When uncertainty matters, keep several options alive and buy information cheaply
 
 List the irreversible parts of the candidate action, then design the smallest reversible step that could still change the decision, stating in advance what continues the rollout, what changes course, and what stops it. For the field migration, the only truly irreversible step is removing the old field; every step before it already has a rollback command in the stage-gate table above. So the probe is stage one — dual-read code on one internal cohort, before touching write paths at all; the read-path error rate over the first day decides whether stage two goes ahead. Prefer the test with the greatest expected decision value, not the one producing the most data: how strongly an outcome can shift the decision's probability is computable, with Chapter 2's likelihood-ratio machinery, not a matter of taste.
 
-Two of the 43 consumers already failed a check the sweep expected to pass, putting a comparable hidden failure elsewhere somewhere in the 10–20% range; call 15% the working midpoint. The probe is a 24-hour dual-read shadow on one cohort: assume a real hidden failure shows as divergence about 80% of the time, ordinary noise about 5% of the time. In Chapter 2's terms, a divergent reading then carries a likelihood ratio near 16, a clean reading one near 0.21. Running those through Chapter 2's odds update, a clean result puts the posterior near 3.6% (2.4–4.9% across the interval) — comfortably below any stopping threshold — and a divergent result near 73.8% (64–82%), past any reasonable threshold either way. The rollout stops and gets re-diagnosed, not repeated hoping for a cleaner draw; the conclusion holds at both ends of the prior interval, which is what makes the probe worth running without knowing the exact prior, the usual situation. A likelihood ratio near 1 for either outcome would not be worth running.
+Two of the 43 consumers already failed a check the sweep expected to pass, putting a comparable hidden failure elsewhere in the 10–20% range; call 15% the working midpoint. The probe is a 24-hour dual-read shadow on one cohort: assume a real hidden failure shows as divergence about 80% of the time, ordinary noise about 5% of the time. In Chapter 2's terms, a divergent reading then carries a likelihood ratio near 16, a clean reading one near 0.21. Running those through Chapter 2's odds update, a clean result puts the posterior near 3.6% (2.4–4.9% across the interval) — comfortably below any stopping threshold — and a divergent result near 73.8% (64–82%), past any reasonable threshold either way. The rollout stops and gets re-diagnosed, not repeated hoping for a cleaner draw; the conclusion holds at both ends of the prior interval, which is what makes the probe worth running without knowing the exact prior, the usual situation. A likelihood ratio near 1 for either outcome would not be worth running.
 
 Stop probing once the expected value of more information falls below its delay, cost, and exposure to failure. A rollback rehearsal earns its place the same way: a measured recovery time is a signal about whether the 60-minute ceiling is achievable, not just a document to be filed.
 
@@ -1412,8 +1394,7 @@ generated discussions unless a future decision could turn on them. Teams skip th
 most often, and it matters most: without a stated expectation, a record explaining only what
 happened cannot show whether the method was informative.
 
-Here is the template filled in from an instrumented run of the same local-patch-versus-
-shared-mechanism decision that opened this chapter — not the authorisation bypass, but a similar
+Here is the template filled in from an instrumented run of the same local-patch-versus-shared-mechanism decision that opened this chapter — not the authorisation bypass, but a similar
 case: a tier-normalisation defect in a billing codebase, corrected once as a single-file patch and
 once as a shared-mechanism change, under equal repository and tool access, with a hidden
 behavioural suite of 23 tests added only after both repairs were complete.
@@ -1424,18 +1405,18 @@ behavioural suite of 23 tests added only after both repairs were complete.
 > |---|---|
 > | Result sought | Accept tier values with surrounding whitespace (e.g. `" Pro "`) without breaking the five flows that already consume tier values |
 > | Evidence and checks | 23 frozen hidden-behaviour tests; a static count of independent normalisation call sites (`lower`, `casefold`, `strip`, `replace`) across the repository |
-> | Candidates rejected | None — both repairs passed all 23 tests `[measured]`; the hidden-behaviour suite alone could not separate them |
-> | Action taken | Route future normalisation defects confirmed to touch more than one flow to the shared-mechanism pattern by default; single-flow defects keep the local patch `[designed]` |
-> | Predicted result | A more thorough repair would show a measurable advantage on the hidden suite `[assessed]` |
-> | Observed result | Both repairs passed 23/23; the only measured difference was structural — 3 shared normalisation operations under the systemic repair against 11 scattered ones under the local patch `[measured]` |
-> | Failure, delay, review cost | No maintenance outcome was observed at this claim level; review cost was not separately timed `[assessed]` |
-> | Change for next time | The hidden-behaviour suite is the wrong rung to judge prevention on: existing siblings already passed the shared inputs, so a suite built from current examples cannot reward a repair for closing paths nothing yet exercises `[measured]`/`[inferred]` |
+> | Candidates rejected | None — both repairs passed all 23 tests \[measured\]; the hidden-behaviour suite alone could not separate them |
+> | Action taken | Route future normalisation defects confirmed to touch more than one flow to the shared-mechanism pattern by default; single-flow defects keep the local patch \[designed\] |
+> | Predicted result | A more thorough repair would show a measurable advantage on the hidden suite \[assessed\] |
+> | Observed result | Both repairs passed 23/23; the only measured difference was structural — 3 shared normalisation operations under the systemic repair against 11 scattered ones under the local patch \[measured\] |
+> | Failure, delay, review cost | No maintenance outcome was observed at this claim level; review cost was not separately timed \[assessed\] |
+> | Change for next time | The hidden-behaviour suite is the wrong rung to judge prevention on: existing siblings already passed the shared inputs, so a suite built from current examples cannot reward a repair for closing paths nothing yet exercises \[measured\]/\[inferred\] |
 
 The prediction was wrong in an informative way: the suite caught the reported defect and its
 neighbours — 23 passes, both times — but could never catch the difference between a repair that
 works today and one built not to break tomorrow. That gap sits one selector rung higher than the
 suite can reach: not whether behaviour matches, but whether the structure makes recurrence
-possible. So the real change for next time is not "write more tests." It is "add a structural or
+possible. So the real change for next time is not "write more tests". It is "add a structural or
 mutation-based check before claiming prevention": replant the original defect in a sixth flow the
 suite has never covered, and require every candidate to fail against it before the fix and pass
 after. A local patch to `quote.py` alone fails this mutation; a repair that centralises the check
@@ -1714,7 +1695,7 @@ The route table below is built directly from `fixture_base`, the five flows as t
 | support | `support.py` | `.strip().casefold()` | accepts |
 | export | `export.py` | `.strip().lower()`, plus `ent` / `enterprise-plan` aliases | accepts |
 
-Four of the five flows already tolerate whitespace; `quote` alone does not — the actual defect the report names, not a missing check that lets something through but an inconsistent one that fails what the others accept. The deeper point: five independent implementations of the same access-tier grammar are the condition under which one of them eventually will.
+Four of the five flows already tolerate whitespace; `quote` alone does not — the actual defect the report names, not a missing check that lets something through but an inconsistent one that fails what the others accept. The deeper point: five independent implementations of the same access-tier grammar are the condition under which one of them eventually will drift out of step with the rest.
 
 The route table is also a coverage claim: five flows and one shared enum, a closed universe that could still hide a sixth caller of `Tier(...)` neither condition inspected.
 
@@ -1730,7 +1711,7 @@ Before generating either repair, three rules were fixed. Passing a rule later do
 
 Each rule is also a bound on the false-accept rate — the chance the check accepts a candidate it should not. Exploit-before/after bounds it directly, by re-running the reported input and its near variants against all five flows. Helper-required only measures a proxy, after the fact — which is why mutation-must-fail, which would have bound it directly by forcing a removed helper call to fail a test, was written and never built.
 
-Five identical agents on this report would not have produced five independent opinions: samples correlated by a shared context and judge inherit the same blind spot. B1 and S diverge instead at the prompt root — B1 receives the ordinary issue text, S also the constraint-crossing instruction to inspect sibling flows and centralise prevention when justified — diversity engineered into what enters the context, the only lever a shared-prefix system has.
+Five identical agents on this report would not have produced five independent opinions: samples correlated by a shared context and judge inherit the same blind spot. The two conditions run here — the baseline condition, B1, and the systemic condition, S — diverge instead at the prompt root: B1 receives the ordinary issue text, S also the constraint-crossing instruction to inspect sibling flows and centralise prevention when justified. That is diversity engineered into what enters the context, the only lever a shared-prefix system has.
 
 ## Day 3 — the search
 
@@ -1754,14 +1735,14 @@ S's search stayed inside the stated universe — the same five flows and one enu
 
 ## Day 4 — the checking report
 
-`experiments/E07_SOFTWARE_FAIR/score.py` runs `pytest -q` in each output repository and walks the abstract syntax tree of every non-test `.py` file, counting `.lower()`, `.casefold()`, `.strip()`, and `.replace()` calls. Here is its output, condition by condition:
+The scoring script for `E07` runs `pytest -q` in each output repository and walks the abstract syntax tree of every non-test `.py` file, counting `.lower()`, `.casefold()`, `.strip()`, and `.replace()` calls. Here is its output, condition by condition:
 
 | Condition | Tests | Files changed | Normalisation calls outside `tier.py` mechanism |
 |---|---:|---:|---:|
 | B1 | 23 passed | 1 (`quote.py`) | 11 |
 | S | 23 passed | 6 (`tier.py`, `quote.py`, `refund.py`, `renewal.py`, `support.py`, `export.py`) | 3 |
 
-The 23 breaks down the same way in both repositories, since it is the same frozen suite: 15 from `test_common_normalization` (3 accepted inputs × 5 flows), 5 from `test_unknown_rejected` (one rejection per flow), 1 from `test_documented_enterprise_aliases`, and 2 from the original `test_quote.py`. Both repairs satisfy every one of those 23 checks identically; the number that tells them apart lives outside the test suite entirely.
+The 23 breaks down the same way in both repositories, since it is the same frozen suite (23 = 15 + 5 + 1 + 2): 15 from `test_common_normalization` (3 accepted inputs × 5 flows), 5 from `test_unknown_rejected` (one rejection per flow), 1 from the documented-enterprise-aliases test, and 2 from the original `test_quote.py`. Both repairs satisfy every one of those 23 checks identically; the number that tells them apart lives outside the test suite entirely.
 
 Diff-style excerpts, taken from the retained repositories:
 
@@ -1916,7 +1897,7 @@ The evidence labels are defined in the front matter (single-vocabulary scheme as
 python experiments/E03_PROMPT_ROUTING/score.py
 ```
 
-This is **\[measured\]** for the frozen batch. It is a ceiling effect, not evidence that prompting methods are equivalent. Every condition used or attempted external computation, which further confounds the prompt labels. No floor batch, repeated sampling, checker mutation, runtime, dollar cost, or human-time record exists. Full inputs, answers, raw events, and outputs are in [`experiments/E03_PROMPT_ROUTING/`](experiments/E03_PROMPT_ROUTING/).
+This is **\[measured\]** for the frozen batch. It is a ceiling effect, not evidence that prompting methods are equivalent. Every condition used or attempted external computation, which further confounds the prompt labels. No floor batch, repeated sampling, checker mutation, runtime, dollar cost, or human-time record exists. Full inputs, answers, raw events, and outputs are in [`E03_PROMPT_ROUTING/`](experiments/E03_PROMPT_ROUTING/).
 
 ## E04: scientific retrieval and synthesis
 
@@ -1950,7 +1931,7 @@ The retrieval and provenance counts are **\[measured\]**; scientific interpretat
 python experiments/E05_EVOLUTIONARY_SIM/simulate.py
 ```
 
-The computation is **\[measured\]**. The analytic classifier made a full brute-force simulation unnecessary; the useful numerical work was the boundary and finite-horizon check. The payoff distribution was not calibrated to reality, no intervention occurred, and no checker mutations were run. The code, baseline, and JSON output are in [`experiments/E05_EVOLUTIONARY_SIM/`](experiments/E05_EVOLUTIONARY_SIM/).
+The computation is **\[measured\]**. The analytic classifier made a full brute-force simulation unnecessary; the useful numerical work was the boundary and finite-horizon check. The payoff distribution was not calibrated to reality, no intervention occurred, and no checker mutations were run. The code, baseline, and JSON output are in [`E05_EVOLUTIONARY_SIM/`](experiments/E05_EVOLUTIONARY_SIM/).
 
 ## E06: failed software harness
 
@@ -2012,7 +1993,7 @@ The candidate list, digest, selected index, prompts, events, and outputs are und
 python experiments/E10_ARCHITECTURE_SUITE/score.py
 ```
 
-Schema completeness is **\[measured\]**; operational distinctions are **\[assessed\]**. The suite measured plan fields, not task success, reviewer burden, safety, or productivity. The richer hybrid description remained a treatment confound. Tasks, architecture definitions, prompt builder, raw events, outputs, and scorer are under [`experiments/E10_ARCHITECTURE_SUITE/`](experiments/E10_ARCHITECTURE_SUITE/).
+Schema completeness is **\[measured\]**; operational distinctions are **\[assessed\]**. The suite measured plan fields, not task success, reviewer burden, safety, or productivity. The richer hybrid description remained a treatment confound. Tasks, architecture definitions, prompt builder, raw events, outputs, and scorer are under [`E10_ARCHITECTURE_SUITE/`](experiments/E10_ARCHITECTURE_SUITE/).
 
 ## What this record supports
 
@@ -2275,12 +2256,13 @@ performance claims.
 
 - **2.1.0 (2026-09-02, withdrawn)** — superseded by 3.0.0 the same day. The register was
   wrong: audit apparatus sat inside the sentences, which made the prose read as though it
-  were addressed to a machine rather than to a reader. — readability and typesetting revision. Full plain-English pass
-  over all nine chapters: shorter sentences, active voice, no change to any number, label,
-  citation, derivation or experiment result. PDF typesetting corrected: code listings,
-  inline code and ASCII diagrams now set in the monospace font (box-drawing and arrow
-  glyphs previously fell out of the serif font), display equations fit the text block,
-  and long file paths no longer overflow the margin. Content is otherwise that of 2.0.0.
+  were addressed to a machine rather than to a reader. This was, at the time, framed as a
+  readability and typesetting revision: a full plain-English pass over all nine chapters —
+  shorter sentences, active voice, no change to any number, label, citation, derivation or
+  experiment result — plus corrected PDF typesetting: code listings, inline code and ASCII
+  diagrams now set in the monospace font (box-drawing and arrow glyphs previously fell out
+  of the serif font), display equations fit the text block, and long file paths no longer
+  overflow the margin. Content was otherwise that of 2.0.0.
 
 - **2.0.0 (2026-09-02, withdrawn)** — full rebuild. One organising claim (the spine) with six derived
   corollaries; every operating rule derived from Transformer computation and the mathematics
@@ -2300,12 +2282,6 @@ performance claims.
 # References
 
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-
-<div id="ref-firstfinish2025" class="csl-entry">
-
-Agarwal, Aradhye, Ayan Sengupta, and Tanmoy Chakraborty. 2025a. ‘First Finish Search: Efficient Test-Time Scaling in Large Language Models’. <https://arxiv.org/abs/2505.18149>.
-
-</div>
 
 <div id="ref-ttscaling2025" class="csl-entry">
 
@@ -2391,12 +2367,6 @@ Nakkiran, Preetum, Arwen Bradley, Adam Goliński, Eugene Ndiaye, Michael Kirchho
 
 </div>
 
-<div id="ref-nguyen2024minp" class="csl-entry">
-
-Nguyen, Minh Nhat, Andrew Baker, Clement Neo, Allen Roush, Andreas Kirsch, and Ravid Shwartz-Ziv. 2024. ‘Turning Up the Heat: Min-p Sampling for Creative and Coherent LLM Outputs’. <https://arxiv.org/abs/2407.01082>.
-
-</div>
-
 <div id="ref-roth2026hackverifiable" class="csl-entry">
 
 Roth, Amit, Ankur Samanta, Matan Halevy, Yoav Levine, and Yonathan Efroni. 2026. ‘Hack-Verifiable Environments: Towards Evaluating Reward Hacking at Scale’. <https://arxiv.org/abs/2605.20744>.
@@ -2406,12 +2376,6 @@ Roth, Amit, Ankur Samanta, Matan Halevy, Yoav Levine, and Yonathan Efroni. 2026.
 <div id="ref-sadanandan2026cot" class="csl-entry">
 
 Sadanandan, Binesh, and Vahid Behzadan. 2026. ‘When Chain-of-Thought Backfires: Evaluating Prompt Sensitivity in Medical Language Models’. <https://arxiv.org/abs/2603.25960>.
-
-</div>
-
-<div id="ref-schaeffer2025minp" class="csl-entry">
-
-Schaeffer, Rylan, Joshua Kazdan, and Yegor Denisov-Blanch. 2025. ‘Min-p, Max Exaggeration: A Critical Analysis of Min-p Sampling in Language Models’. <https://arxiv.org/abs/2506.13681>.
 
 </div>
 
