@@ -305,13 +305,13 @@
       "slug": "machine-scale-cognition",
       "title": "One Expert, Machine-Scale Cognition",
       "subtitle": "A field guide to expanding checked search without expanding false confidence",
-      "description": "An evidence-bounded field guide for experts using language models to expand search, computation and comparison while controlling review debt, weak verification and unsafe action. Edition 2 derives every operating rule from Transformer computation and the mathematics of selection under uncertainty.",
+      "description": "An evidence-bounded field guide for experts using language models to expand search, computation and comparison while controlling review debt, weak verification and unsafe action. Every operating rule is derived from Transformer computation and the mathematics of selection under uncertainty.",
       "tier": "B",
       "status": "published",
-      "edition": "2.1.0",
+      "edition": "3.0.0",
       "date": "2026-09-02",
       "language": "en-GB",
-      "pages": 101,
+      "pages": 85,
       "authors": [
         "Ankit Kumar Pandey"
       ],
@@ -329,8 +329,8 @@
       },
       "source_path": "books/machine-scale-cognition",
       "canonical_source": "books/machine-scale-cognition/source/machine-scale-cognition.md",
-      "release_tag": "machine-scale-cognition/v2.1.0",
-      "release_page": "https://github.com/ankitkpandey1/handbooks/releases/tag/machine-scale-cognition/v2.1.0",
+      "release_tag": "machine-scale-cognition/v3.0.0",
+      "release_page": "https://github.com/ankitkpandey1/handbooks/releases/tag/machine-scale-cognition/v3.0.0",
       "downloads": {
         "pdf": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.pdf",
         "epub": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.epub",
@@ -375,7 +375,7 @@
         },
         {
           "level": 2,
-          "title": "What a model call actually supplies"
+          "title": "What a model call supplies"
         },
         {
           "level": 2,
@@ -383,11 +383,11 @@
         },
         {
           "level": 2,
-          "title": "Apply it now"
+          "title": "Where the leverage went"
         },
         {
           "level": 2,
-          "title": "The spine, made procedural"
+          "title": "Apply it now"
         },
         {
           "level": 1,
@@ -395,7 +395,7 @@
         },
         {
           "level": 2,
-          "title": "Two facts about the model that every diagnosis leans on"
+          "title": "What a model call actually gives you here"
         },
         {
           "level": 2,
@@ -403,15 +403,7 @@
         },
         {
           "level": 2,
-          "title": "Why a second search can add zero information"
-        },
-        {
-          "level": 2,
-          "title": "When does an observation actually separate two explanations"
-        },
-        {
-          "level": 2,
-          "title": "Why generating more candidates does not monotonically help"
+          "title": "When an observation actually separates two explanations"
         },
         {
           "level": 2,
@@ -431,7 +423,7 @@
         },
         {
           "level": 2,
-          "title": "The escalation inequality, derived from EVOI"
+          "title": "Escalate only while it pays"
         },
         {
           "level": 1,
@@ -503,10 +495,6 @@
         },
         {
           "level": 2,
-          "title": "Picking a winner by score is a different risk from false acceptance"
-        },
-        {
-          "level": 2,
           "title": "Why large-scale search still pays for itself"
         },
         {
@@ -523,39 +511,39 @@
         },
         {
           "level": 2,
-          "title": "1. Proxy gaming"
+          "title": "Proxy gaming"
         },
         {
           "level": 2,
-          "title": "2. Correlated retrieval"
+          "title": "Correlated retrieval"
         },
         {
           "level": 2,
-          "title": "3. Confidence laundering"
+          "title": "Confidence laundering"
         },
         {
           "level": 2,
-          "title": "4. Trace theatre"
+          "title": "Trace theatre"
         },
         {
           "level": 2,
-          "title": "5. Judge sycophancy and self-agreement"
+          "title": "Judge sycophancy and self-agreement"
         },
         {
           "level": 2,
-          "title": "6. Context poisoning and injection"
+          "title": "Context poisoning and injection"
         },
         {
           "level": 2,
-          "title": "7. Review-queue collapse"
+          "title": "Review-queue collapse"
         },
         {
           "level": 2,
-          "title": "8. Silent scope creep"
+          "title": "Silent scope creep"
         },
         {
           "level": 2,
-          "title": "9. Checker rot"
+          "title": "Checker rot"
         },
         {
           "level": 1,
@@ -584,9 +572,21 @@
         {
           "level": 2,
           "title": "Manage a review queue without hiding risk"
+        },
+        {
+          "level": 2,
+          "title": "A practical action plan"
+        },
+        {
+          "level": 1,
+          "title": "The Loop That Learns"
+        },
+        {
+          "level": 2,
+          "title": "Record the decision, not the transcript"
         }
       ],
-      "outline_headings_total": 95,
+      "outline_headings_total": 92,
       "outline_truncated": true
     }
   ]

@@ -14,3 +14,9 @@
   breakatwhitespace=true,
   showstringspaces=false,
 }
+
+% The article class gives subsection numbers a 2.3em column in the contents
+% page, which two-digit numbers such as 11.10 overrun into their titles.
+\makeatletter
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{3.2em}}
+\makeatother
