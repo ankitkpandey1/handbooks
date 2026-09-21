@@ -3,11 +3,11 @@
 
 Short technical handbooks with full source, reproducible builds and verifiable releases.
 
-| Book | Tier | Edition | Formats |
-|---|---|---|---|
-| **Agentic QA** | B | 1.0.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.md) |
-| **Production Agent Engineering** | A | 1.8.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md) |
-| **One Expert, Machine-Scale Cognition** | B | 3.0.0 | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.md) |
+| Book | Tier | Edition | Read online | Formats |
+|---|---|---|---|---|
+| **Agentic QA** | B | 1.0.0 | [Read online](https://ankitkpandey1.github.io/handbooks/books/agentic-qa/) | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.md) |
+| **Production Agent Engineering** | A | 1.8.0 | [Read online](https://ankitkpandey1.github.io/handbooks/books/agents-handbook/) | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md) |
+| **One Expert, Machine-Scale Cognition** | B | 3.0.0 | [Read online](https://ankitkpandey1.github.io/handbooks/books/machine-scale-cognition/) | [PDF](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.pdf) · [EPUB](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.epub) · [HTML](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.html) · [MD](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.md) |
 
 ## Tiers
 

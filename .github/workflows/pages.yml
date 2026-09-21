@@ -1,7 +1,9 @@
 # SPDX-FileCopyrightText: 2026 Ankit Kumar Pandey
 # SPDX-License-Identifier: Apache-2.0
 #
-# Publishes docs/ to GitHub Pages: the human catalogue, books.json and llms.txt.
+# Publishes the site to GitHub Pages: the human catalogue (docs/ — books.json, llms.txt,
+# sitemap.xml, robots.txt) plus a rendered, SEO-tagged HTML page for every published book,
+# so a book is readable directly on the site and not only as a release-asset download.
 #
 # One-time setup: Settings -> Pages -> Source: "GitHub Actions".
 name: pages
@@ -13,7 +15,11 @@ on:
       - "docs/**"
       - "books.json"
       - "books/*/book.json"
+      - "books/*/source/**"
       - "scripts/build-index.py"
+      - "scripts/build-site.sh"
+      - "scripts/build-book.sh"
+      - "scripts/site_inject.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -35,6 +41,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # No LaTeX needed: the site only ever builds the html (and, via build-index.py,
+      # no format at all) — never pdf, which is the only format that needs xelatex.
+      - name: Install pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pandoc
+
       # Build from source rather than trusting the committed copy, so the site can never
       # drift from the books' own metadata.
       - name: Regenerate catalogue
@@ -47,6 +60,11 @@ jobs:
             echo "Run 'python3 scripts/build-index.py' and commit to silence this."
           fi
 
+      # Stages docs/ plus a rendered books/<slug>/index.html per published book into _site/.
+      # _site/ is never committed (see .gitignore); it is rebuilt fresh on every deploy.
+      - name: Build site (catalogue + rendered books)
+        run: bash scripts/build-site.sh _site
+
       # enablement: true turns Pages on if it is not already, so a fresh clone of this
       # repository does not need a manual Settings visit before the first deploy.
       - uses: actions/configure-pages@v5
@@ -54,6 +72,6 @@ jobs:
           enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: _site
       - id: deploy
         uses: actions/deploy-pages@v4

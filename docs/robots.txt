@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ankitkpandey1.github.io/handbooks/sitemap.xml

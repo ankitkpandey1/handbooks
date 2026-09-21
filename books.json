@@ -46,6 +46,7 @@
         "html": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.html",
         "md": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.md"
       },
+      "read_online": "https://ankitkpandey1.github.io/handbooks/books/agentic-qa/",
       "checksums": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/SHA256SUMS.txt",
       "verify": {
         "attestation": "gh attestation verify agentic-qa.pdf --repo ankitkpandey1/handbooks",
@@ -158,6 +159,7 @@
         "html": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.html",
         "md": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md"
       },
+      "read_online": "https://ankitkpandey1.github.io/handbooks/books/agents-handbook/",
       "checksums": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/SHA256SUMS.txt",
       "verify": {
         "attestation": "gh attestation verify agents-handbook.pdf --repo ankitkpandey1/handbooks",
@@ -450,6 +452,7 @@
         "html": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.html",
         "md": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.md"
       },
+      "read_online": "https://ankitkpandey1.github.io/handbooks/books/machine-scale-cognition/",
       "checksums": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/SHA256SUMS.txt",
       "verify": {
         "attestation": "gh attestation verify machine-scale-cognition.pdf --repo ankitkpandey1/handbooks",
