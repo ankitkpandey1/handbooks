@@ -5,6 +5,10 @@ books/*/build/*
 _template/build/*
 *.raw.pdf
 
+# scripts/build-site.sh staging output: docs/ plus per-book HTML, rebuilt fresh on every
+# Pages deploy. Never committed.
+/_site/
+
 # Generated discovery surface is committed (books.json, docs/) so the Pages site
 # and the machine index stay readable without running CI. Nothing to ignore here.
 

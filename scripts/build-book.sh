@@ -82,14 +82,30 @@ for fmt in "${FORMATS[@]}"; do
       ;;
     html)
       need pandoc
-      echo "--> html (single file, self-contained)"
+      echo "--> html (single file; MathJax loads from CDN at view time)"
       # --number-sections is deliberately absent: it is a boolean flag that takes no argument,
       # and section numbering is off by default, which is what the manuscripts want (they
       # number their own sections in the heading text).
+      # --mathjax: the generic HTML build has no MathML conversion, so without it display
+      # maths renders as raw TeX in a <span> (pandoc warns "Could not convert TeX math").
+      # --embed-resources is deliberately dropped for this format: with --mathjax it makes
+      # pandoc fetch and inline the entire ~1MB MathJax bundle into every book's HTML
+      # (or, with no explicit URL, fail looking for a local MathJax install). Neither
+      # manuscript embeds local images, so there is nothing else --embed-resources was
+      # buying here; leaving MathJax as a normal <script src> pointing at the CDN keeps the
+      # page light and the browser caches it across books.
+      # --metadata header-includes= : pandoc's html5 template interpolates the manuscript's
+      # header-includes field (LaTeX-preamble-only content: \usepackage{...} etc.) straight
+      # into <head> like the LaTeX template does. Most of it is silently dropped as raw TeX,
+      # but bare option text left over (e.g. "plus 1mu" from a spacing command) lands as a
+      # stray head-level text node, which tips a strict HTML parser into closing </head> early
+      # and misplacing <body>. Clearing it for this format only leaves the PDF pipeline's use
+      # of header-includes untouched.
+      MATHJAX_CDN="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
       ( cd "$SRC_DIR" && pandoc --from markdown+raw_tex --to html5 \
-          --standalone --embed-resources --toc --toc-depth=3 \
-          --highlight-style=tango \
-          --metadata "title=$TITLE" \
+          --standalone --toc --toc-depth=3 \
+          --highlight-style=tango --mathjax="$MATHJAX_CDN" \
+          --metadata "title=$TITLE" --metadata "header-includes=" \
           "$SRC" -o "$OUT/$SLUG.html" )
       ;;
     md)
