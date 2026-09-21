@@ -12,11 +12,11 @@
     {
       "slug": "agentic-qa",
       "title": "Agentic QA",
-      "subtitle": "Shipping fast and in volume without shipping what a token predictor writes",
-      "description": "A short expert guide to using language-model agents for software QA. It derives its operating rules from how the models actually work — next-token sampling, length-rewarded training, self-agreement — and from the arithmetic of verification, and it names the failure that dominates agent-written test suites: tests that assert the mock.",
+      "subtitle": "How to ship fast with coding agents without shipping their bugs",
+      "description": "A practical handbook for engineers who ship with coding agents. It shows why agents over-produce tests that cannot fail — mocking the code under test — and gives the fixes as things you can run: an executed example repository with an agent-style suite and a real one, break-it-on-purpose and mutation scripts, rules to paste into CLAUDE.md, a reviewer prompt, a UI campaign method, CI gates, and checklists.",
       "tier": "B",
       "status": "published",
-      "edition": "1.0.0",
+      "edition": "2.0.0",
       "date": "2026-09-21",
       "language": "en-GB",
       "pages": null,
@@ -38,8 +38,8 @@
       },
       "source_path": "books/agentic-qa",
       "canonical_source": "books/agentic-qa/source/agentic-qa.md",
-      "release_tag": "agentic-qa/v1.0.0",
-      "release_page": "https://github.com/ankitkpandey1/handbooks/releases/tag/agentic-qa/v1.0.0",
+      "release_tag": "agentic-qa/v2.0.0",
+      "release_page": "https://github.com/ankitkpandey1/handbooks/releases/tag/agentic-qa/v2.0.0",
       "downloads": {
         "pdf": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.pdf",
         "epub": "https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.epub",
@@ -69,43 +69,147 @@
         },
         {
           "level": 1,
-          "title": "The Crux"
+          "title": "1. What goes wrong"
+        },
+        {
+          "level": 2,
+          "title": "What a test is for"
+        },
+        {
+          "level": 2,
+          "title": "The rule this book is built on"
+        },
+        {
+          "level": 2,
+          "title": "What is in here"
         },
         {
           "level": 1,
-          "title": "How to Approach the Problem"
+          "title": "2. Why the agent writes tests like this"
+        },
+        {
+          "level": 2,
+          "title": "It is trained to be approved, and longer looks better"
+        },
+        {
+          "level": 2,
+          "title": "It cannot run anything while it writes"
+        },
+        {
+          "level": 2,
+          "title": "It grades its own homework"
+        },
+        {
+          "level": 2,
+          "title": "Mocks are the fastest way to green"
         },
         {
           "level": 1,
-          "title": "Ways to Solve It"
+          "title": "3. Prove the suite can fail"
         },
         {
           "level": 2,
-          "title": "Requirement-first unit QA at the real boundary"
+          "title": "Break it on purpose"
         },
         {
           "level": 2,
-          "title": "Split the generator from the verifier"
+          "title": "Mutation testing in ten minutes"
         },
         {
           "level": 2,
-          "title": "Browser campaigns with triangulated evidence"
-        },
-        {
-          "level": 2,
-          "title": "Mutation-guided test generation"
-        },
-        {
-          "level": 2,
-          "title": "Property, metamorphic and differential oracles"
-        },
-        {
-          "level": 2,
-          "title": "Close the loop from production"
+          "title": "The thirty-second test review"
         },
         {
           "level": 1,
-          "title": "One Campaign, End to End"
+          "title": "4. Mocking: what to fake and what never to"
+        },
+        {
+          "level": 2,
+          "title": "The three things worth faking"
+        },
+        {
+          "level": 2,
+          "title": "What you must never fake"
+        },
+        {
+          "level": 2,
+          "title": "The real thing is cheaper than you think"
+        },
+        {
+          "level": 2,
+          "title": "The smell list"
+        },
+        {
+          "level": 1,
+          "title": "5. Working with the agent"
+        },
+        {
+          "level": 2,
+          "title": "Write the requirement first"
+        },
+        {
+          "level": 2,
+          "title": "Make it show you red before green"
+        },
+        {
+          "level": 2,
+          "title": "Fewer tests, on purpose"
+        },
+        {
+          "level": 2,
+          "title": "Rules to paste into CLAUDE.md"
+        },
+        {
+          "level": 2,
+          "title": "What to demand in the PR"
+        },
+        {
+          "level": 1,
+          "title": "6. A second agent as the reviewer"
+        },
+        {
+          "level": 1,
+          "title": "7. Testing the UI with agents"
+        },
+        {
+          "level": 1,
+          "title": "8. Gates in CI and after you ship"
+        },
+        {
+          "level": 2,
+          "title": "The pipeline"
+        },
+        {
+          "level": 2,
+          "title": "After you ship"
+        },
+        {
+          "level": 1,
+          "title": "9. One campaign, end to end"
+        },
+        {
+          "level": 1,
+          "title": "10. Checklists"
+        },
+        {
+          "level": 2,
+          "title": "Before you accept an agent's pull request"
+        },
+        {
+          "level": 2,
+          "title": "Reviewing one test in thirty seconds"
+        },
+        {
+          "level": 2,
+          "title": "When to fake something"
+        },
+        {
+          "level": 2,
+          "title": "Before an agent-run UI campaign"
+        },
+        {
+          "level": 2,
+          "title": "Every escaped bug"
         },
         {
           "level": 1,
@@ -120,7 +224,7 @@
           "title": "References"
         }
       ],
-      "outline_headings_total": 16,
+      "outline_headings_total": 42,
       "outline_truncated": false
     },
     {
