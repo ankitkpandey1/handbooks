@@ -4,9 +4,9 @@
   "tier": "B",
   "status": "published",
   "title": "Agentic QA",
-  "subtitle": "Shipping fast and in volume without shipping what a token predictor writes",
-  "description": "A short expert guide to using language-model agents for software QA. It derives its operating rules from how the models actually work \u2014 next-token sampling, length-rewarded training, self-agreement \u2014 and from the arithmetic of verification, and it names the failure that dominates agent-written test suites: tests that assert the mock.",
-  "edition": "1.0.0",
+  "subtitle": "How to ship fast with coding agents without shipping their bugs",
+  "description": "A practical handbook for engineers who ship with coding agents. It shows why agents over-produce tests that cannot fail \u2014 mocking the code under test \u2014 and gives the fixes as things you can run: an executed example repository with an agent-style suite and a real one, break-it-on-purpose and mutation scripts, rules to paste into CLAUDE.md, a reviewer prompt, a UI campaign method, CI gates, and checklists.",
+  "edition": "2.0.0",
   "date": "2026-09-21",
   "language": "en-GB",
   "authors": [

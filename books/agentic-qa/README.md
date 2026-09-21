@@ -1,8 +1,8 @@
 # Agentic QA
 
-**Tier B** · Edition 1.0.0 · [CC-BY-4.0](../../LICENSE) prose, [Apache-2.0](../../LICENSES/Apache-2.0.txt) code
+**Tier B** · Edition 2.0.0 · [CC-BY-4.0](../../LICENSE) prose, [Apache-2.0](../../LICENSES/Apache-2.0.txt) code
 
-A short guide for engineers who ship with coding agents and want fewer of the agents' bugs to reach production. It explains why agents over-produce code and tests and why their own green results are weak evidence, then gives a procedure for locating the truth boundary, measuring what a passing test is worth, and choosing among six ways to verify at volume — from requirement-first unit QA and generator/verifier splits to mutation-guided generation and triangulated browser campaigns. Every rule is derived from how the models are trained and sampled and from the arithmetic of verification, and every number is cited.
+A practical handbook for engineers who ship with coding agents and want fewer of the agents' bugs to reach production. It shows why agents over-produce tests that cannot fail — mocking the very code under test — and gives the fixes as things you can run: an example repository (in `examples/`) with an agent-style suite and a real one, break-it-on-purpose and mutation scripts, rules to paste into CLAUDE.md, a reviewer prompt for a second agent, a method for agent-run UI campaigns, CI gates, and printable checklists. Every listing was executed; every number is cited.
 
 ## Download
 
