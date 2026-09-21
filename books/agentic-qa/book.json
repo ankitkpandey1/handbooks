@@ -1,0 +1,52 @@
+{
+  "schema_version": "handbooks/book/v1",
+  "slug": "agentic-qa",
+  "tier": "B",
+  "status": "published",
+  "title": "Agentic QA",
+  "subtitle": "Shipping fast and in volume without shipping what a token predictor writes",
+  "description": "A short expert guide to using language-model agents for software QA. It derives its operating rules from how the models actually work \u2014 next-token sampling, length-rewarded training, self-agreement \u2014 and from the arithmetic of verification, and it names the failure that dominates agent-written test suites: tests that assert the mock.",
+  "edition": "1.0.0",
+  "date": "2026-09-21",
+  "language": "en-GB",
+  "authors": [
+    {
+      "name": "Ankit Kumar Pandey",
+      "role": "Author",
+      "email": "itsankitkp@gmail.com"
+    }
+  ],
+  "keywords": [
+    "agentic QA",
+    "software testing",
+    "language models",
+    "mocking",
+    "mutation testing",
+    "verification",
+    "continuous delivery"
+  ],
+  "licenses": {
+    "prose": "CC-BY-4.0",
+    "code": "Apache-2.0"
+  },
+  "canonical_source": "source/agentic-qa.md",
+  "build": {
+    "formats": [
+      "pdf",
+      "epub",
+      "html",
+      "md"
+    ],
+    "needs_latex": true,
+    "pandoc_defaults": "pandoc-pdf.yaml"
+  },
+  "verify": {},
+  "release": {
+    "aliases": {
+      "pdf": "agentic-qa.pdf",
+      "epub": "agentic-qa.epub",
+      "html": "agentic-qa.html",
+      "md": "agentic-qa.md"
+    }
+  }
+}

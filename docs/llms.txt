@@ -6,6 +6,7 @@ Machine-readable catalogue with digests, outlines and asset URLs: https://ankitk
 
 ## Books
 
+- [Agentic QA (Edition 1.0.0, Tier B)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agentic-qa.md): Shipping fast and in volume without shipping what a token predictor writes
 - [Production Agent Engineering (Edition 1.8.0, Tier A)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/agents-handbook.md): A production systems field manual for advanced engineers
 - [One Expert, Machine-Scale Cognition (Edition 3.0.0, Tier B)](https://github.com/ankitkpandey1/handbooks/releases/latest/download/machine-scale-cognition.md): A field guide to expanding checked search without expanding false confidence
 
